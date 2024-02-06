@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 17:28:46 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/02/06 15:57:45 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/02/06 17:51:48 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,23 @@
 # include "lib/libft/libft.h"
 # include "lib/MLX42/include/MLX42/MLX42.h"
 
+typedef struct s_param_mlx
+{
+	mlx_t *mlx;
+	mlx_image_t* image_to_draw_pixel;
+} t_param_mlx;
+
 typedef struct s_point
 {
 	double x;
 	double y;
 } t_point;
 
+typedef	struct s_stack
+{
+	t_point stack[1000];
+	int top;
+}	t_stack;
 
 typedef struct s_vector
 {
@@ -103,5 +114,7 @@ int		no_numbers(char *str, int *pos);
 t_point	mk_point(double x, double y);
 t_point	**view_walls(t_map map);
 char	**debug_copy(char **board);
+void	mlx_shit();
+
 
 #endif
