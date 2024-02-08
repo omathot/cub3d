@@ -22,12 +22,6 @@
 # include "lib/libft/libft.h"
 # include "lib/MLX42/include/MLX42/MLX42.h"
 
-typedef struct s_param_mlx
-{
-	mlx_t *mlx;
-	mlx_image_t* image_to_draw_pixel;
-} t_param_mlx;
-
 typedef struct s_point
 {
 	double x;
@@ -36,9 +30,16 @@ typedef struct s_point
 
 typedef	struct s_stack
 {
-	t_point stack[1000];
+	t_point stack[500];
 	int top;
 }	t_stack;
+
+typedef	struct s_line
+{
+	t_point A;
+	t_point B;
+}	t_line;
+
 
 typedef struct s_vector
 {
@@ -89,6 +90,7 @@ typedef struct s_player
 {
 	t_point	pos;
 	double	angle;
+	double	angle_view;
 }	t_player;
 
 
@@ -105,6 +107,16 @@ typedef struct s_map
 	int			size;			// x * y (may need to adjust for spaces and empty areas in map layout e.g. example.cub)
 }	t_map;
 
+
+typedef struct s_param_mlx
+{
+	mlx_t *mlx;
+	mlx_image_t* image_to_draw_pixel;
+	t_point		**current_visible_walls;
+	t_map		map;
+	int		x_resolution;
+	int		y_resolution;
+} t_param_mlx;
 
 void	print_map(char **map);
 bool	ft_isspace(unsigned char c);

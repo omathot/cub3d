@@ -165,11 +165,11 @@ t_point **view_walls(t_map map)
 {
 	t_point **all_walls;
 	double angle_drift = 5;
-	double  view_angle = 180;
+	// map.player.angle_view = 180;
 	int     current_wall_index = 0;
-	double  current_angle = map.player.angle - (view_angle / 2);
-	double  final_angle = map.player.angle + (view_angle / 2);
-	double  number_of_found_walls = ceil(view_angle / angle_drift);
+	double  current_angle = map.player.angle - (map.player.angle_view  / 2);
+	double  final_angle = map.player.angle + (map.player.angle_view  / 2);
+	double  number_of_found_walls = ceil(map.player.angle_view  / angle_drift);
 
 	all_walls = malloc(sizeof(t_point *) * (number_of_found_walls + 1));
 	while (final_angle > current_angle)

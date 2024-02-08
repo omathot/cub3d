@@ -61,12 +61,11 @@ int	main(int argc, char **argv)
 		write(2, "Invalid map format\n", 19);
 		exit(EXIT_FAILURE);
 	}
+	map.player.angle_view = 180;
 	save_player_data(&map);
 	printf("player pos.x (%f), pos.y (%f), angle (%f)\n", map.player.pos.x, map.player.pos.y, map.player.angle);
 	printf("\n");
 	print_map(map.content);
-	view_walls(map);
-	print_map(map.board);
-	mlx_shit();
+	mlx_shit(map);
 	return (0);
 }
