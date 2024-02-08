@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
+/*   By: omathot <omathot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 17:28:46 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/02/06 17:51:48 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/02/08 15:09:01 by omathot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ typedef struct s_map
 	char		*map_name;
 	char		**content;
 	char		**board;
+	char		**file_data;
 	int			width;			// x axis
 	int			height;			// y axis
 	int			size;			// x * y (may need to adjust for spaces and empty areas in map layout e.g. example.cub)

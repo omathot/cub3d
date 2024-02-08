@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
+/*   By: omathot <omathot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 14:02:17 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/02/06 17:36:13 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/02/08 15:09:08 by omathot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ t_point *ray_casting_to_find_wall(char **board, t_player player, double angle)
 	cur_coord = mk_point(0, 0);
 	printf("furthwers point fabs %f %f\n", fabs(furthest_point.x), fabs(furthest_point.y));
 	if (fabs(furthest_point.x) > fabs(furthest_point.y))
+	{
 		while (furthest_point.x != floor(cur_coord.x))
 		{
 			current_x = floor(cur_coord.x);
@@ -123,6 +124,7 @@ t_point *ray_casting_to_find_wall(char **board, t_player player, double angle)
 				return (good_coord);
 			}
 		}
+	}
 		puts("doing with Y");
 	current_x = 0;
 	current_y = 0;
@@ -205,21 +207,9 @@ t_point **view_walls(t_map map)
 		current_angle = current_angle + angle_drift;
 	}
 	all_walls[current_wall_index] = NULL;
-	// int map_emty[10][10] = {
-	//         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-	//         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-	//         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-	//         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-	//         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-	//         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-	//         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-	//         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-	//         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-	//         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-	// };
 	char **map_emty;
 	map_emty = debug_copy(map.board);
-	map_emty[(int)map.player.pos.y][(int)map.player.pos.x] = 3;
+	map_emty[(int)map.player.pos.y][(int)map.player.pos.x] = '3';
 
 	current_wall_index = 0;
 	while (all_walls[current_wall_index] != NULL)

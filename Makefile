@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+         #
+#    By: omathot <omathot@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/03 17:33:31 by oscarmathot       #+#    #+#              #
-#    Updated: 2024/02/06 17:52:15 by oscarmathot      ###   ########.fr        #
+#    Updated: 2024/02/08 15:10:48 by omathot          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ OBJ 	:= $(SRCS:.c=.o)
 LIBFT_A	:= lib/libft/libft.a
 MLX42_A	:= lib/MLX42/build/libmlx42.a
 CMP		:= gcc
-FLAGS 	:= -Werror -Wall -Wextra -g -I lib
+FLAGS 	:= -Werror -Wall -Wextra -g -Iinclude -ldl -lglfw -pthread -lm
 OS 		:= $(shell uname -m)
 
 
@@ -31,10 +31,6 @@ OS 		:= $(shell uname -m)
 
 ifeq ($(OS), arm64)
 	OSFLAGS = -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"
-else ifeq ($(OS), x86_64)
-	OSFLAGS	= -lglfw -L"/Users/omathot/.brew/opt/glfw/lib/"
-else
-	$(error Unsupported architecture: $(OS))
 endif
 
 #---------------------------------
@@ -65,7 +61,7 @@ all	: $(NAME)
 
 $(NAME) : $(OBJ) $(LIBFT_A) $(MLX42_A) cub3d.h
 		@echo "$(CYAN)Creating the executable...$(RESET)"
-		@$(CC) $(FLAGS) $(OSFLAGS) $(OBJ) $(LIBFT_A) $(MLX42_A) -o $(NAME)
+		@$(CC) $(OBJ) $(LIBFT_A) $(MLX42_A) $(FLAGS) $(OSFLAGS) -o $(NAME)
 
 %.o : %.c cub3d.h
 		@echo "$(CYAN)Compiling...$(RESET) $<"

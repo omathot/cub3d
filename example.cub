@@ -1,9 +1,10 @@
 NO ./example.cub
-SO ./example.cub
-WE ./example.cub
+SO   ./example.cub
 EA ./example.cub
+WE ./example.cub
+
 F 220,100,0
-C 225,30,0
+C 225,30 ,0
 
 
         1111111111111111111111111

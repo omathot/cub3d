@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_checks.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
+/*   By: omathot <omathot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:51:58 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/02/06 16:20:44 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/02/08 15:09:05 by omathot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,16 @@ char	**make_board(char **content, int start)
 	return (to_return);
 }
 
+// char	**make_filedata(char **content, int start)
+// {
+// 	char	**to_return;
+// 	int	i;
+
+// 	i = 0;
+// 	while (content[start - i])
+// 		i++;
+// }
+
 int	check_format(t_map	*map)
 {
 	int			i;
@@ -215,6 +225,7 @@ int	check_format(t_map	*map)
 		{
 			puts("breaking cause digit");
 			(*map).board = make_board((*map).content, i);
+			// (*map).file_data = make_filedata((*map).content, i);
 			break ;
 		}
 		i++;

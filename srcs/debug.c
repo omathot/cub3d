@@ -36,4 +36,5 @@ char	**debug_copy(char **board)
 	}
 	to_return[i] = NULL;
 	return (to_return);
+
 }

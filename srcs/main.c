@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
+/*   By: omathot <omathot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 17:28:37 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/02/06 17:50:43 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/02/08 15:09:06 by omathot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,28 +48,26 @@ void	save_player_data(t_map *map)
 	printf("OUIN OUIN ");
 }
 
-// void	initialize_board(t_map	*map)
-// {
-
-// }
-
 //  ./cub3d <file>
 int	main(int argc, char **argv)
 {
 	t_map	map;
 
 	input_n_file_checks(argc, argv, &map);
-	// initialize_board(&map);
 	if (check_format(&map) == 1)
 	{
-		free_double_char(map.board);
+		// if (map.board != NULL)
+		// 	free_double_char(map.board);
 		write(2, "Invalid map format\n", 19);
 		exit(EXIT_FAILURE);
 	}
 	save_player_data(&map);
 	printf("player pos.x (%f), pos.y (%f), angle (%f)\n", map.player.pos.x, map.player.pos.y, map.player.angle);
-	print_map(map.board);
+	printf("\n");
+	print_map(map.content);
 	view_walls(map);
+	print_map(map.board);
+	pause();
 	mlx_shit();
 	return (0);
 }
