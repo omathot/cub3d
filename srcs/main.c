@@ -67,7 +67,6 @@ int	main(int argc, char **argv)
 	print_map(map.content);
 	view_walls(map);
 	print_map(map.board);
-	pause();
 	mlx_shit();
 	return (0);
 }
