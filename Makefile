@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: omathot <omathot@student.42.fr>            +#+  +:+       +#+         #
+#    By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/03 17:33:31 by oscarmathot       #+#    #+#              #
-#    Updated: 2024/02/08 15:10:48 by omathot          ###   ########.fr        #
+#    Updated: 2024/02/10 12:50:11 by oscarmathot      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ OBJ 	:= $(SRCS:.c=.o)
 LIBFT_A	:= lib/libft/libft.a
 MLX42_A	:= lib/MLX42/build/libmlx42.a
 CMP		:= gcc
-FLAGS 	:= -Werror -Wall -Wextra -g -Iinclude -ldl -lglfw -pthread -lm
+FLAGS 	:= -Werror -Wall -Wextra -g -Iinclude
 OS 		:= $(shell uname -m)
 
 
@@ -30,7 +30,7 @@ OS 		:= $(shell uname -m)
 #OS CHECK
 
 ifeq ($(OS), arm64)
-	OSFLAGS = -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"
+	OSFLAGS = -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.9/lib/"
 endif
 
 #---------------------------------
