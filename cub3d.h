@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omathot <omathot@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 17:28:46 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/02/08 15:09:01 by omathot          ###   ########.fr       */
+/*   Updated: 2024/02/10 18:30:01 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,14 @@
 # include <fcntl.h>
 # include "lib/libft/libft.h"
 # include "lib/MLX42/include/MLX42/MLX42.h"
+// # include "lib/MLX42/include/MLX42/MLX42_int.h"
+// # include "lib/MLX42/include/MLX42/mlx_new_window.h"
 
-typedef struct s_param_mlx
+typedef struct s_point32
 {
-	mlx_t *mlx;
-	mlx_image_t* image_to_draw_pixel;
-} t_param_mlx;
+	int32_t	x;
+	int32_t y;
+}	t_point32;
 
 typedef struct s_point
 {
@@ -36,9 +38,16 @@ typedef struct s_point
 
 typedef	struct s_stack
 {
-	t_point stack[1000];
+	t_point stack[500];
 	int top;
 }	t_stack;
+
+typedef	struct s_line
+{
+	t_point A;
+	t_point B;
+}	t_line;
+
 
 typedef struct s_vector
 {
@@ -89,6 +98,7 @@ typedef struct s_player
 {
 	t_point	pos;
 	double	angle;
+	double	angle_view;
 }	t_player;
 
 
@@ -106,6 +116,17 @@ typedef struct s_map
 }	t_map;
 
 
+typedef struct s_param_mlx
+{
+	mlx_t 				*mlx;
+	mlx_win_cursor_t	*cursor;
+	mlx_image_t			*image_to_draw_pixel;
+	t_point				**current_visible_walls;
+	t_map				map;
+	int					x_resolution;
+	int					y_resolution;
+} t_param_mlx;
+
 void	print_map(char **map);
 bool	ft_isspace(unsigned char c);
 void	free_double_char(char **array);
@@ -115,7 +136,6 @@ int		no_numbers(char *str, int *pos);
 t_point	mk_point(double x, double y);
 t_point	**view_walls(t_map map);
 char	**debug_copy(char **board);
-void	mlx_shit();
-
+void	mlx_shit(t_map map);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/03 17:33:31 by oscarmathot       #+#    #+#              #
-#    Updated: 2024/02/10 12:50:11 by oscarmathot      ###   ########.fr        #
+#    Updated: 2024/02/10 15:31:12 by oscarmathot      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@
 
 NAME 	:= cub3d
 SRC 	:= main.c helpers.c read_map.c file_checks.c initialize.c map_checks.c raycast.c utils.c \
-			debug.c mlx.c
+			debug.c mlx.c player.c mouse.c
 SUBDIR	:= srcs/
 SRCS	:= $(addprefix $(SUBDIR),$(SRC))
 OBJ 	:= $(SRCS:.c=.o)
@@ -31,6 +31,8 @@ OS 		:= $(shell uname -m)
 
 ifeq ($(OS), arm64)
 	OSFLAGS = -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.9/lib/"
+ifqe ($(OS), x86_64)
+	OSFLAGS = -Iinclude -ldl -lglfw -pthread -lm
 endif
 
 #---------------------------------

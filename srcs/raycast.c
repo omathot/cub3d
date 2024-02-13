@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omathot <omathot@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 14:02:17 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/02/08 15:09:08 by omathot          ###   ########.fr       */
+/*   Updated: 2024/02/10 19:10:49 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_point *ray_casting_to_find_wall(char **board, t_player player, double angle)
 {
 	int lenght_check = 10;
 	double  randiant_angle_looking = (angle) * (M_PI / 180);
-	printf("current angle is %f, radian it %f\n", angle, randiant_angle_looking);
+	// printf("current angle is %f, radian it %f\n", angle, randiant_angle_looking); // sometimes very very negative values here.
 
 	t_vector    direction_ray;
 	direction_ray.magnitude = lenght_check;
@@ -77,12 +77,12 @@ t_point *ray_casting_to_find_wall(char **board, t_player player, double angle)
 	t_point furthest_point = mk_point(lenght_check * sin(randiant_angle_looking), lenght_check * cos(randiant_angle_looking));
 	puts("test");
 	
-	printf("fardestpoint is (%f, %f)\n", furthest_point.x, furthest_point.y);
+	// printf("fardestpoint is (%f, %f)\n", furthest_point.x, furthest_point.y);
 	double current_x = 0;
 	double current_y = 0;
 	t_point cur_coord;
 	cur_coord = mk_point(0, 0);
-	printf("furthwers point fabs %f %f\n", fabs(furthest_point.x), fabs(furthest_point.y));
+	// printf("furthwers point fabs %f %f\n", fabs(furthest_point.x), fabs(furthest_point.y));
 	if (fabs(furthest_point.x) > fabs(furthest_point.y))
 	{
 		while (furthest_point.x != floor(cur_coord.x))
@@ -93,39 +93,39 @@ t_point *ray_casting_to_find_wall(char **board, t_player player, double angle)
 			else
 				current_x--;
 			cur_coord = mk_point(current_x, current_x / tan((direction_ray.angle) * (M_PI / 180)));
-			printf("curentposition looking is (%f, %f)\n", cur_coord.x, cur_coord.y);
+			// printf("curentposition looking is (%f, %f)\n", cur_coord.x, cur_coord.y);
 			// need to replace with map bound check
-			printf("curentposition looking is (%f, %f)\n", cur_coord.x + player.pos.x, -cur_coord.y + player.pos.y);
+			// printf("curentposition looking is (%f, %f)\n", cur_coord.x + player.pos.x, -cur_coord.y + player.pos.y);
 			if ((int)round(-cur_coord.y + player.pos.y) < 0 || (int)round(cur_coord.x + player.pos.x) < 0)
 			{
-				printf("curentposition looking is (%f, %f)\n", cur_coord.x, cur_coord.y);
-				puts("found wall at neg values");
+				// printf("curentposition looking is (%f, %f)\n", cur_coord.x, cur_coord.y);
+				// puts("found wall at neg values");
 				// return (NULL);
 				break ;
 			}
 			if (is_out_of_bound((int)round(cur_coord.x + player.pos.x), (int)round(-cur_coord.y + player.pos.y), board))
 			{
-				printf("curentposition looking is (%f, %f)\n", cur_coord.x, cur_coord.y);
-				puts("looking beyound map");
+				// printf("curentposition looking is (%f, %f)\n", cur_coord.x, cur_coord.y);
+				// puts("looking beyound map");
 				// return (NULL);
 				break ;
 			}
 			if (board[(int)round(-cur_coord.y + player.pos.y)][(int)round(cur_coord.x + player.pos.x)] == '\0')
 			{
-				puts("fazed out bro");
+				// puts("fazed out bro");
 				break ;
 			}
 			if (board[(int)round(-cur_coord.y + player.pos.y)][(int)round(cur_coord.x + player.pos.x)] == '1')
 			{
-				puts("wall!");
+				// puts("wall!");
 				t_point *good_coord = malloc(sizeof(t_point));
 				*good_coord = mk_point((int)round(cur_coord.x + player.pos.x), (int)round(-cur_coord.y + player.pos.y)); 
-				printf("final pos looking is (%f, %f)\n", (*good_coord).x, (*good_coord).y);
+				// printf("final pos looking is (%f, %f)\n", (*good_coord).x, (*good_coord).y);
 				return (good_coord);
 			}
 		}
 	}
-		puts("doing with Y");
+		// puts("doing with Y");
 	current_x = 0;
 	current_y = 0;
 	cur_coord = mk_point(0, 0);
@@ -139,25 +139,25 @@ t_point *ray_casting_to_find_wall(char **board, t_player player, double angle)
 		cur_coord = mk_point(current_y * tan((direction_ray.angle) * (M_PI / 180)), current_y);
 		if ((int)round(-cur_coord.y + player.pos.y) < 0 || (int)round(cur_coord.x + player.pos.x) < 0)
 		{
-			printf("curentposition looking is (%f, %f)\n", cur_coord.x, cur_coord.y);
-			puts("found wall at neg values");
+			// printf("curentposition looking is (%f, %f)\n", cur_coord.x, cur_coord.y);
+			// puts("found wall at neg values");
 			return (NULL);
 		}
 		if (is_out_of_bound((int)round(cur_coord.x + player.pos.x), (int)round(-cur_coord.y + player.pos.y), board))
 		{
-			printf("curentposition looking is (%f, %f)\n", cur_coord.x, cur_coord.y);
-			puts("looking beyound map");
+			// printf("curentposition looking is (%f, %f)\n", cur_coord.x, cur_coord.y);
+			// puts("looking beyound map");
 			return (NULL);
 		}
 		if (board[(int)round(-cur_coord.y + player.pos.y)][(int)round(cur_coord.x + player.pos.x)] == '1')
 		{
 			t_point *good_coord = malloc(sizeof(t_point));
 			*good_coord = mk_point((int)round(cur_coord.x + player.pos.x), (int)round(-cur_coord.y + player.pos.y)); 
-			printf("final pos looking is (%f, %f)\n", (*good_coord).x, (*good_coord).y);
+			// printf("final pos looking is (%f, %f)\n", (*good_coord).x, (*good_coord).y);
 			return (good_coord);
 		}
 	}
-	puts("didn't found wall");
+	// puts("didn't found wall");
 	return (NULL);
 }
 
@@ -165,11 +165,11 @@ t_point **view_walls(t_map map)
 {
 	t_point **all_walls;
 	double angle_drift = 5;
-	double  view_angle = 180;
+	// map.player.angle_view = 180;
 	int     current_wall_index = 0;
-	double  current_angle = map.player.angle - (view_angle / 2);
-	double  final_angle = map.player.angle + (view_angle / 2);
-	double  number_of_found_walls = ceil(view_angle / angle_drift);
+	double  current_angle = map.player.angle - (map.player.angle_view  / 2);
+	double  final_angle = map.player.angle + (map.player.angle_view  / 2);
+	double  number_of_found_walls = ceil(map.player.angle_view  / angle_drift);
 
 	all_walls = malloc(sizeof(t_point *) * (number_of_found_walls + 1));
 	while (final_angle > current_angle)
