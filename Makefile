@@ -22,7 +22,7 @@ OBJ 	:= $(SRCS:.c=.o)
 LIBFT_A	:= lib/libft/libft.a
 MLX42_A	:= lib/MLX42/build/libmlx42.a
 CMP		:= gcc
-FLAGS 	:= -Werror -Wall -Wextra -g -Iinclude -ldl -lglfw -pthread -lm
+FLAGS 	:=  -g -Iinclude -ldl -lglfw -pthread -lm
 OS 		:= $(shell uname -m)
 
 

@@ -107,6 +107,13 @@ typedef struct s_map
 	int			size;			// x * y (may need to adjust for spaces and empty areas in map layout e.g. example.cub)
 }	t_map;
 
+typedef struct s_orientation
+{
+	t_point	point;
+	double	angle;
+}	t_orientation;
+
+
 
 typedef struct s_param_mlx
 {
@@ -125,9 +132,10 @@ char	*cp_until_sp(char *str, int *pos);
 int		are_letters(char *str);
 int		no_numbers(char *str, int *pos);
 t_point	mk_point(double x, double y);
-t_point	**view_walls(t_map map);
+t_point	**view_walls(t_map map, int x_resolution);
 char	**debug_copy(char **board);
 void	mlx_shit();
+void	print_point(char *start_message, t_point point);
 
 
 #endif
