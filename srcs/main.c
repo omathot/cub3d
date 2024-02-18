@@ -67,8 +67,9 @@ int	main(int argc, char **argv)
 	printf("player pos.x (%f), pos.y (%f), angle (%f)\n", map.player.pos.x, map.player.pos.y, map.player.angle);
 	printf("\n");
 	print_map(map.content);
-	map.player.angle = 45;
-	map.player.angle_view = 90;
+	// map.player.angle = 45;
+	// map.player.angle_view = 90;
+	map.player.angle_view = 120;
 	mlx_shit(map);
 	return (0);
 }

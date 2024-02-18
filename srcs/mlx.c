@@ -293,11 +293,11 @@ void    ft_hook(void    *param)
 	}
 	if (mlx_is_key_down(param_real->mlx, MLX_KEY_R))
 	{
-		param_real->map.player.angle -= 0.08;
+		param_real->map.player.angle -= 0.98;
 	}
 	if (mlx_is_key_down(param_real->mlx, MLX_KEY_Q))
 	{
-		param_real->map.player.angle += 0.08;
+		param_real->map.player.angle += 0.98;
 	}
 }
 
