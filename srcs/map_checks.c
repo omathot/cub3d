@@ -12,7 +12,8 @@
 
 #include "../cub3d.h"
 
-int handle_uneven_lines(char **board) {
+int handle_uneven_lines(char **board)
+{
   int i;
   int diff;
   size_t len;
@@ -20,29 +21,32 @@ int handle_uneven_lines(char **board) {
   i = 0;
   diff = 0;
   printf("Handling uneven lines\n");
-  while (board[i]) {
+  while (board[i])
+  {
     len = ft_strlen(board[i]) - 1;
-    if (board[i + 1] != NULL) {
-      if (ft_strlen(board[i + 1]) - 1 != len && ft_strlen(board[i + 1]) != 0) {
-        if (len > ft_strlen(board[i + 1]) - 1) {
+    if (board[i + 1] != NULL)
+    {
+      if (ft_strlen(board[i + 1]) - 1 != len && ft_strlen(board[i + 1]) != 0)
+      {
+        if (len > ft_strlen(board[i + 1]) - 1)
+        {
           diff = (len - ft_strlen(board[i + 1]) - 1);
-          while (diff != 0) {
+          while (diff != 0)
+          {
             if (board[i][ft_strlen(board[i + 1]) - 1 + diff] != '1')
               return (1);
             diff--;
           }
-          if (len < ft_strlen(board[i + 1]) - 1)
+        }
+        if (len < ft_strlen(board[i + 1]) - 1)
+        {
+          diff = ft_strlen(board[i + 1]) - 1 - len;
+          while (diff != 0)
           {
-            diff = ft_strlen(board[i + 1] - 1) - len;
-            while (diff != 0)
-            {
-              if (board[i + 1][ft_strlen(board[i])- 1 + diff] != '1')
-                return (1);
-              diff--;
-            }
+            if (board[i + 1][ft_strlen(board[i]) - 1 + diff] != '1')
+            return (1);
+          diff--;
           }
-          // if (len < ft_strlen(board[i + 1] - 1))
-          //   return (1);
         }
       }
     }
