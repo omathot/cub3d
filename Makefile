@@ -31,7 +31,7 @@ OS 		:= $(shell uname -m)
 
 ifeq ($(OS), arm64)
 	OSFLAGS = -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.9/lib/"
-ifqe ($(OS), x86_64)
+else ($(OS), x86_64)
 	OSFLAGS = -Iinclude -ldl -lglfw -pthread -lm
 endif
 

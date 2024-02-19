@@ -53,6 +53,9 @@ void	save_player_data(t_map *map)
 
 // }
 
+
+int check_map_walls(char **board);
+
 //  ./cub3d <file>
 int	main(int argc, char **argv)
 {
@@ -61,13 +64,13 @@ int	main(int argc, char **argv)
 
 	input_n_file_checks(argc, argv, &map);
 	// initialize_board(&map);
-	if (check_format(&map) == 1)
+	if (check_format(&map) == 1 || check_map_walls(map.board) == 1)
 	{
 		free_double_char(map.board);
 		write(2, "Invalid map format\n", 19);
 		exit(EXIT_FAILURE);
 	}
-	save_player_data(&map);
+  save_player_data(&map);
 	printf("player pos.x (%f), pos.y (%f), angle (%f)\n", map.player.pos.x, map.player.pos.y, map.player.angle);
 	print_map(map.board);
 	view_walls(map);

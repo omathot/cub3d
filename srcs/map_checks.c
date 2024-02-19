@@ -12,6 +12,80 @@
 
 #include "../cub3d.h"
 
+int handle_uneven_lines(char **board)
+{
+  int i;
+  size_t len;
+
+  i = 0;
+  printf("Handling uneven lines\n");
+  while (board[i])
+  {
+    len = ft_strlen(board[i]) - 1;
+    if (board[i + 1] != NULL)
+    {
+      if (ft_strlen(board[i + 1]) - 1 != len && ft_strlen(board[i + 1]) != 0)
+      {
+        if (len > ft_strlen(board[i + 1]) - 1)
+        {
+          if (board[i][ft_strlen(board[i + 1]) - 1] != '1')
+            return (1);
+        }
+        // if (board[i + 1][ft_strlen(board[i]) - 1] != '1')
+        //   return (1);
+      }
+    }
+    i++;
+  }
+  return (0);
+}
+
+int check_map_walls(char **board)
+{
+  int i;
+  int j;
+  int rows;
+  int length;
+  int decrement;
+
+  i = 0;
+  rows = 0;
+  while (board[rows])
+    rows++;
+  rows--;
+  while (board[i])
+  {
+    j = 0;
+    length = ft_strlen(board[i]) - 1;
+    printf("j = (%i), length = (%i)\n", j, length);
+    decrement = ft_strlen(board[i]) - 1;
+    while (board[i][j])
+    {
+      while (ft_isspace(board[i][j]))
+        j++;
+      if (j == 0 || i == 0 || i == rows)
+      {
+        if (board[i][j] != '1' && board[i][j] != ' ')
+          return (1);
+      }
+      if (j == length)
+      {
+        if (board[i][j] != '1' && board[i][j] != ' ')
+          return (1);
+        while (ft_isspace(board[i][decrement]))
+          decrement--;
+        if (board[i][decrement] != '1')
+          return (1);
+      }
+      j++;
+    }
+    i++; 
+  }
+  if (handle_uneven_lines(board) == 1)
+    return (1);
+  return (0);
+}
+
 int	check_map(char **map, int pos)
 {
 	int	i;

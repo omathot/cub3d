@@ -27,9 +27,6 @@ int search_board_walls(char **board, t_point furthest_point, t_point *player) {
   double offset;
   // t_point current;
 
-  printf("map inside of board serach here:\n");
-  print_map(board);
-  printf("\n");
   i = 0;
   offset = 0.5;
   // current = mk_point(0, 0);
