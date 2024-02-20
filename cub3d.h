@@ -136,6 +136,7 @@ t_point	**view_walls(t_map map, int x_resolution);
 char	**debug_copy(char **board);
 void	mlx_shit();
 void	print_point(char *start_message, t_point point);
-
+bool	is_double_pretty_much_zero(double number);
+bool	double_is_zero_modular_tolerence(double number, double tolerence);
 
 #endif

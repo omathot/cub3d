@@ -160,14 +160,14 @@ t_line	find_wall_down_corner(t_point *wall, t_player player, int x_resolution, i
 	t_vector	wall_vector;
 	t_point		clossest_corner;
 	t_vector	corner_vector;
-	const int	y_off_set = 200;
+	const int	y_off_set = 50;
 	const int	wall_hight = 600;
 	// const int	y_off_set = 200;
 
 	wall_vector.magnitude = sqrt(pow((player.pos.x - wall->x), 2) + pow(player.pos.y - wall->y, 2));
 	wall_vector.angle = atan2((player.pos.y - wall->y), (player.pos.x - wall->x));
 	clossest_corner = find_clossest_corner(wall, player);
-	corner_vector.magnitude = sqrt(pow((player.pos.x +clossest_corner.x), 2) + pow(player.pos.y - clossest_corner.y, 2));
+	corner_vector.magnitude = sqrt(pow((player.pos.x - clossest_corner.x), 2) + pow(player.pos.y - clossest_corner.y, 2));
 	corner_vector.angle = atan2((player.pos.y - clossest_corner.y), (player.pos.x - clossest_corner.x));
 	if (corner_vector.angle > (M_PI * 2))
 		corner_vector.angle = corner_vector.angle - (M_PI * 2);
@@ -179,7 +179,7 @@ t_line	find_wall_down_corner(t_point *wall, t_player player, int x_resolution, i
 	// }
 	// print_point("wall point is ", (*wall));
 	// print_point("player point is ", player.pos);
-	// print_vector("wall_vector is ", corner_vector);
+	// print_vector("wall_vector is ", wall_vector);
 	// printf("player viewing angle is = %f, and angle is at = %f\n", player.angle_view, player.angle);
 	// printf("player viewing angle is = %f, and angle is at = %f\n", player.angle_view, player.angle);
 	// printf("angle screen is %f, dif wall angle and players is %f, and half players vsdiew angle %f\n",((radiant_to_dregre_angle(wall_vector.angle) - player.angle) + (player.angle_view / 2)), (wall_vector.angle - player.angle), (player.angle_view / 2));
@@ -188,20 +188,40 @@ t_line	find_wall_down_corner(t_point *wall, t_player player, int x_resolution, i
 	// 						(y_off_set - (y_off_set) / (wall_vector.magnitude)));
 	
 	pixel_point = mk_point(i,
-							(((y_resolution) / (0.5 + (wall_vector.magnitude)))));
+							((y_resolution / 2) - ((400) / ((wall_vector.magnitude)))));
 	// pixel_point = mk_point(i,
 	// 						(floor(player.pos.y / wall_hight) * wall));
-	print_point("pixel point is =", pixel_point);
-	print_point("wall is =", (*wall));
-	puts("");
-	print_vector("corner_vector is ", corner_vector);
+	// print_point("pixel point is =", pixel_point);
+	// print_point("wall is =", (*wall));
+	// puts("");
+	// print_vector("corner_vector is ", wall_vector);
 	return_line.A = pixel_point;
 	// return_line.B = mk_point(pixel_point.x, (pixel_point.y + 5));
-	return_line.B = mk_point(pixel_point.x, (pixel_point.y - (wall_hight) / (0.5 + (wall_vector.magnitude))));
+	return_line.B = mk_point(pixel_point.x, ((y_resolution / 2) + ((400) / ((wall_vector.magnitude)))));
+	// return_line.B = mk_point(pixel_point.x, y_resolution - 1 - y_resolution / (y_off_set / (wall_vector.magnitude)));
 	// return_line.B = mk_point(pixel_point.x, pixel_point.y + 3);
 	// puts("");
 	return (return_line);
 	print_vector("",wall_vector);
+}
+
+
+
+bool	is_double_round(double i)
+{
+	return (double_is_zero_modular_tolerence(i - round(i), 0.1));
+}
+
+// Red (R): 0 to 255
+// Green (G): 0 to 255
+// Blue (B): 0 to 255
+// Alpha (A): 0 to 255, where 0 represents full transparency and 255 represents full opacity.
+uint32_t	get_collor(int r, int g, int b, int a)
+{
+	//255 * 256 * 256 + 255 * 256 + 255
+	// uint32_t final = r * pow(256, 3) + g * pow(256, 2) + b * 256 + a;
+	    uint32_t final = ((uint32_t)r << 24) | ((uint32_t)g << 16) | ((uint32_t)b << 8) | (uint32_t)a;
+	return (final);
 }
 
 void	print_all_walls(t_param_mlx *param_real)
@@ -232,10 +252,23 @@ void	print_all_walls(t_param_mlx *param_real)
 		// }
 		if (are_double_in_screen(corner_line.A.x, corner_line.A.y, param_real))
 		{
-			if (corner_line.B.x > param_real->x_resolution)
-				draw_line_l(corner_line, param_real, 255 + 255 * 256 + 255);
+			// if (corner_line.B.x > param_real->x_resolution)
+			// 	draw_line_l(corner_line, param_real, 255 + 255 * 256 + 255);
+			// else
+			// 	draw_line_l(corner_line, param_real, 255 * 256 * 256 + 255 * 256 + 255);
+			
+			if (
+				(is_double_round(param_real->current_visible_walls[i]->x + 0.5) &&  
+				is_double_round(param_real->current_visible_walls[i]->y - 0.5)) 
+				|| (is_double_round(param_real->current_visible_walls[i]->x - 0.5) &&  
+				is_double_round(param_real->current_visible_walls[i]->y + 0.5))
+				|| (is_double_round(param_real->current_visible_walls[i]->x - 0.5) &&  
+				is_double_round(param_real->current_visible_walls[i]->y - 0.5)) 
+				|| (is_double_round(param_real->current_visible_walls[i]->x + 0.5) &&  
+				is_double_round(param_real->current_visible_walls[i]->y + 0.5)))
+				draw_line_l(corner_line, param_real, get_collor(0, 255, 0, 255));
 			else
-				draw_line_l(corner_line, param_real, 255 * 256 * 256 + 255 * 256 + 255);
+				draw_line_l(corner_line, param_real, get_collor(0, 0, 255, 255));
 		}
 		// prev_corner_line = corner_line;
 		prev_corner_line.A.x = corner_line.A.x;
@@ -249,7 +282,7 @@ void	print_all_walls(t_param_mlx *param_real)
 
 void	update_current_wall(t_point ***walls, t_map map, int x_resolution)
 {
-	// int i;
+	// int i = 0;
 	// while (walls[i])
 	// {
 	// 	free(walls[i]);
@@ -293,11 +326,11 @@ void    ft_hook(void    *param)
 	}
 	if (mlx_is_key_down(param_real->mlx, MLX_KEY_R))
 	{
-		param_real->map.player.angle -= 0.98;
+		param_real->map.player.angle -= 0.3;
 	}
 	if (mlx_is_key_down(param_real->mlx, MLX_KEY_Q))
 	{
-		param_real->map.player.angle += 0.98;
+		param_real->map.player.angle += 0.3;
 	}
 }
 

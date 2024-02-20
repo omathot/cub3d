@@ -69,7 +69,9 @@ int	main(int argc, char **argv)
 	print_map(map.content);
 	// map.player.angle = 45;
 	// map.player.angle_view = 90;
-	map.player.angle_view = 120;
+	map.player.angle_view = 180;
+	// map.player.pos.x += 0.5;
+	// map.player.pos.y += 0.5;
 	mlx_shit(map);
 	return (0);
 }
