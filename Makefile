@@ -30,7 +30,7 @@ OS 		:= $(shell uname -m)
 #OS CHECK
 
 ifeq ($(OS), arm64)
-	OSFLAGS = -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.9/lib/"
+	OSFLAGS = -lglfw -L"/opt/homebrew/Cellar/glfw/3.4/lib/"
 else ifeq ($(OS), x86_64)
 	OSFLAGS = -Iinclude -ldl -lglfw -pthread -lm
 endif
