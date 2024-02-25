@@ -19,7 +19,8 @@ void update_current_wall(t_point ***walls, t_map map);
 void handle_mouse(t_param_mlx *mlx);
 t_point mk_point(double x, double y);
 
-int search_board_walls(char **board, t_point furthest_point, t_point *player) {
+int search_board_walls(char **board, t_point furthest_point, t_point *player)
+{
   int i;
   int j;
   double wall_x;
@@ -30,10 +31,13 @@ int search_board_walls(char **board, t_point furthest_point, t_point *player) {
   i = 0;
   offset = 0.5;
   // current = mk_point(0, 0);
-  while (board[i]) {
+  while (board[i])
+  {
     j = 0;
-    while (board[i][j]) {
-      if (board[i][j] == '1') {
+    while (board[i][j])
+    {
+      if (board[i][j] == '1')
+      {
         wall_y = (double)i;
         wall_x = (double)j;
         printf(
@@ -41,7 +45,8 @@ int search_board_walls(char **board, t_point furthest_point, t_point *player) {
             player->x, player->y, wall_x, wall_y);
         // current = mk_point( ,)
         if (fabs(furthest_point.x - wall_x) <= offset &&
-            fabs(furthest_point.y - wall_y) <= offset) {
+            fabs(furthest_point.y - wall_y) <= offset)
+        {
           puts("!COLLIDE!");
           return (1);
         }
