@@ -6,11 +6,13 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 17:48:24 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/02/06 17:56:36 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/02/10 19:14:45 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+void    player_move(void    *param);
 
 bool	stack_full(t_stack *stack)
 {
@@ -153,15 +155,15 @@ t_point	find_clossest_corner(t_point *wall, t_player player)
 }
 
 
-t_line	find_wall_down_corner(t_point *wall, t_player player, int x_resolution, int y_resolution, int i)
+t_line	find_wall_down_corner(t_point *wall, t_player player, int y_resolution, int i)
 {
 	t_line			return_line;
 	t_point		pixel_point;
 	t_vector	wall_vector;
 	t_point		clossest_corner;
 	t_vector	corner_vector;
-	const int	y_off_set = 50;
-	const int	wall_hight = 600;
+	// const int	y_off_set = 50;
+	const int	wall_hight = 400;
 	// const int	y_off_set = 200;
 
 	wall_vector.magnitude = sqrt(pow((player.pos.x - wall->x), 2) + pow(player.pos.y - wall->y, 2));
@@ -188,7 +190,7 @@ t_line	find_wall_down_corner(t_point *wall, t_player player, int x_resolution, i
 	// 						(y_off_set - (y_off_set) / (wall_vector.magnitude)));
 	
 	pixel_point = mk_point(i,
-							((y_resolution / 2) - ((400) / ((wall_vector.magnitude)))));
+							((y_resolution / 2) - ((wall_hight) / ((wall_vector.magnitude + 0.5)))));
 	// pixel_point = mk_point(i,
 	// 						(floor(player.pos.y / wall_hight) * wall));
 	// print_point("pixel point is =", pixel_point);
@@ -197,7 +199,7 @@ t_line	find_wall_down_corner(t_point *wall, t_player player, int x_resolution, i
 	// print_vector("corner_vector is ", wall_vector);
 	return_line.A = pixel_point;
 	// return_line.B = mk_point(pixel_point.x, (pixel_point.y + 5));
-	return_line.B = mk_point(pixel_point.x, ((y_resolution / 2) + ((400) / ((wall_vector.magnitude)))));
+	return_line.B = mk_point(pixel_point.x, ((y_resolution / 2) + ((wall_hight) / ((wall_vector.magnitude + 0.5)))));
 	// return_line.B = mk_point(pixel_point.x, y_resolution - 1 - y_resolution / (y_off_set / (wall_vector.magnitude)));
 	// return_line.B = mk_point(pixel_point.x, pixel_point.y + 3);
 	// puts("");
@@ -228,18 +230,18 @@ void	print_all_walls(t_param_mlx *param_real)
 {
 	int i;
 	t_line	corner_line;
-	bool	prev_corner = false;
-	t_line	prev_corner_line;
+	// bool	prev_corner = false;
+	// t_line	prev_corner_line;
 	
 	mlx_delete_image(param_real->mlx, param_real->image_to_draw_pixel);
 	param_real->image_to_draw_pixel = mlx_new_image(param_real->mlx, param_real->x_resolution, param_real->y_resolution);
 	i = 0;
 	while (param_real->current_visible_walls[i + 2])
 	{
-		corner_line = find_wall_down_corner(param_real->current_visible_walls[i], param_real->map.player, param_real->x_resolution, param_real->y_resolution, i);
+		corner_line = find_wall_down_corner(param_real->current_visible_walls[i], param_real->map.player, param_real->y_resolution, i);
 		if (!are_double_in_screen(corner_line.A.x, corner_line.A.y, param_real))
 		{
-			prev_corner = false;
+			// prev_corner = false;
 			i++;
 			continue ;
 		}
@@ -271,18 +273,18 @@ void	print_all_walls(t_param_mlx *param_real)
 				draw_line_l(corner_line, param_real, get_collor(0, 0, 255, 255));
 		}
 		// prev_corner_line = corner_line;
-		prev_corner_line.A.x = corner_line.A.x;
-		prev_corner_line.A.y = corner_line.A.y;
-		prev_corner_line.B = corner_line.B;
-		prev_corner = true;
+		// prev_corner_line.A.x = corner_line.A.x;
+		// prev_corner_line.A.y = corner_line.A.y;
+		// prev_corner_line.B = corner_line.B;
+		// prev_corner = true;
 		i++;
 	}
 	mlx_image_to_window(param_real->mlx, param_real->image_to_draw_pixel, 0, 0);
 }
 
-void	update_current_wall(t_point ***walls, t_map map, int x_resolution)
+void	update_current_wall(t_point ***walls, t_map map, double x_resolution)
 {
-	// int i = 0;
+	// int i;
 	// while (walls[i])
 	// {
 	// 	free(walls[i]);
@@ -291,57 +293,52 @@ void	update_current_wall(t_point ***walls, t_map map, int x_resolution)
 	// free(walls);
 	(*walls) = view_walls(map, x_resolution);
 	return ;
-	update_current_wall(walls, map, x_resolution);
+	// update_current_wall(walls, map);
 }
 
-void    ft_hook(void    *param)
-{
-	t_param_mlx *param_real;
+// void    ft_hook(void    *param)
+// {
+// 	t_param_mlx *param_real;
 
-	param_real = (t_param_mlx *)param;
-	if (mlx_is_key_down(param_real->mlx, MLX_KEY_ESCAPE))
-	{
-		mlx_close_window(param_real->mlx);
-	}
-	if (mlx_is_key_down(param_real->mlx, MLX_KEY_E))
-	{
-		update_current_wall(&param_real->current_visible_walls, param_real->map, param_real->x_resolution);
-		print_all_walls(param_real);
-	}
-	if (mlx_is_key_down(param_real->mlx, MLX_KEY_S))
-	{
-		param_real->map.player.pos.y += 0.002;
-	}
-	if (mlx_is_key_down(param_real->mlx, MLX_KEY_W))
-	{
-		param_real->map.player.pos.y -= 0.002;
-	}
-	if (mlx_is_key_down(param_real->mlx, MLX_KEY_D))
-	{
-		param_real->map.player.pos.x += 0.008;
-	}
-	if (mlx_is_key_down(param_real->mlx, MLX_KEY_A))
-	{
-		param_real->map.player.pos.x -= 0.008;
-	}
-	if (mlx_is_key_down(param_real->mlx, MLX_KEY_R))
-	{
-		param_real->map.player.angle -= 0.3;
-	}
-	if (mlx_is_key_down(param_real->mlx, MLX_KEY_Q))
-	{
-		param_real->map.player.angle += 0.3;
-	}
-}
+// 	param_real = (t_param_mlx *)param;
+// 	print_all_walls(param_real);
+// 	if (mlx_is_key_down(param_real->mlx, MLX_KEY_ESCAPE))
+// 	{
+// 		mlx_close_window(param_real->mlx);
+// 	}
+// 	// if (mlx_is_key_down(param_real->mlx, MLX_KEY_E))
+// 	// {
+// 	// }
+// 	if (mlx_is_key_down(param_real->mlx, MLX_KEY_W))
+// 	{
+// 		param_real->map.player.pos.y += 0.002;
+// 		update_current_wall(&param_real->current_visible_walls, param_real->map);
+// 	}
+// 	if (mlx_is_key_down(param_real->mlx, MLX_KEY_S))
+// 	{
+// 		param_real->map.player.pos.y -= 0.002;
+// 		update_current_wall(&param_real->current_visible_walls, param_real->map);
+// 	}
+// 	if (mlx_is_key_down(param_real->mlx, MLX_KEY_A))
+// 	{
+// 		param_real->map.player.pos.x += 0.002;
+// 		update_current_wall(&param_real->current_visible_walls, param_real->map);
+// 	}
+// 	if (mlx_is_key_down(param_real->mlx, MLX_KEY_D))
+// 	{
+// 		param_real->map.player.pos.x -= 0.002;
+// 		update_current_wall(&param_real->current_visible_walls, param_real->map);
+// 	}
+// }
 
 
 void	mlx_shit(t_map map)
 {
 	t_param_mlx *param_mlx;
 	param_mlx = malloc(sizeof(t_param_mlx));
+	param_mlx->current_visible_walls = view_walls(map, 1080);
 	param_mlx->x_resolution = 1080;
 	param_mlx->y_resolution = 720;
-	param_mlx->current_visible_walls = view_walls(map, param_mlx->x_resolution);
 	param_mlx->map = map;
 	// pause();
 	mlx_t   *mlx;
@@ -350,7 +347,7 @@ void	mlx_shit(t_map map)
 	if (!mlx)
 		exit(1);
 	param_mlx->mlx = mlx;
-	mlx_loop_hook(mlx, ft_hook, param_mlx);
+	mlx_loop_hook(mlx, player_move, param_mlx);
 	mlx_loop(mlx);
 }
 

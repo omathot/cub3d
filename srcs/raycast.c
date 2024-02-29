@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omathot <omathot@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 14:02:17 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/02/08 15:09:08 by omathot          ###   ########.fr       */
+/*   Updated: 2024/02/10 19:10:49 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,25 @@ bool	is_out_of_bound(int x, int y, char **board)
 {
 	int i;
 
-	i = 0;
-	while (board[i])
-	{
-		i++;
-	}
-	if (y < i)
-		return (false);
-	int j;
-	i = 0;
-	while (board[i])
-	{
-		j = 0;
-		while (board[i][j])
-		{
-			j++;
-		}
-		if (i == y)
-			if (j <= x)
-				return (false);
-		i++;
-	}
-	return (true);
+  i = 0;
+  while (board[i]) {
+    i++;
+  }
+  if (y < i)
+    return (false);
+  int j;
+  i = 0;
+  while (board[i]) {
+    j = 0;
+    while (board[i][j]) {
+      j++;
+    }
+    if (i == y)
+      if (j <= x)
+        return (false);
+    i++;
+  }
+  return (true);
 }
 
 double calculate_slope(t_point p1, t_point p2) {
@@ -54,13 +51,16 @@ double	round_up_pos_down_neg(double number)
 		return (floor(number));
 }
 
-bool	*find_wall(char **board, t_point cur_coord, t_player player, t_point *good_coord, double player_offset_x, double player_offset_y)
+bool	*find_wall(char **board, t_point cur_coord, t_player player)
 {
 	static bool	find;
 	find = false;
+	// if (cur_coord.x < 0.5)
+	// 	cur_coord.x -= player_offset_x;
+	// if (cur_coord.y < 0.5)
+	// 	cur_coord.y -= player_offset_y;
 	double average_wall_x = cur_coord.x + round(player.pos.x);
-	double average_wall_y = -cur_coord.y + round((player.pos.y));
-
+	double average_wall_y = -cur_coord.y + round(player.pos.y);
 	if ((int)average_wall_y < -0.000 || (int)average_wall_x < -0.000)
 	{
 		puts("found wall at neg values");
@@ -81,14 +81,49 @@ bool	*find_wall(char **board, t_point cur_coord, t_player player, t_point *good_
 		return (NULL);
 	}
 
-	double average_wall_x_low = floor(cur_coord.x + player.pos.x);
-	double average_wall_y_low = floor((-cur_coord.y + player.pos.y));
-	double average_wall_x_high = ceil(cur_coord.x + player.pos.x);
-	double average_wall_y_high = ceil((-cur_coord.y + player.pos.y));
-	
-	if (board[(int)average_wall_y][(int)average_wall_x] == '1')
+	// double average_wall_x_low = cur_coord.x + floor(player.pos.x);
+	// double average_wall_y_low = -cur_coord.y + floor((player.pos.y));
+	// double average_wall_x_high = cur_coord.x + ceil(player.pos.x);
+	// double average_wall_y_high = -cur_coord.y + ceil((player.pos.y));
+	// if (is_double_pretty_much_zero(cur_coord.y))
+	// {
+
+	// }
+	// else if (cur_coord.y < -0)
+	// 	average_wall_y = average_wall_y_low;
+	// else
+	// 	average_wall_y = average_wall_y_high;
+	// if (is_double_pretty_much_zero(cur_coord.x))
+	// {
+
+	// }
+	if (cur_coord.x < -0.0)
 	{
-		*good_coord = mk_point((cur_coord.x + player.pos.x), (-cur_coord.y + player.pos.y)); 
+		average_wall_x = floor(average_wall_x + 0.48);
+		// puts("x neg");
+	}
+	if (cur_coord.y > -0.0)
+	{
+		average_wall_y = floor(average_wall_y + 0.48);
+		// puts("y neg");
+	}
+	// if (cur_coord.y > 0.000)
+	// 	average_wall_y = round(average_wall_y - 0.00001);
+	// else
+	// 	average_wall_y = floor(average_wall_y);
+	// if (cur_coord.x > 0.000)
+	// 	average_wall_x = ceil(average_wall_x);
+	// else
+	// 	average_wall_x = floor(average_wall_x);
+
+
+	if (board[(int)round(average_wall_y)][(int)round(average_wall_x)] == '1')
+	{
+		// if (round(average_wall_y) - average_wall_y - 0.5 > 0.00)
+		// 	return (&find);
+		// if (round(average_wall_y) - average_wall_y - 0.5 > 0.00)
+		// 	return (&find);
+		// *good_coord = mk_point((cur_coord.x + player.pos.x), (-cur_coord.y + player.pos.y)); 
 		find = true;
 		return (&find);
 	}
@@ -193,28 +228,37 @@ t_point	rc_get_next_y_incrementation_wall(double *current_x, double *current_y, 
 		(*current_x) = current_x_round;
 		// (*current_y) = (*current_x) * slope;
 		(*current_y) = (*current_x - player_offset_x) * slope - player_offset_y;
-		if (!y_neg)
-			cur_coord = mk_point((*current_x), (*current_y) - change_wall_size_look);
-		else
-			cur_coord = mk_point((*current_x), (*current_y) + change_wall_size_look);
+	// 	if (!y_neg)
+	// 	{
+	// 		// cur_coord = mk_point((*current_x) - change_wall_size_look, (*current_y));
+	// // 		cur_coord = mk_point((*current_x), (*current_y) + change_wall_size_look);
+	// 		cur_coord = mk_point((*current_x), (*current_y));
+	// 	}
+	// 	else
+	// 	{
+	// 		// cur_coord = mk_point((*current_x) + change_wall_size_look, (*current_y));
+	// 		cur_coord = mk_point((*current_x), (*current_y) - change_wall_size_look);
+	// 	}
 	}
-	else
-		if (!x_neg)
-		{
-			cur_coord = mk_point((*current_x) + change_wall_size_look, (*current_y));
-		}
-		else
-		{
-			cur_coord = mk_point((*current_x) - change_wall_size_look, (*current_y));
-		}
-	// cur_coord = mk_point((*current_x), (*current_y));
+	// else
+	// {
+	// 	if (!x_neg)
+	// 	{
+	// 		cur_coord = mk_point((*current_x), (*current_y));
+	// // 		cur_coord = mk_point((*current_x) - change_wall_size_look, (*current_y));
+	// 	}
+	// 	else
+	// 	{
+	// 		// cur_coord = mk_point((*current_x), (*current_y));
+	// 		cur_coord = mk_point((*current_x) + change_wall_size_look, (*current_y));
+	// 	}
+	// }
+	cur_coord = mk_point((*current_x), (*current_y));
 
 	// cur_coord = get_wall_cell_for_wall((*current_x), (*current_y), x_neg, y_neg, slope, change_wall_size_look);
 
 	return (cur_coord);
 }
-
-
 
 t_point	rc_get_next_x_incrementation_wall(double *current_x, double *current_y, double slope, double change_wall_size_look, bool x_neg, bool y_neg, double player_offset_x, double player_offset_y)
 {
@@ -269,32 +313,40 @@ t_point	rc_get_next_x_incrementation_wall(double *current_x, double *current_y, 
 		(*current_y) = current_y_round;
 		// (*current_x) = (*current_y) / slope;
 		(*current_x) = (*current_y + player_offset_y) / slope + player_offset_x;
-		if (!x_neg)
-			cur_coord = mk_point((*current_x) + change_wall_size_look, (*current_y));
-		else
-			cur_coord = mk_point((*current_x) - change_wall_size_look, (*current_y));
+		// if (!x_neg)
+		// {
+		// 	cur_coord = mk_point((*current_x), (*current_y));
+		// 	// cur_coord = mk_point((*current_x) - change_wall_size_look, (*current_y));
+		// }
+		// else
+		// {
+		// 	// cur_coord = mk_point((*current_x), (*current_y));
+		// 	cur_coord = mk_point((*current_x) + change_wall_size_look, (*current_y));
+		// }
 	}
-	else
-	{
-		if (!y_neg)
-		{
-			cur_coord = mk_point((*current_x), (*current_y) - change_wall_size_look);
-		}
-		else
-		{
-			cur_coord = mk_point((*current_x), (*current_y) + change_wall_size_look);
-		}
-	}
-	// cur_coord = mk_point((*current_x), (*current_y));
+	// else
+	// {
+	// 	if (!y_neg)
+	// 	{
+	// 		cur_coord = mk_point((*current_x), (*current_y));
+	// 		// cur_coord = mk_point((*current_x), (*current_y) - change_wall_size_look);
+	// 	}
+	// 	else
+	// 	{
+	// 		// cur_coord = mk_point((*current_x), (*current_y));
+	// 		cur_coord = mk_point((*current_x), (*current_y) - change_wall_size_look);
+	// 	}
+	// }
+	cur_coord = mk_point((*current_x), (*current_y));
 	// cur_coord = get_wall_cell_for_wall((*current_x), (*current_y), x_neg, y_neg, slope, change_wall_size_look);
 	return (cur_coord);
 }
 
-t_point	*convert_good_coordinates_wall(t_point *good_coord, t_player player, double cur_x, double cur_y, double player_offset_x, double player_offset_y)
+t_point	*convert_good_coordinates_wall(t_point *good_coord, t_player player, double cur_x, double cur_y)
 {
 	double average_wall_x = cur_x + round(player.pos.x);// - fabs(player_offset_x);
-	double average_wall_y = -cur_y + round(( + player.pos.y));// - fabs(player_offset_x);
-	(*good_coord) = mk_point((cur_x + round(player.pos.x)), (-cur_y + round(player.pos.y)));
+	double average_wall_y = -cur_y + round((player.pos.y));// - fabs(player_offset_x);
+	(*good_coord) = mk_point(average_wall_x, average_wall_y);
 	// (*good_coord) = mk_point((cur_x), (-cur_y));
 	return (good_coord);
 }
@@ -305,32 +357,36 @@ t_point *ray_casting_to_find_wall(char **board, t_player player, double angle)
 	double  randiant_angle_looking = (angle) * (M_PI / 180);
 
 
-	t_vector    direction_ray;
-	direction_ray.magnitude = lenght_check;
-	direction_ray.angle = angle;
+	// t_vector    direction_ray;
+	// direction_ray.magnitude = lenght_check;
+	// direction_ray.angle = angle;
 	t_point furthest_point = mk_point(lenght_check * sin(randiant_angle_looking), lenght_check * cos(randiant_angle_looking));
 	double current_x = 0;
 	double current_y = 0;
-	double	player_offset_x = -(round((player.pos.x * 2) / 2)- player.pos.x);
-	double	player_offset_y = (round(-(player.pos.y * 2) / 2) + player.pos.y);
+	// double	player_offset_x = -(round((player.pos.x * 2) / 2)- player.pos.x);
+	// double	player_offset_y = (round(-(player.pos.y * 2) / 2) + player.pos.y);
+	double	player_offset_x = -(round((player.pos.x))- player.pos.x);
+	double	player_offset_y = (-round((player.pos.y)) + player.pos.y);
+	
 	
 	if (is_double_pretty_much_zero(player_offset_x))
 		player_offset_x = 0;
 	if (is_double_pretty_much_zero(player_offset_y))
 		player_offset_y = 0;
 	t_point cur_coord;
-	double	delta_x = sin((direction_ray.angle) * (M_PI / 180)) / 2;
-	double	delta_y = cos((direction_ray.angle) * (M_PI / 180)) / 2;
+	// double	delta_x = sin((direction_ray.angle) * (M_PI / 180)) / 2;
+	// double	delta_y = cos((direction_ray.angle) * (M_PI / 180)) / 2;
 	double	change_wall_size_look = 0.5;
 	t_point *good_coord = (t_point *)malloc(sizeof(t_point));
 	bool *good;
 	double	slope = calculate_slope(mk_point(0,0), furthest_point);
-	t_orientation	wall_face;
+	// t_orientation	wall_face;
 	cur_coord = mk_point(0, 0);
 	current_y = 0;
 	current_x = 0;
+	// current_x = -(round((player.pos.x))- player.pos.x);
+	// current_y = (-round((player.pos.y)) + player.pos.y);
 
-	bool	first = true;
 		while (furthest_point.x != floor(cur_coord.x) || furthest_point.y != floor(cur_coord.y))
 		{
 			if ((furthest_point.x > 0.000001 && furthest_point.y > 0.000001) || is_double_pretty_much_zero(furthest_point.x))
@@ -340,23 +396,26 @@ t_point *ray_casting_to_find_wall(char **board, t_player player, double angle)
 					if (furthest_point.y < -0.000001)
 					{
 						current_y = round_clossest_half(current_y - change_wall_size_look);
-						cur_coord = mk_point(current_x, current_y + change_wall_size_look);
+						// cur_coord = mk_point(current_x, current_y + change_wall_size_look);
+						cur_coord = mk_point(current_x, current_y);
 					}
 					else
 					{
 						current_y = round_clossest_half(current_y + change_wall_size_look);
-						cur_coord = mk_point(current_x, current_y - change_wall_size_look);
+						// cur_coord = mk_point(current_x, current_y - change_wall_size_look);
+						cur_coord = mk_point(current_x, current_y);
 					}
 				}
+				// ! this is now not good enought
 				else if (round_clossest_half(current_x + change_wall_size_look) / slope < round_clossest_half(current_y + change_wall_size_look))
 					cur_coord = rc_get_next_y_incrementation_wall(&current_x, &current_y, slope, change_wall_size_look, false, false, player_offset_x, player_offset_y);
 				else
 					cur_coord = rc_get_next_x_incrementation_wall(&current_x, &current_y, slope, change_wall_size_look, false, false, player_offset_x, player_offset_y);
-				good = find_wall(board, cur_coord, player, good_coord, player_offset_x, player_offset_y);
+				good = find_wall(board, cur_coord, player);
 				if (good == NULL)
 					puts("raycast out of bound 1");
 				else if (*good)
-					return (convert_good_coordinates_wall(good_coord, player, current_x, current_y, player_offset_x, player_offset_y));
+					return (convert_good_coordinates_wall(good_coord, player, current_x, current_y));
 			}
 			else if ((furthest_point.x < -0.000001 && furthest_point.y > 0.000001) || is_double_pretty_much_zero(furthest_point.y))
 			{
@@ -365,47 +424,52 @@ t_point *ray_casting_to_find_wall(char **board, t_player player, double angle)
 					if (furthest_point.x < -0.000001)
 					{
 						current_x = round_clossest_half(current_x - change_wall_size_look);
-						cur_coord = mk_point(current_x + change_wall_size_look, current_y);
+						// cur_coord = mk_point(current_x + change_wall_size_look, current_y);
+						cur_coord = mk_point(current_x, current_y);
 					}
 					else
 					{
 						current_x = round_clossest_half(current_x + change_wall_size_look);
-						cur_coord = mk_point(current_x - change_wall_size_look, current_y);
+						// cur_coord = mk_point(current_x - change_wall_size_look, current_y);
+						cur_coord = mk_point(current_x, current_y);
 					}
 				}
+				// ! this is now not good enought
 				else if (round_clossest_half(current_x - change_wall_size_look) / slope < round_clossest_half(current_y + change_wall_size_look))
 					cur_coord = rc_get_next_y_incrementation_wall(&current_x, &current_y, slope, change_wall_size_look, true, false, player_offset_x, player_offset_y);
 				else
 					cur_coord = rc_get_next_x_incrementation_wall(&current_x, &current_y, slope, change_wall_size_look, true, false, player_offset_x, player_offset_y);
-				good = find_wall(board, cur_coord, player, good_coord, player_offset_x, player_offset_y);
+				good = find_wall(board, cur_coord, player);
 				if (good == NULL)
 					puts("raycast out of bound 1");
 				else if (*good)
-					return (convert_good_coordinates_wall(good_coord, player, current_x, current_y, player_offset_x, player_offset_y));
+					return (convert_good_coordinates_wall(good_coord, player, current_x, current_y));
 			}
 			else if (furthest_point.x > +0.000001 && furthest_point.y < -0.000001)
 			{
+				// ! this is now not good enought
 				if (round_clossest_half(current_x + change_wall_size_look) / slope > round_clossest_half(current_y - change_wall_size_look))
 					cur_coord = rc_get_next_y_incrementation_wall(&current_x, &current_y, slope, change_wall_size_look, false, true, player_offset_x, player_offset_y);
 				else
 					cur_coord = rc_get_next_x_incrementation_wall(&current_x, &current_y, slope, change_wall_size_look, false, true, player_offset_x, player_offset_y);
-				good = find_wall(board, cur_coord, player, good_coord, player_offset_x, player_offset_y);
+				good = find_wall(board, cur_coord, player);
 				if (good == NULL)
 					puts("raycast out of bound 1");
 				else if (*good)
-					return (convert_good_coordinates_wall(good_coord, player, current_x, current_y, player_offset_x, player_offset_y));
+					return (convert_good_coordinates_wall(good_coord, player, current_x, current_y));
 			}
 			else if (furthest_point.x < -0.000001 && furthest_point.y < -0.000001)
 			{
+				// ! this is now not good enought
 				if (round_clossest_half(current_x - change_wall_size_look) / slope > round_clossest_half(current_y - change_wall_size_look))
 					cur_coord = rc_get_next_y_incrementation_wall(&current_x, &current_y, slope, change_wall_size_look, true, true, player_offset_x, player_offset_y);
 				else
 					cur_coord = rc_get_next_x_incrementation_wall(&current_x, &current_y, slope, change_wall_size_look, true, true, player_offset_x, player_offset_y);
-				good = find_wall(board, cur_coord, player, good_coord, player_offset_x, player_offset_y);
+				good = find_wall(board, cur_coord, player);
 				if (good == NULL)
 					puts("raycast out of bound 1");
 				else if (*good)
-					return (convert_good_coordinates_wall(good_coord, player, current_x, current_y, player_offset_x, player_offset_y));
+					return (convert_good_coordinates_wall(good_coord, player, current_x, current_y));
 			}
 		}
 	puts("didn't found wall");
@@ -421,12 +485,13 @@ t_point **view_walls(t_map map, int x_resolution)
 	double  current_angle = map.player.angle - (map.player.angle_view  / 2);
 	double  final_angle = map.player.angle + (map.player.angle_view  / 2);
 	double  number_of_found_walls = ceil(map.player.angle_view  / angle_drift);
-
+	print_point("playerpos is ", map.player.pos);
 	all_walls = malloc(sizeof(t_point *) * (number_of_found_walls + 3));
 	while (final_angle > current_angle)
 	{
 		t_point *current_wall;
 		current_wall =  ray_casting_to_find_wall(map.board, map.player, current_angle);
+		// print_point("current wall is",*current_wall);
 		if (current_wall != NULL)
 		{
 			if (current_wall_index == 0)

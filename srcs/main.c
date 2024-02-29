@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omathot <omathot@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 17:28:37 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/02/08 15:09:06 by omathot          ###   ########.fr       */
+/*   Updated: 2024/02/10 15:33:28 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,30 +48,43 @@ void	save_player_data(t_map *map)
 	printf("OUIN OUIN ");
 }
 
+// void	initialize_board(t_map	*map)
+// {
+
+// }
+
+
+int check_map_walls(char **board);
+
 //  ./cub3d <file>
 int	main(int argc, char **argv)
 {
 	t_map	map;
+	// t_param_mlx *param_mlx;
 
 	input_n_file_checks(argc, argv, &map);
-	if (check_format(&map) == 1)
+	// initialize_board(&map);
+	if (check_format(&map) == 1 || check_map_walls(map.board) == 1)
 	{
-		// if (map.board != NULL)
-		// 	free_double_char(map.board);
+		free_double_char(map.board);
 		write(2, "Invalid map format\n", 19);
 		exit(EXIT_FAILURE);
 	}
-	puts("change player angle");
-
 	save_player_data(&map);
 	printf("player pos.x (%f), pos.y (%f), angle (%f)\n", map.player.pos.x, map.player.pos.y, map.player.angle);
-	printf("\n");
-	print_map(map.content);
-	// map.player.angle = 45;
-	// map.player.angle_view = 90;
+	print_map(map.board);
+	view_walls(map, 1080);
 	map.player.angle_view = 180;
-	// map.player.pos.x += 0.5;
-	// map.player.pos.y += 0.5;
+	// param_mlx = malloc(sizeof(t_param_mlx));
+	// pause();
+	// mlx_t   *mlx;
+	// mlx = mlx_init(1080,720, "main_window", false);
+	// param_mlx->image_to_draw_pixel = mlx_new_image(mlx, 1080,720);
+	// if (!mlx)
+	// 	exit(1);
+	// param_mlx->mlx = mlx;
 	mlx_shit(map);
+	// mlx_loop_hook(mlx, player_move, param_mlx);
+	// mlx_loop(mlx);
 	return (0);
 }

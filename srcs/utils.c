@@ -21,7 +21,7 @@ t_point mk_point(double x, double y)
 	return (new_point);
 }
 
-void	print_point(char *start_message, t_point point);
+// void	print_point(char *start_message, t_point point);
 
 t_point *mk_point_malloc(double x, double y)
 {
