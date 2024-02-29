@@ -23,6 +23,7 @@ LIBFT_A	:= lib/libft/libft.a
 MLX42_A	:= lib/MLX42/build/libmlx42.a
 CMP		:= gcc
 FLAGS 	:= -Werror -Wall -Wextra -g -Iinclude
+# FLAGS 	:= -g -Iinclude
 OS 		:= $(shell uname -m)
 
 

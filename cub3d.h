@@ -24,11 +24,12 @@
 // # include "lib/MLX42/include/MLX42/MLX42_int.h"
 // # include "lib/MLX42/include/MLX42/mlx_new_window.h"
 
+
 typedef struct s_point32
 {
-	int32_t	x;
+	int32_t x;
 	int32_t y;
-}	t_point32;
+} t_point32;
 
 typedef struct s_point
 {
@@ -115,6 +116,23 @@ typedef struct s_map
 	int			size;			// x * y (may need to adjust for spaces and empty areas in map layout e.g. example.cub)
 }	t_map;
 
+typedef struct s_orientation
+{
+	t_point	point;
+	double	angle;
+}	t_orientation;
+
+
+
+// typedef struct s_param_mlx
+// {
+// 	mlx_t *mlx;
+// 	mlx_image_t* image_to_draw_pixel;
+// 	t_point		**current_visible_walls;
+// 	t_map		map;
+// 	int		x_resolution;
+// 	int		y_resolution;
+// } t_param_mlx;
 
 typedef struct s_param_mlx
 {
@@ -134,8 +152,12 @@ char	*cp_until_sp(char *str, int *pos);
 int		are_letters(char *str);
 int		no_numbers(char *str, int *pos);
 t_point	mk_point(double x, double y);
-t_point	**view_walls(t_map map);
+t_point	**view_walls(t_map map, int x_resolution);
 char	**debug_copy(char **board);
 void	mlx_shit(t_map map);
+void	print_point(char *start_message, t_point point);
+bool	is_double_pretty_much_zero(double number);
+bool	double_is_zero_modular_tolerence(double number, double tolerence);
+
 
 #endif

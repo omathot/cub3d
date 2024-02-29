@@ -70,10 +70,10 @@ int	main(int argc, char **argv)
 		write(2, "Invalid map format\n", 19);
 		exit(EXIT_FAILURE);
 	}
-  save_player_data(&map);
+	save_player_data(&map);
 	printf("player pos.x (%f), pos.y (%f), angle (%f)\n", map.player.pos.x, map.player.pos.y, map.player.angle);
 	print_map(map.board);
-	view_walls(map);
+	view_walls(map, 1080);
 	map.player.angle_view = 180;
 	// param_mlx = malloc(sizeof(t_param_mlx));
 	// pause();
