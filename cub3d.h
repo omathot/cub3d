@@ -134,7 +134,7 @@ char	*cp_until_sp(char *str, int *pos);
 int		are_letters(char *str);
 int		no_numbers(char *str, int *pos);
 t_point	mk_point(double x, double y);
-t_point	**view_walls(t_map map);
+t_point	**view_walls(t_map map, int x_resolution);
 char	**debug_copy(char **board);
 void	mlx_shit(t_map map);
 

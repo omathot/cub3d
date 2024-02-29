@@ -190,10 +190,19 @@ char	**make_board(char **content, int start)
 // {
 // 	char	**to_return;
 // 	int	i;
-
+//   int index;
+//
 // 	i = 0;
-// 	while (content[start - i])
-// 		i++;
+//   index = start;
+//   to_return = (char **)malloc(sizeof(char *) * 4 + 1);
+//   while (i <= 5)
+//   {
+//     while (content[index])
+//     {
+//
+//     }
+//   }
+//   return (to_return);
 // }
 
 int	check_format(t_map	*map)
