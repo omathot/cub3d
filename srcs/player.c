@@ -56,7 +56,7 @@ t_point mk_point(double x, double y);
 //   //     puts("!COLLIDE!");
 //   //     return (1);
 //   // }
-  
+
 //   while (board[i])
 //   {
 //     j = 0;
@@ -67,7 +67,8 @@ t_point mk_point(double x, double y);
 //         wall_y = (double)i;
 //         wall_x = (double)j;
 //         // printf(
-//         //     "player x = (%f), player y = (%f)\nwall x = (%f), wall y = (%f)\n",
+//         //     "player x = (%f), player y = (%f)\nwall x = (%f), wall y =
+//         (%f)\n",
 //         //     player->x, player->y, wall_x, wall_y);
 //         // current = mk_point( ,)
 //         if (fabs(furthest_point.x - wall_x) <= offset &&
@@ -91,9 +92,9 @@ t_point mk_point(double x, double y);
 //   double radian = (angle * (M_PI / 180));
 //   double delta_x = sin(radian) / 1.5;
 //   double delta_y = -cos(radian) / 1.5;
-//   t_point save_furthest_point = mk_point(delta_x + (player->x), delta_y + (player->y));
-//   t_point furthest_point = mk_point(delta_x + (player->x), delta_y + (player->y));
-//   if (delta_x < -0.0)
+//   t_point save_furthest_point = mk_point(delta_x + (player->x), delta_y +
+//   (player->y)); t_point furthest_point = mk_point(delta_x + (player->x),
+//   delta_y + (player->y)); if (delta_x < -0.0)
 //     furthest_point.x = floor(furthest_point.x + 0.48);
 //   else
 //     furthest_point.x = round(furthest_point.x);
@@ -101,14 +102,14 @@ t_point mk_point(double x, double y);
 //     furthest_point.y = floor(furthest_point.y + 0.48);
 //   else
 //     furthest_point.y = round(furthest_point.y);
-//   if (fabs(furthest_point.x - save_furthest_point.x) < 0.5 || fabs(furthest_point.y - save_furthest_point.y) < 0.5)
-//   if (search_board_walls(board, furthest_point, player) == 1)
+//   if (fabs(furthest_point.x - save_furthest_point.x) < 0.5 ||
+//   fabs(furthest_point.y - save_furthest_point.y) < 0.5) if
+//   (search_board_walls(board, furthest_point, player) == 1)
 //     return (1);
 //   return (0);
 // }
 
-int search_board_walls(char **board, t_point furthest_point, t_point *player)
-{
+int search_board_walls(char **board, t_point furthest_point, t_point *player) {
   int i;
   int j;
   double wall_x;
@@ -119,13 +120,10 @@ int search_board_walls(char **board, t_point furthest_point, t_point *player)
   i = 0;
   offset = 0.5;
   // current = mk_point(0, 0);
-  while (board[i])
-  {
+  while (board[i]) {
     j = 0;
-    while (board[i][j])
-    {
-      if (board[i][j] == '1')
-      {
+    while (board[i][j]) {
+      if (board[i][j] == '1') {
         wall_y = (double)i;
         wall_x = (double)j;
         printf(
@@ -133,8 +131,7 @@ int search_board_walls(char **board, t_point furthest_point, t_point *player)
             player->x, player->y, wall_x, wall_y);
         // current = mk_point( ,)
         if (fabs(furthest_point.x - wall_x) <= offset &&
-            fabs(furthest_point.y - wall_y) <= offset)
-        {
+            fabs(furthest_point.y - wall_y) <= offset) {
           puts("!COLLIDE!");
           return (1);
         }
@@ -148,22 +145,21 @@ int search_board_walls(char **board, t_point furthest_point, t_point *player)
   return (0);
 }
 
-int cast_ray(char **board, t_point *player, int angle)
-{
+int cast_ray(char **board, t_point *player, int angle) {
   double radian = (angle * (M_PI / 180));
-  t_point furthest_point = mk_point(round(sin(radian) + player->x), round(-cos(radian) + player->y));
+  t_point furthest_point =
+      mk_point(round(sin(radian) + player->x), round(-cos(radian) + player->y));
   if (search_board_walls(board, furthest_point, player) == 1)
     return (1);
   return (0);
 }
 
 // int player
-void player_move(void *param)
-{
+void player_move(void *param) {
   t_param_mlx *param_real;
-  float       move_speed;
-  float       angle_radians;
-  int         coll_angle;
+  float move_speed;
+  float angle_radians;
+  int coll_angle;
 
   param_real = (t_param_mlx *)param;
   move_speed = 0.01;
@@ -172,52 +168,61 @@ void player_move(void *param)
     mlx_close_window(param_real->mlx);
   angle_radians = param_real->map.player.angle * M_PI / 180;
   if (mlx_is_key_down(param_real->mlx, MLX_KEY_W)) {
-    if (!cast_ray(param_real->map.board, &param_real->map.player.pos, param_real->map.player.angle)) {
+    if (!cast_ray(param_real->map.board, &param_real->map.player.pos,
+                  param_real->map.player.angle)) {
       param_real->map.player.pos.x += sin(angle_radians) * move_speed;
-      param_real->map.player.pos.y -= cos(angle_radians) * move_speed; // y is usually inverted in computer graphics
-      update_current_wall(&param_real->current_visible_walls, param_real->map, param_real->x_resolution);
+      param_real->map.player.pos.y -=
+          cos(angle_radians) *
+          move_speed; // y is usually inverted in computer graphics
+      update_current_wall(&param_real->current_visible_walls, param_real->map,
+                          param_real->x_resolution);
     }
   }
   if (mlx_is_key_down(param_real->mlx, MLX_KEY_S)) {
     coll_angle = (int)(param_real->map.player.angle + 180) % 360;
-    if (!cast_ray(param_real->map.board, &param_real->map.player.pos, coll_angle)) {
+    if (!cast_ray(param_real->map.board, &param_real->map.player.pos,
+                  coll_angle)) {
       param_real->map.player.pos.x -= sin(angle_radians) * move_speed;
       param_real->map.player.pos.y += cos(angle_radians) * move_speed;
       // param_real->map.player.pos.y += 0.01;
-      update_current_wall(&param_real->current_visible_walls, param_real->map, param_real->x_resolution);
+      update_current_wall(&param_real->current_visible_walls, param_real->map,
+                          param_real->x_resolution);
     }
   }
   if (mlx_is_key_down(param_real->mlx, MLX_KEY_A)) {
     coll_angle = (int)(param_real->map.player.angle + 270) % 360;
-    if (!cast_ray(param_real->map.board, &param_real->map.player.pos, coll_angle)) {
+    if (!cast_ray(param_real->map.board, &param_real->map.player.pos,
+                  coll_angle)) {
       param_real->map.player.pos.x -= cos(angle_radians) * move_speed;
       param_real->map.player.pos.y -= sin(angle_radians) * move_speed;
       // param_real->map.player.pos.x -= 0.01;
-      update_current_wall(&param_real->current_visible_walls, param_real->map, param_real->x_resolution);
+      update_current_wall(&param_real->current_visible_walls, param_real->map,
+                          param_real->x_resolution);
     }
   }
   if (mlx_is_key_down(param_real->mlx, MLX_KEY_D)) {
     coll_angle = (int)(param_real->map.player.angle + 90) % 360;
-    if (!cast_ray(param_real->map.board, &param_real->map.player.pos, coll_angle)) {
+    if (!cast_ray(param_real->map.board, &param_real->map.player.pos,
+                  coll_angle)) {
       param_real->map.player.pos.x += cos(angle_radians) * move_speed;
       param_real->map.player.pos.y += sin(angle_radians) * move_speed;
       // param_real->map.player.pos.x += 0.01;
-      update_current_wall(&param_real->current_visible_walls, param_real->map, param_real->x_resolution);
+      update_current_wall(&param_real->current_visible_walls, param_real->map,
+                          param_real->x_resolution);
     }
   }
-  if (mlx_is_key_down(param_real->mlx, MLX_KEY_Q))
-  {
+  if (mlx_is_key_down(param_real->mlx, MLX_KEY_Q)) {
     if (param_real->map.player.angle <= 0)
       param_real->map.player.angle = 360;
     param_real->map.player.angle -= 2;
-    update_current_wall(&param_real->current_visible_walls, param_real->map, param_real->x_resolution);
+    update_current_wall(&param_real->current_visible_walls, param_real->map,
+                        param_real->x_resolution);
   }
-  if (mlx_is_key_down(param_real->mlx, MLX_KEY_E))
-  {
+  if (mlx_is_key_down(param_real->mlx, MLX_KEY_E)) {
     if (param_real->map.player.angle >= 360)
       param_real->map.player.angle = 0;
     param_real->map.player.angle += 2;
-    update_current_wall(&param_real->current_visible_walls, param_real->map, param_real->x_resolution);
-
+    update_current_wall(&param_real->current_visible_walls, param_real->map,
+                        param_real->x_resolution);
   }
 }
