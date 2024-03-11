@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+#include <math.h>
 
 void player_move(void *param);
 char *get_data_line(t_param_mlx *param, char x);
@@ -219,14 +220,91 @@ bool is_double_pretty_much_zero(double number);
 bool double_is_zero_modular_tolerence(double number, double tolerence);
 
 char determine_face(t_param_mlx *param, int i) {
+  t_point current;
+
+  current = mk_point(param->current_visible_walls[i]->x,
+                     param->current_visible_walls[i]->y);
   if (double_is_zero_modular_tolerence(
           param->current_visible_walls[i]->x -
               floor(param->current_visible_walls[i]->x) - 0.5,
-          0.01))
+          0.01)) {
+    if (param->map.board[(int)round(current.y)][(int)round(current.x + 0.5)] ==
+        '1') {
+      if (param->map
+              .board[(int)round(current.y)][(int)round(current.x - 0.5)] == '1')
+        return ('W');
+      return ('E');
+    } else if (param->map.board[(int)round(current.y)]
+                               [(int)round(current.x - 0.5)] == '1')
+      return ('W');
+    else if (param->map.board[(int)round(current.y + 0.5)]
+                             [(int)round(current.x)] == '1')
+      return ('S');
+    else
+      return ('N');
+
+  } else if (param->map.board[(int)round(current.y + 0.5)]
+                             [(int)round(current.x)] == '1')
+    return ('S');
+  else if (param->map.board[(int)round(current.y - 0.5)]
+                           [(int)round(current.x)] == '1')
+    return ('N');
+  else if (param->map.board[(int)round(current.y)]
+                           [(int)round(current.x + 0.5)] == '1')
     return ('E');
+  else
+    return ('W');
+}
+
+/*
+if (double_is_zero_modular_tolerence(
+        param->current_visible_walls[i]->y -
+            floor(param->current_visible_walls[i]->y) - 0.5,
+        0.01)) {
+  t_point diff;
+  diff.x = (param->map.player.pos.x - current.x);
+  diff.y = (param->map.player.pos.y - current.y);
+
+print_point("current wall", (*param->current_visible_walls[i]));
+  if (diff.x < -0.00) {
+    if (param->map.board[(int)round(current.y)]
+                        [(int)round(current.x + 0.5)] == '1')
+      return ('E');
+    else
+      return ('W');
+  }
+
+  if (diff.x < -0.00) {
+    if (diff.y < -0.00) {
+      if (fabs(diff.y) > fabs(diff.x))
+        return ('S');
+      else
+        return ('W');
+    }
+    if (diff.y > 0.00) {
+      if (fabs(diff.y) > fabs(diff.x))
+        return ('N');
+      else
+        return ('W');
+    }
+  } else if (diff.x > 0.00) {
+    if (diff.y < 0) {
+      if (fabs(diff.y) > fabs(diff.x))
+        return ('S');
+      else
+        return ('E');
+    } else if (diff.y > 0.00) {
+      if (fabs(diff.y) > fabs(diff.x))
+        return ('N');
+      else
+        return ('E');
+    }
+  } else if (diff.y < -0.00)
+    return ('S');
   else
     return ('N');
 }
+*/
 
 void print_all_walls(t_param_mlx *param_real) {
   int i;
@@ -242,7 +320,8 @@ void print_all_walls(t_param_mlx *param_real) {
     corner_line = find_wall_down_corner(param_real->current_visible_walls[i],
                                         param_real->map.player,
                                         param_real->y_resolution, i);
-    // if (!are_double_in_screen(corner_line.A.x, corner_line.A.y, param_real))
+    // if (!are_double_in_screen(corner_line.A.x, corner_line.A.y,
+    // param_real))
     // {
     //   // prev_corner = false;
     //   i++;

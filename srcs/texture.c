@@ -83,7 +83,6 @@ void wall_texture(t_param_mlx *param, int screen_x, t_point collision_point,
     to_place = mlx_texture_to_image(param->mlx, param->map.wall_E);
   else if (wall_face == 'W')
     to_place = mlx_texture_to_image(param->mlx, param->map.wall_W);
-  printf("heigh is = (%i), width = (%i)\n", to_place->height, to_place->width);
   int size = (to_place->height * to_place->width) - 1;
   while (i <= size) {
     rgba = (to_place->pixels[i * 4] << 24) |
