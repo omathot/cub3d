@@ -6,61 +6,52 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 17:28:37 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/02/10 15:33:28 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/13 14:14:29 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void	input_n_file_checks(int argc, char **argv, t_map *map);
-int		check_format(t_map	*map);
+void input_n_file_checks(int argc, char **argv, t_map *map);
+int check_format(t_map *map);
 
-void	save_player_data(t_map *map)
-{
-	int	i;
-	int	k;
+void save_player_data(t_map *map) {
+  int i;
+  int k;
 
-	i = 0;
-	while ((*map).board[i])
-	{
-		k = 0;
-		while ((*map).board[i][k])
-		{
-			if ((*map).board[i][k] == 'W' || (*map).board[i][k] == 'E' || (*map).board[i][k] == 'S' || (*map).board[i][k] == 'N')
-			{
-				printf("found player at y = (%i), x = (%i)\n", i, k);
-				map->player.pos = mk_point((double)k, (double)i);
-				if ((*map).board[i][k] == 'W')
-					map->player.angle = 270;
-				if ((*map).board[i][k] == 'E')
-					map->player.angle = 90;
-				if ((*map).board[i][k] == 'N')
-					map->player.angle = 0;
-				if ((*map).board[i][k] == 'S')
-					map->player.angle = 180;
-				(*map).board[i][k] = '0';
-				return ;
-			}
-			k++;
-		}
-		i++;
-	}
-	printf("OUIN OUIN ");
+  i = 0;
+  while ((*map).board[i]) {
+    k = 0;
+    while ((*map).board[i][k]) {
+      if ((*map).board[i][k] == 'W' || (*map).board[i][k] == 'E' ||
+          (*map).board[i][k] == 'S' || (*map).board[i][k] == 'N') {
+        printf("found player at y = (%i), x = (%i)\n", i, k);
+        map->player.pos = mk_point((double)k, (double)i);
+        if ((*map).board[i][k] == 'W')
+          map->player.angle = 270;
+        if ((*map).board[i][k] == 'E')
+          map->player.angle = 90;
+        if ((*map).board[i][k] == 'N')
+          map->player.angle = 0;
+        if ((*map).board[i][k] == 'S')
+          map->player.angle = 180;
+        (*map).board[i][k] = '0';
+        return;
+      }
+      k++;
+    }
+    i++;
+  }
+  printf("OUIN OUIN ");
 }
-
-// void	initialize_board(t_map	*map)
-// {
-
-// }
-
 
 int check_map_walls(char **board);
 
 //  ./cub3d <file>
-int	main(int argc, char **argv)
+int main(int argc, char **argv)
 {
-	t_map	map;
-	// t_param_mlx *param_mlx;
+  	t_map map;
+  	// t_param_mlx *param_mlx;
 
 	input_n_file_checks(argc, argv, &map);
 	// initialize_board(&map);

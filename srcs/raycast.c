@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 14:02:17 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/02/10 19:10:49 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/13 14:09:28 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,15 +64,15 @@ bool	*find_wall(char **board, t_point cur_coord, t_player player)
 	if ((int)average_wall_y < -0.000 || (int)average_wall_x < -0.000)
 	{
 		puts("found wall at neg values");
-		print_point("average_wall_x kill at is", mk_point(average_wall_x, average_wall_y));
+		// print_point("average_wall_x kill at is", mk_point(average_wall_x, average_wall_y));
 		pause();
 		return (NULL);
 	}
 	if (is_out_of_bound((int)average_wall_x, (int)average_wall_y, board))
 	{
 		puts("looking beyound map");
-		print_point("cur coord", cur_coord);
-		print_point("player pos", player.pos);
+		// print_point("cur coord", cur_coord);
+		// print_point("player pos", player.pos);
 		return (NULL);
 	}
 	if (board[(int)average_wall_y][(int)average_wall_x] == '\0')
@@ -485,7 +485,7 @@ t_point **view_walls(t_map map, int x_resolution)
 	double  current_angle = map.player.angle - (map.player.angle_view  / 2);
 	double  final_angle = map.player.angle + (map.player.angle_view  / 2);
 	double  number_of_found_walls = ceil(map.player.angle_view  / angle_drift);
-	print_point("playerpos is ", map.player.pos);
+	// print_point("playerpos is ", map.player.pos);
 	all_walls = malloc(sizeof(t_point *) * (number_of_found_walls + 3));
 	while (final_angle > current_angle)
 	{
