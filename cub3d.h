@@ -6,28 +6,29 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 17:28:46 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/02/10 18:30:01 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/13 14:11:31 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
-#define CUB3D_H
+# define CUB3D_H
 
-#include "lib/MLX42/include/MLX42/MLX42.h"
-#include "lib/libft/libft.h"
-#include <fcntl.h>
-#include <math.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
+# include "lib/MLX42/include/MLX42/MLX42.h"
+# include "lib/libft/libft.h"
+# include <fcntl.h>
+# include <math.h>
+# include <stdbool.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
 // # include "lib/MLX42/include/MLX42/MLX42_int.h"
 // # include "lib/MLX42/include/MLX42/mlx_new_window.h"
 
-typedef struct s_texture_data {
-  double decimal;
-  int wall_n;
-} t_texture_data;
+typedef struct s_texture_data
+{
+	double decimal;
+	int wall_n;
+}	t_texture_data;
 
 typedef struct s_point32 {
   int32_t x;

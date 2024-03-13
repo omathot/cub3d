@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 13:14:21 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/02/11 11:05:17 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/13 14:08:49 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ t_point mk_point(double x, double y);
 //   //     puts("!COLLIDE!");
 //   //     return (1);
 //   // }
-
 //   while (board[i])
 //   {
 //     j = 0;
