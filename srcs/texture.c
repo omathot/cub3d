@@ -1,5 +1,4 @@
 #include "../cub3d.h"
-#include <sys/_types/_u_int32_t.h>
 
 // Get the red channel
 int get_r(int rgba) { return ((rgba >> 24) & 0xFF); }

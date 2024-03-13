@@ -27,8 +27,8 @@ void print_all_walls(t_param_mlx *param_real);
 
 void mouse_movement(double x, double y, void *param) {
   t_param_mlx *mlx;
-  t_point32 center;
-  t_point32 change;
+  static t_point32 center;
+  static t_point32 change;
 
   mlx = (t_param_mlx *)param;
   // printf("center.x = (%i), center.y = (%i)\n", center.x, center.y);
@@ -44,7 +44,7 @@ void mouse_movement(double x, double y, void *param) {
   // printf("change x = (%d), change y = (%d)\n", change.x, change.y);
   // printf("player angle = (%f)\n", mlx->map.player.angle);
   if (change.x > x) {
-    if (mlx->map.player.angle >= 360)
+    if (mlx->map.player.angle >= y)
       mlx->map.player.angle = 0;
     mlx->map.player.angle += 5;
     update_current_wall(&mlx->current_visible_walls, mlx->map,
@@ -65,4 +65,5 @@ void handle_mouse(t_param_mlx *mlx) {
   mlx_set_cursor(mlx->mlx, mlx->cursor);
   mlx_set_mouse_pos(mlx->mlx, 540, 360);
   mlx_cursor_hook(mlx->mlx, mouse_movement, mlx);
+  // mlx_get_mouse_pos(mlx->mlx, &center.x, &center.y);
 }
