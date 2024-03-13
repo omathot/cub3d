@@ -196,10 +196,15 @@ t_line	find_wall_down_corner(t_point *wall, t_player player, int y_resolution, i
 	// print_point("pixel point is =", pixel_point);
 	// print_point("wall is =", (*wall));
 	// puts("");
+	// if (pixel_point.y < -0.0)
+	// 	pixel_point.y = 0;
 	// print_vector("corner_vector is ", wall_vector);
 	return_line.A = pixel_point;
 	// return_line.B = mk_point(pixel_point.x, (pixel_point.y + 5));
 	return_line.B = mk_point(pixel_point.x, ((y_resolution / 2) + ((wall_hight) / ((wall_vector.magnitude + 0.5)))));
+
+	// if (return_line.B.y > y_resolution - 1)
+	// 	return_line.B.y = y_resolution - 1;
 	// return_line.B = mk_point(pixel_point.x, y_resolution - 1 - y_resolution / (y_off_set / (wall_vector.magnitude)));
 	// return_line.B = mk_point(pixel_point.x, pixel_point.y + 3);
 	// puts("");
@@ -236,29 +241,23 @@ void	print_all_walls(t_param_mlx *param_real)
 	mlx_delete_image(param_real->mlx, param_real->image_to_draw_pixel);
 	param_real->image_to_draw_pixel = mlx_new_image(param_real->mlx, param_real->x_resolution, param_real->y_resolution);
 	i = 0;
-	while (param_real->current_visible_walls[i + 2])
+	while (param_real->current_visible_walls[i])
 	{
 		corner_line = find_wall_down_corner(param_real->current_visible_walls[i], param_real->map.player, param_real->y_resolution, i);
-		if (!are_double_in_screen(corner_line.A.x, corner_line.A.y, param_real))
-		{
-			// prev_corner = false;
-			i++;
-			continue ;
-		}
-		// if (prev_corner)
+		// if (!are_double_in_screen(corner_line.A.x, corner_line.A.y, param_real))
 		// {
-		// 	print_point("prev A is", prev_corner_line.A);
-		// 	print_point("cur A is", corner_line.A);
-		// 	draw_line(prev_corner_line.A, corner_line.A, param_real, 255 * 256 * 256 + 255 * 256 + 255);
-		// 	draw_line(prev_corner_line.B, corner_line.B, param_real, 255 * 256 * 256 + 255 * 256 + 255);
+		// 	// prev_corner = false;
+		// 	i++;
+		// 	continue ;
 		// }
 		if (are_double_in_screen(corner_line.A.x, corner_line.A.y, param_real))
 		{
-			// if (corner_line.B.x > param_real->x_resolution)
-			// 	draw_line_l(corner_line, param_real, 255 + 255 * 256 + 255);
-			// else
-			// 	draw_line_l(corner_line, param_real, 255 * 256 * 256 + 255 * 256 + 255);
-			
+			// if (wall_collors_debug[i])
+			// {
+			// 	draw_line_l(corner_line, param_real, get_collor(255, 0, 0, 255));
+			// 	// wall_collors_debug[i] = false;
+			// }
+			// else if (
 			if (
 				(is_double_round(param_real->current_visible_walls[i]->x + 0.5) &&  
 				is_double_round(param_real->current_visible_walls[i]->y - 0.5)) 
@@ -272,11 +271,6 @@ void	print_all_walls(t_param_mlx *param_real)
 			else
 				draw_line_l(corner_line, param_real, get_collor(0, 0, 255, 255));
 		}
-		// prev_corner_line = corner_line;
-		// prev_corner_line.A.x = corner_line.A.x;
-		// prev_corner_line.A.y = corner_line.A.y;
-		// prev_corner_line.B = corner_line.B;
-		// prev_corner = true;
 		i++;
 	}
 	mlx_image_to_window(param_real->mlx, param_real->image_to_draw_pixel, 0, 0);
@@ -331,6 +325,8 @@ void	update_current_wall(t_point ***walls, t_map map, double x_resolution)
 // 	}
 // }
 
+void handle_mouse(t_param_mlx *mlx);
+
 
 void	mlx_shit(t_map map)
 {
@@ -348,6 +344,7 @@ void	mlx_shit(t_map map)
 		exit(1);
 	param_mlx->mlx = mlx;
 	mlx_loop_hook(mlx, player_move, param_mlx);
+	handle_mouse(param_mlx);
 	mlx_loop(mlx);
 }
 
