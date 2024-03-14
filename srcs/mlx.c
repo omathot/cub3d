@@ -6,15 +6,18 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 17:48:24 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/13 14:08:51 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/14 18:36:03 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 #include <math.h>
 
-void player_move(void *param);
-char *get_data_line(t_param_mlx *param, char x);
+void	player_move(void *param);
+char	*get_data_line(t_param_mlx *param, char x);
+void	handle_mouse(t_param_mlx *mlx);
+void	wall_texture(t_param_mlx *param, int screen_x,
+	t_wall_info wall, double wall_height);
 bool stack_full(t_stack *stack) { return (stack->top == 999); }
 
 void stack_add(t_stack *stack, t_point cord) {
@@ -214,8 +217,6 @@ uint32_t get_collor(int r, int g, int b, int a) {
   return (final);
 }
 
-void wall_texture(t_param_mlx *param, int screen_x, t_point collision_point,
-                  char wall_face, double wall_height);
 bool is_double_pretty_much_zero(double number);
 bool double_is_zero_modular_tolerence(double number, double tolerence);
 
@@ -306,12 +307,22 @@ print_point("current wall", (*param->current_visible_walls[i]));
 }
 */
 
-void print_all_walls(t_param_mlx *param_real) {
+void	initialize_wall_info(t_wall_info *wall)
+{
+	wall->collision.x = 0;
+	wall->collision.y = 0;
+	wall->wall_face = 'c';
+}
+
+void print_all_walls(t_param_mlx *param_real)
+{
   int i;
   t_line corner_line;
+  t_wall_info	wall;
   // bool	prev_corner = false;
   // t_line	prev_corner_line;
 
+	initialize_wall_info(&wall);
   mlx_delete_image(param_real->mlx, param_real->image_to_draw_pixel);
   param_real->image_to_draw_pixel = mlx_new_image(
       param_real->mlx, param_real->x_resolution, param_real->y_resolution);
@@ -327,9 +338,11 @@ void print_all_walls(t_param_mlx *param_real) {
     //   i++;
     //   continue;
     if (are_double_in_screen(corner_line.A.x, corner_line.A.y, param_real))
-      // wall_texture(param_real, 500, mk_point(26, 5.5), 'S', 400);
-      wall_texture(param_real, i, *param_real->current_visible_walls[i],
-                   determine_face(param_real, i), 400);
+	{
+		wall.collision = *param_real->current_visible_walls[i];
+		wall.wall_face = determine_face(param_real, i);
+      wall_texture(param_real, i, wall, 400);
+	}
     // draw_line_l(corner_line, param_real, get_collor(0, 0, 255, 255));
     i++;
   }
@@ -391,9 +404,6 @@ void update_current_wall(t_point ***walls, t_map map, double x_resolution) {
 // 	}
 // }
 
-void handle_mouse(t_param_mlx *mlx);
-void wall_texture(t_param_mlx *param, int screen_x, t_point collision_point,
-                  char wall_face, double wall_height);
 void save_file_data(t_param_mlx *param) {
   param->map.wall_N = mlx_load_png(get_data_line(param, 'N'));
   param->map.wall_S = mlx_load_png(get_data_line(param, 'S'));
