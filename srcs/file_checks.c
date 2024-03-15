@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:51:58 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/15 12:45:59 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/15 18:16:13 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,50 @@ int	check_nm(int *i, char *str, char **sprite_loc)
 	return (0);
 }
 
+int	last_checks(char *str, t_file_loc **locs, int *i, t_file_reqs **check)
+{
+	if (str[(*i)] == 'E' && str[(*i) + 1] == 'A')
+	{
+		if (check_nm(i, str, &(*locs)->e_wall) == 1)
+		{
+			free((*locs));
+			return (1);
+		}
+		(*check)->ea++;
+	}
+	else
+	{
+		free((*locs));
+		return (1);
+	}
+	return (0);
+}
+
+int	other_checks(char *str, t_file_loc **locs, int *i, t_file_reqs **check)
+{
+	if (str[(*i)] == 'S' && str[(*i) + 1] == 'O')
+	{
+		if (check_nm(i, str, &(*locs)->s_wall) == 1)
+		{
+			free((*locs));
+			return (1);
+		}
+		(*check)->so++;
+	}
+	else if (str[(*i)] == 'W' && str[(*i) + 1] == 'E')
+	{
+		if (check_nm(i, str, &(*locs)->w_wall) == 1)
+		{
+			free((*locs));
+			return (1);
+		}
+		(*check)->we++;
+	}
+	else if (last_checks(str, locs, i, check) == 1)
+		return (1);
+	return (0);
+}
+
 int	check_texture(char *str, int *i, t_file_reqs **check)
 {
 	t_file_loc	*locs;
@@ -60,38 +104,8 @@ int	check_texture(char *str, int *i, t_file_reqs **check)
 			}
 			(*check)->no++;
 		}
-		else if (str[(*i)] == 'S' && str[(*i) + 1] == 'O')
-		{
-			if (check_nm(i, str, &locs->s_wall) == 1)
-			{
-				free(locs);
-				return (1);
-			}
-			(*check)->so++;
-		}
-		else if (str[(*i)] == 'W' && str[(*i) + 1] == 'E')
-		{
-			if (check_nm(i, str, &locs->w_wall) == 1)
-			{
-				free(locs);
-				return (1);
-			}
-			(*check)->we++;
-		}
-		else if (str[(*i)] == 'E' && str[(*i) + 1] == 'A')
-		{
-			if (check_nm(i, str, &locs->e_wall) == 1)
-			{
-				free(locs);
-				return (1);
-			}
-			(*check)->ea++;
-		}
-		else
-		{
-			free(locs);
+		else if (other_checks(str, &locs, i, check) == 1)
 			return (1);
-		}
 	}
 	else
 		return (1);
@@ -190,30 +204,30 @@ char	**make_board(char **content, int start)
 	return (to_return);
 }
 
-void	add_line(char **content, char ***to_return, int index, int *j, int mode)
+void	add_line(char **content, char ***to_return, t_point_int data, int *j)
 {
 	int	cursor;
 	int	k;
 
 	cursor = 0;
 	k = (*j);
-	while (!(ft_isspace(content[index][k])))
+	while (!(ft_isspace(content[data.x][k])))
 	{
-		(*to_return)[mode][cursor] = content[index][k];
+		(*to_return)[data.y][cursor] = content[data.x][k];
 		cursor++;
 		k++;
 	}
-	while (ft_isspace(content[index][k]))
+	while (ft_isspace(content[data.x][k]))
 		k++;
-	(*to_return)[mode][cursor] = ' ';
+	(*to_return)[data.y][cursor] = ' ';
 	cursor++;
-	while (!(ft_isspace(content[index][k])) && content[index][k])
+	while (!(ft_isspace(content[data.x][k])) && content[data.x][k])
 	{
-		(*to_return)[mode][cursor] = content[index][k];
+		(*to_return)[data.y][cursor] = content[data.x][k];
 		cursor++;
 		k++;
 	}
-	(*to_return)[mode][cursor] = '\0';
+	(*to_return)[data.y][cursor] = '\0';
 }
 
 void	fetch_filedata(char **content, int index, char ***to_return)
@@ -227,17 +241,17 @@ void	fetch_filedata(char **content, int index, char ***to_return)
 		while (ft_isspace(content[index][j]))
 			j++;
 		if (content[index][j] == 'N')
-			add_line(content, to_return, index, &j, 0);
+			add_line(content, to_return, mk_point_int(index, 0), &j);
 		if (content[index][j] == 'S')
-			add_line(content, to_return, index, &j, 1);
+			add_line(content, to_return, mk_point_int(index, 0), &j);
 		if (content[index][j] == 'E')
-			add_line(content, to_return, index, &j, 2);
+			add_line(content, to_return, mk_point_int(index, 0), &j);
 		if (content[index][j] == 'W')
-			add_line(content, to_return, index, &j, 3);
+			add_line(content, to_return, mk_point_int(index, 0), &j);
 		if (content[index][j] == 'F')
-			add_line(content, to_return, index, &j, 4);
+			add_line(content, to_return, mk_point_int(index, 0), &j);
 		if (content[index][j] == 'C')
-			add_line(content, to_return, index, &j, 5);
+			add_line(content, to_return, mk_point_int(index, 0), &j);
 		index--;
 	}
 	(*to_return)[6] = NULL;

@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 17:52:31 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/14 19:55:14 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/15 18:29:17 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,28 @@ void	get_rgba(int i, mlx_image_t *to_place, t_rgba *rgb)
 	(*rgb).b = get_b(rgba);
 }
 
+void	write_line(t_param_mlx *param, int i, int *j, char **to_return)
+{
+	int	k;
+
+	k = 0;
+	printf("test\n");
+	while (param->map.file_data[i][(*j)])
+	{
+		(*to_return)[k] = param->map.file_data[i][(*j)];
+		(*j)++;
+		k++;
+	}
+	(*to_return)[k] = '\0';
+}
+
 char	*get_data_line(t_param_mlx *param, char x)
 {
 	char	*to_return;
 	int		i;
 	int		j;
-	int		k;
 
 	i = 0;
-	k = 0;
 	to_return = (char *)malloc(sizeof(
 				ft_strlen(param->map.file_data[i]) * 2 + 1));
 	while (param->map.file_data[i])
@@ -62,13 +75,14 @@ char	*get_data_line(t_param_mlx *param, char x)
 			while (!(ft_isspace(param->map.file_data[i][j])))
 				j++;
 			j++;
-			while (param->map.file_data[i][j])
-			{
-				to_return[k] = param->map.file_data[i][j];
-				j++;
-				k++;
-			}
-			to_return[k] = '\0';
+			write_line(param, i, &j, &to_return);
+			// while (param->map.file_data[i][j])
+			// {
+			// 	to_return[k] = param->map.file_data[i][j];
+			// 	j++;
+			// 	k++;
+			// }
+			// to_return[k] = '\0';
 		}
 		i++;
 	}

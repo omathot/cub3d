@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 17:28:37 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/13 17:27:06 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/15 18:20:37 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,20 @@
 void	input_n_file_checks(int argc, char **argv, t_map *map);
 int		check_format(t_map *map);
 int		check_map_walls(char **board);
+
+void	assign_start_angle(t_map *map, int k, int i)
+{
+	map->player.pos = mk_point((double)k, (double)i);
+	if ((*map).board[i][k] == 'W')
+		map->player.angle = 270;
+	if ((*map).board[i][k] == 'E')
+		map->player.angle = 90;
+	if ((*map).board[i][k] == 'N')
+		map->player.angle = 0;
+	if ((*map).board[i][k] == 'S')
+		map->player.angle = 180;
+	(*map).board[i][k] = '0';
+}
 
 void	save_player_data(t_map *map)
 {
@@ -30,17 +44,7 @@ void	save_player_data(t_map *map)
 			if ((*map).board[i][k] == 'W' || (*map).board[i][k] == 'E' ||
 				(*map).board[i][k] == 'S' || (*map).board[i][k] == 'N')
 			{
-				printf("found player at y = (%i), x = (%i)\n", i, k);
-				map->player.pos = mk_point((double)k, (double)i);
-				if ((*map).board[i][k] == 'W')
-					map->player.angle = 270;
-				if ((*map).board[i][k] == 'E')
-					map->player.angle = 90;
-				if ((*map).board[i][k] == 'N')
-					map->player.angle = 0;
-				if ((*map).board[i][k] == 'S')
-					map->player.angle = 180;
-				(*map).board[i][k] = '0';
+				assign_start_angle(map, k, i);
 				return ;
 			}
 			k++;

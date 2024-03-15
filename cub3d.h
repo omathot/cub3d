@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 17:28:46 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/15 11:39:23 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/15 18:00:42 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+
+typedef struct s_point_int
+{
+	int	x;
+	int	y;
+}	t_point_int;
 
 typedef struct s_texture_data
 {
@@ -161,16 +167,17 @@ typedef	struct s_rgba
 	int	rgb;
 }	t_rgba;
 
-void	print_map(char **map);
-bool	ft_isspace(unsigned char c);
-void	free_double_char(char **array);
-char	*cp_until_sp(char *str, int *pos);
-int		are_letters(char *str);
-int		no_numbers(char *str, int *pos);
-t_point	mk_point(double x, double y);
-t_point	**view_walls(t_map map, int x_resolution);
-char	**debug_copy(char **board);
-void	mlx_shit(t_map map);
-void	print_point(char *start_message, t_point point);
+void		print_map(char **map);
+bool		ft_isspace(unsigned char c);
+void		free_double_char(char **array);
+char		*cp_until_sp(char *str, int *pos);
+int			are_letters(char *str);
+int			no_numbers(char *str, int *pos);
+t_point		mk_point(double x, double y);
+t_point		**view_walls(t_map map, int x_resolution);
+char		**debug_copy(char **board);
+void		mlx_shit(t_map map);
+void		print_point(char *start_message, t_point point);
+t_point_int	mk_point_int(int x, int y);
 
 #endif
