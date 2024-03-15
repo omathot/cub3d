@@ -243,15 +243,15 @@ void	fetch_filedata(char **content, int index, char ***to_return)
 		if (content[index][j] == 'N')
 			add_line(content, to_return, mk_point_int(index, 0), &j);
 		if (content[index][j] == 'S')
-			add_line(content, to_return, mk_point_int(index, 0), &j);
+			add_line(content, to_return, mk_point_int(index, 1), &j);
 		if (content[index][j] == 'E')
-			add_line(content, to_return, mk_point_int(index, 0), &j);
+			add_line(content, to_return, mk_point_int(index, 2), &j);
 		if (content[index][j] == 'W')
-			add_line(content, to_return, mk_point_int(index, 0), &j);
+			add_line(content, to_return, mk_point_int(index, 3), &j);
 		if (content[index][j] == 'F')
-			add_line(content, to_return, mk_point_int(index, 0), &j);
+			add_line(content, to_return, mk_point_int(index, 4), &j);
 		if (content[index][j] == 'C')
-			add_line(content, to_return, mk_point_int(index, 0), &j);
+			add_line(content, to_return, mk_point_int(index, 5), &j);
 		index--;
 	}
 	(*to_return)[6] = NULL;
@@ -283,6 +283,12 @@ char	**make_filedata(char **content, int start)
 		i++;
 	}
 	fetch_filedata(content, index, &to_return);
+	i = 0;
+	while (to_return[i])
+	{
+		printf("fetched data = (%s)\n", to_return[i]);
+		i++;
+	}
 	return (to_return);
 }
 

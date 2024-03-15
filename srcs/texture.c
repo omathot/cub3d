@@ -56,6 +56,7 @@ void	write_line(t_param_mlx *param, int i, int *j, char **to_return)
 		k++;
 	}
 	(*to_return)[k] = '\0';
+	printf("data = (%s)", (*to_return));
 }
 
 char	*get_data_line(t_param_mlx *param, char x)
@@ -76,13 +77,6 @@ char	*get_data_line(t_param_mlx *param, char x)
 				j++;
 			j++;
 			write_line(param, i, &j, &to_return);
-			// while (param->map.file_data[i][j])
-			// {
-			// 	to_return[k] = param->map.file_data[i][j];
-			// 	j++;
-			// 	k++;
-			// }
-			// to_return[k] = '\0';
 		}
 		i++;
 	}
