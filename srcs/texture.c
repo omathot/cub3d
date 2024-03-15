@@ -43,8 +43,6 @@ void	get_rgba(int i, mlx_image_t *to_place, t_rgba *rgb)
 	(*rgb).b = get_b(rgba);
 }
 
-//j++;
-// k++;
 char	*get_data_line(t_param_mlx *param, char x)
 {
 	char	*to_return;

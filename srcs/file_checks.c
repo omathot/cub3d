@@ -240,6 +240,7 @@ void	fetch_filedata(char **content, int index, char ***to_return)
 			add_line(content, to_return, index, &j, 5);
 		index--;
 	}
+	(*to_return)[6] = NULL;
 }
 
 char	**make_filedata(char **content, int start)
@@ -250,7 +251,6 @@ char	**make_filedata(char **content, int start)
 	int		longest;
 
 	i = 0;
-	longest = 0;
 	index = start;
 	longest = ft_strlen(content[index]);
 	while (index >= 0)
@@ -269,8 +269,16 @@ char	**make_filedata(char **content, int start)
 		i++;
 	}
 	fetch_filedata(content, index, &to_return);
-	to_return[6] = NULL;
 	return (to_return);
+}
+
+int	final_format_check(t_file_reqs *reqs, t_map *map, int i)
+{
+	if (check_reqs(reqs) == 1)
+		return (1);
+	if (check_map((*map).content, i) == 1)
+		return (1);
+	return (0);
 }
 
 int	check_format(t_map *map)
@@ -281,7 +289,6 @@ int	check_format(t_map *map)
 
 	reqs = (t_file_reqs *)malloc(sizeof(t_file_reqs));
 	i = 0;
-	res = 0;
 	init_file_reqs(&reqs);
 	while ((*map).content[i])
 	{
@@ -299,9 +306,6 @@ int	check_format(t_map *map)
 		}
 		i++;
 	}
-	if (check_reqs(reqs) == 1)
-		return (1);
-	if (check_map((*map).content, i) == 1)
-		return (1);
+	final_format_check(reqs, map, i);
 	return (0);
 }
