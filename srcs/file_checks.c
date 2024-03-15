@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:51:58 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/13 17:27:08 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/15 12:45:59 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,14 @@ int	check_texture(char *str, int *i, t_file_reqs **check)
 	return (0);
 }
 
+set_cnf_reqs(char ref, t_file_reqs **reqs)
+{
+	if (ref == 'C')
+		(*reqs)->c++;
+	else if (ref == 'F')
+		(*reqs)->f++;
+}
+
 int	check_cnf(char *str, int *i, t_file_reqs **reqs, char ref)
 {
 	char	**nbrs;
@@ -124,10 +132,7 @@ int	check_cnf(char *str, int *i, t_file_reqs **reqs, char ref)
 		}
 		(*i)++;
 	}
-	if (ref == 'C')
-		(*reqs)->c++;
-	else if (ref == 'F')
-		(*reqs)->f++;
+	set_cnf_reqs(ref, reqs);
 	return (0);
 }
 
