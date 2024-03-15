@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 13:23:51 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/13 17:30:11 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/15 21:03:14 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ void	mlx_mouse_show(t_param_mlx *mlx)
 	mlx_set_cursor_mode(mlx->mlx, MLX_MOUSE_NORMAL);
 }
 
+// static t_point32	center;
+// mlx_get_monitor_size(0, &center.x, &center.y);
 void	mouse_movement(double x, double y, void *param)
 {
 	t_param_mlx			*mlx;
-	static t_point32	center;
 	static t_point32	change;
 
 	mlx = (t_param_mlx *)param;
-	mlx_get_monitor_size(0, &center.x, &center.y);
 	x = 540;
 	y = 360;
 	mlx_get_mouse_pos(mlx->mlx, &change.x, &change.y);

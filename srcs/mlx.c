@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 17:48:24 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/15 19:41:13 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/15 19:46:17 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 void	player_move(void *param);
 char	*get_data_line(t_param_mlx *param, char x);
 void	handle_mouse(t_param_mlx *mlx);
-void	wall_texture(t_param_mlx *param, int screen_x,
-			t_wall_info wall, double wall_height);
 bool	double_is_zero_modular_tolerence(double number, double tolerence);
 bool	is_double_pretty_much_zero(double number);
+void	wall_texture(t_param_mlx *param, int screen_x,
+			t_wall_info wall, double wall_height);
 
 bool	stack_full(t_stack *stack)
 {
