@@ -99,7 +99,7 @@ int	check_texture(char *str, int *i, t_file_reqs **check)
 	return (0);
 }
 
-set_cnf_reqs(char ref, t_file_reqs **reqs)
+void	set_cnf_reqs(char ref, t_file_reqs **reqs)
 {
 	if (ref == 'C')
 		(*reqs)->c++;

@@ -64,8 +64,12 @@ char	*get_data_line(t_param_mlx *param, char x)
 			while (!(ft_isspace(param->map.file_data[i][j])))
 				j++;
 			j++;
-			while (param->map.file_data[i][j++])
-				to_return[k++] = param->map.file_data[i][j];
+			while (param->map.file_data[i][j])
+			{
+				to_return[k] = param->map.file_data[i][j];
+				j++;
+				k++;
+			}
 			to_return[k] = '\0';
 		}
 		i++;
