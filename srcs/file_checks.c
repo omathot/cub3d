@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:51:58 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/15 18:16:13 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/16 15:23:55 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,6 +230,36 @@ void	add_line(char **content, char ***to_return, t_point_int data, int *j)
 	(*to_return)[data.y][cursor] = '\0';
 }
 
+void	add_fnc(char **content, char ***to_return, t_point_int data, int j)
+{
+	int	cursor;
+	int	k;
+
+	cursor = 0;
+	k = j;
+	while (!(ft_isspace(content[data.x][k])))
+	{
+		(*to_return)[data.y][cursor] = content[data.x][k];
+		cursor++;
+		k++;
+	}
+	while (ft_isspace(content[data.x][k]))
+		k++;
+	(*to_return)[data.y][cursor] = ' ';
+	cursor++;
+	while (content[data.x][k])
+	{
+		if (!(ft_isspace(content[data.x][k])))
+		{
+			(*to_return)[data.y][cursor] = content[data.x][k];
+			cursor++;
+		}
+		k++;
+	}
+	(*to_return)[data.y][cursor] = '\0';
+		
+}
+
 void	fetch_filedata(char **content, int index, char ***to_return)
 {
 	int	j;
@@ -249,9 +279,9 @@ void	fetch_filedata(char **content, int index, char ***to_return)
 		if (content[index][j] == 'W')
 			add_line(content, to_return, mk_point_int(index, 3), &j);
 		if (content[index][j] == 'F')
-			add_line(content, to_return, mk_point_int(index, 4), &j);
+			add_fnc(content, to_return, mk_point_int(index, 4), j);
 		if (content[index][j] == 'C')
-			add_line(content, to_return, mk_point_int(index, 5), &j);
+			add_fnc(content, to_return, mk_point_int(index, 5), j);
 		index--;
 	}
 	(*to_return)[6] = NULL;

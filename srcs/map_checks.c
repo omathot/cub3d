@@ -6,70 +6,13 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 23:10:11 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/15 15:55:48 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/16 15:13:57 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
 int	check_spaces(char **map);
-
-int	check_line_diff2(size_t len, char **board, int i, int *diff)
-{
-	if (len < ft_strlen(board[i + 1]) - 1)
-	{
-		(*diff) = ft_strlen(board[i + 1]) - 1 - len;
-		while ((*diff) != 0)
-		{
-			if (board[i + 1][ft_strlen(board[i]) - 1 + (*diff)] != '1')
-				return (1);
-			(*diff)--;
-		}
-	}
-	return (0);
-}
-
-int	check_line_diff(size_t len, char **board, int i, int *diff)
-{
-	if (len > ft_strlen(board[i + 1]) - 1)
-	{
-		(*diff) = (len - ft_strlen(board[i + 1]) - 1);
-		while ((*diff) != 0)
-		{
-			if (board[i][ft_strlen(board[i + 1]) - 1 + (*diff)] != '1')
-				return (1);
-			(*diff)--;
-		}
-	}
-	return (0);
-}
-
-int	handle_uneven_lines(char **board)
-{
-	int		i;
-	int		diff;
-	size_t	len;
-
-	i = 0;
-	diff = 0;
-	while (board[i])
-	{
-		len = ft_strlen(board[i]) - 1;
-		if (board[i + 1] != NULL)
-		{
-			if (ft_strlen(board[i + 1]) - 1 != len
-				&& ft_strlen(board[i + 1]) != 0)
-			{
-				if (check_line_diff(len, board, i, &diff) == 1)
-					return (1);
-				if (check_line_diff2(len, board, i, &diff) == 1)
-					return (1);
-			}
-		}
-		i++;
-	}
-	return (0);
-}
 
 int	verify_edges(char **board, int *j, int rows, int i)
 {
@@ -97,6 +40,108 @@ int	verify_edges(char **board, int *j, int rows, int i)
 	return (0);
 }
 
+int	is_player(char **board, int i, int j, int mode)
+{
+	if (mode == 1)
+	{
+		if (board[i][j - 1] != 'N' && board[i][j - 1]!= 'S'
+				&& board[i][j - 1] != 'E'
+				&& board[i][j - 1] != 'W')
+				return (1);
+	}
+	if (mode == 2)
+	{
+		if (board[i][j + 1] != 'N' && board[i][j + 1]!= 'S'
+				&& board[i][j + 1] != 'E'
+				&& board[i][j + 1] != 'W')
+				return (1);
+	}
+	if (mode == 3)
+	{
+		if (board[i + 1][j] != 'N' && board[i + 1][j]!= 'S'
+				&& board[i + 1][j] != 'E'
+				&& board[i + 1][j] != 'W')
+				return (1);
+	}
+	if (mode == 4)
+	{
+		if (board[i - 1][j] != 'N' && board[i - 1][j]!= 'S'
+				&& board[i - 1][j] != 'E'
+				&& board[i - 1][j] != 'W')
+				return (1);
+	}
+	return (0);
+}
+
+int	check_1_edges(char **board, int i, int j)
+{
+	if (board[i - 1][j] == '1')
+	{
+		if (board[i - 1][j - 1] != '1' && board[i - 1][j - 1] != '0')
+			return (1);
+		if (board[i - 1][j + 1] != '1' && board[i - 1][j + 1] != '0')
+			return (1);
+	}
+	if (board[i + 1][j] == '1')
+	{
+		if (board[i + 1][j - 1] != '1' && board[i + 1][j - 1] != '0')
+			return (1);
+		if (board[i + 1][j + 1] != '1' && board[i + 1][j + 1] != '0')
+			return (1);
+	}
+	if (board[i][j - 1] == '1')
+	{
+		if (board[i - 1][j - 1] != '1' && board[i - 1][j - 1] != '0')
+			return (1);
+		if (board[i + 1][j - 1] != '1' && board[i + 1][j - 1] != '0')
+			return (1);
+	}
+	if (board[i][j + 1] == '1')
+	{
+		if (board[i - 1][j + 1] != '1' && board[i - 1][j + 1] != '0')
+			return (1);
+		if (board[i + 1][j + 1] != '1' && board[i + 1][j + 1] != '0')
+			return (1);
+	}
+	return (0);
+}
+
+int	handle_fun_cases(char **board)
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	while (board[i])
+	{
+		j = 0;
+		while (board[i][j])
+		{
+			if (board[i][j] == '0')
+			{
+				if (check_1_edges(board, i, j) == 1)
+					return (1);
+				if (board[i][j - 1] != '1' && board[i][j - 1] != '0' && is_player(board, i, j, 1) == 1)
+					return (1);
+				if (board[i][j + 1] != '1' && board[i][j + 1] != '0' && is_player(board, i, j, 2) == 1)
+					return (1);
+				if (board[i + 1])
+				{
+					if (j > (int)ft_strlen(board[i + 1]))
+						return (1);
+					if (board[i + 1][j] != '1' && board[i + 1][j] != '0' && is_player(board, i, j, 3) == 1)
+						return (1);
+				}
+				if (board[i - 1][j] != '1' && board[i - 1][j] != '0' && is_player(board, i, j, 4) == 1) 
+					return (1);
+			}
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
+
 int	check_map_walls(char **board)
 {
 	int	i;
@@ -119,9 +164,7 @@ int	check_map_walls(char **board)
 		}
 		i++;
 	}
-	if (handle_uneven_lines(board) == 1)
-		return (1);
-	if (check_spaces(board) == 1)
+	if (handle_fun_cases(board) == 1)
 		return (1);
 	return (0);
 }

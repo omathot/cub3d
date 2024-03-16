@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 17:52:31 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/15 18:29:17 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/16 16:28:21 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,24 +141,6 @@ void	determine_texture(t_texture_vars *variables,
 			* variables->to_place->width) - 1;
 }
 
-void	rgba_data(t_texture_vars variables, t_rgba *rgba)
-{
-	int	i;
-
-	i = 0;
-	while (i <= variables.size)
-	{
-		(*rgba).rgb = (variables.to_place->pixels[i * 4] << 24)
-			| (variables.to_place->pixels[i * 4 + 1] << 16)
-			| (variables.to_place->pixels[i * 4 + 2] << 8)
-			| (variables.to_place->pixels[i * 4 + 3]);
-		(*rgba).r = get_r((*rgba).rgb);
-		(*rgba).g = get_g((*rgba).rgb);
-		(*rgba).b = get_b((*rgba).rgb);
-		i++;
-	}
-}
-
 void	clamp_xy(t_texture_vars *variables,
 	double wall_height, t_param_mlx *param, t_wall_info wall)
 {
@@ -217,7 +199,6 @@ void	wall_texture(t_param_mlx *param, int screen_x,
 	initialize_tex_variables(&variables);
 	initialize_rgba(&rgba);
 	determine_texture(&variables, wall, param);
-	rgba_data(variables, &rgba);
 	clamp_xy(&variables, wall_height, param, wall);
 	place_wall_slice(&variables, mk_point((double)screen_x,
 			wall_height), param, rgba);
