@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:51:58 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/16 15:23:55 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/17 13:51:07 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,7 +257,6 @@ void	add_fnc(char **content, char ***to_return, t_point_int data, int j)
 		k++;
 	}
 	(*to_return)[data.y][cursor] = '\0';
-		
 }
 
 void	fetch_filedata(char **content, int index, char ***to_return)
@@ -313,12 +312,6 @@ char	**make_filedata(char **content, int start)
 		i++;
 	}
 	fetch_filedata(content, index, &to_return);
-	i = 0;
-	while (to_return[i])
-	{
-		printf("fetched data = (%s)\n", to_return[i]);
-		i++;
-	}
 	return (to_return);
 }
 

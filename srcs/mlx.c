@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 17:48:24 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/15 19:46:17 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/17 14:24:54 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,66 +73,6 @@ double	find_distance(t_point a, t_point b)
 	return (sqrt(pow(a.y - b.y, 2) + pow(a.x - b.x, 2)));
 }
 
-void	draw_line(t_point a, t_point b,
-	t_param_mlx *param_real, uint32_t collor)
-{
-	double	delta_x;
-	double	delta_y;
-	double	i;
-	double	x;
-	double	y;
-	double	distance;
-	int		steps;
-
-	i = 0;
-	distance = find_distance(a, b);
-	delta_x = (a.x - b.x) / distance;
-	delta_y = (a.y - b.y) / distance;
-	steps = fabs(ceil(distance));
-	if (fabs(delta_y) <= fabs(delta_x))
-	{
-		if (fabs(b.x) <= fabs(a.x))
-		{
-			x = a.x;
-			y = a.y;
-		}
-		else
-		{
-			x = b.x;
-			y = b.y;
-		}
-	}
-	else
-	{
-		if (fabs(b.y) <= fabs(a.y))
-		{
-			x = a.x;
-			y = a.y;
-		}
-		else
-		{
-			x = b.x;
-			y = b.y;
-		}
-	}
-	while (i < steps)
-	{
-		x = x + delta_x;
-		y = y + delta_y;
-		if (are_double_in_screen(floor(x), floor(y), param_real))
-		{
-			mlx_put_pixel(param_real->image_to_draw_pixel, floor(x), floor(y),
-				collor);
-		}
-		i++;
-	}
-}
-
-void	draw_line_l(t_line line, t_param_mlx *param_real, uint32_t collor)
-{
-	draw_line(line.A, line.B, param_real, collor);
-}
-
 double	radiant_to_dregre_angle(double angle)
 {
 	return (angle * (180.0 / M_PI));
@@ -163,6 +103,7 @@ t_point	find_clossest_corner(t_point *wall, t_player player)
 	return (clossest_corner);
 }
 
+// i hard put 400 everywhere for wall_height
 t_line	find_wall_down_corner(t_point *wall, t_player player,
 	int y_resolution, int i)
 {
@@ -171,7 +112,6 @@ t_line	find_wall_down_corner(t_point *wall, t_player player,
 	t_vector	wall_vector;
 	t_point		clossest_corner;
 	t_vector	corner_vector;
-	const int	wall_hight = 400;
 
 	wall_vector.magnitude = sqrt(pow((
 					player.pos.x - wall->x), 2)
@@ -186,10 +126,10 @@ t_line	find_wall_down_corner(t_point *wall, t_player player,
 	if (corner_vector.angle > (M_PI * 2))
 		corner_vector.angle = corner_vector.angle - (M_PI * 2);
 	pixel_point = mk_point(i, ((y_resolution / 2)
-				- ((wall_hight) / ((wall_vector.magnitude + 0.5)))));
+				- ((400) / ((wall_vector.magnitude + 0.5)))));
 	return_line.A = pixel_point;
 	return_line.B = mk_point(pixel_point.x,
-			((y_resolution / 2) + ((wall_hight)
+			((y_resolution / 2) + ((400)
 					/ ((wall_vector.magnitude + 0.5)))));
 	return (return_line);
 }
@@ -206,6 +146,34 @@ uint32_t	get_collor(int r, int g, int b, int a)
 	final = ((uint32_t)r << 24) | ((uint32_t)g << 16)
 		| ((uint32_t)b << 8) | (uint32_t)a;
 	return (final);
+}
+
+char	other_axis(t_param_mlx *param, t_point current)
+{
+	if (param->map.board[(int)round(current.y + 0.5)]
+		[(int)round(current.x)] == '1')
+		return ('S');
+	else if (param->map.board[(int)round(current.y - 0.5)]
+		[(int)round(current.x)] == '1')
+		return ('N');
+	else if (param->map.board[(int)round(current.y)]
+		[(int)round(current.x + 0.5)] == '1')
+		return ('E');
+	else
+		return ('W');
+	return ('1');
+}
+
+char	redundancy(t_param_mlx *param, t_point current)
+{
+	if (param->map.board[(int)round(current.y)]
+		[(int)round(current.x - 0.5)] == '1')
+		return ('W');
+	else if (param->map.board[(int)round(current.y + 0.5)]
+		[(int)round(current.x)] == '1')
+		return ('S');
+	else
+		return ('N');
 }
 
 char	determine_face(t_param_mlx *param, int i)
@@ -227,26 +195,11 @@ char	determine_face(t_param_mlx *param, int i)
 				return ('W');
 			return ('E');
 		}
-		else if (param->map.board[(int)round(current.y)]
-			[(int)round(current.x - 0.5)] == '1')
-			return ('W');
-		else if (param->map.board[(int)round(current.y + 0.5)]
-			[(int)round(current.x)] == '1')
-			return ('S');
 		else
-			return ('N');
+			return (redundancy(param, current));
 	}
-	else if (param->map.board[(int)round(current.y + 0.5)]
-		[(int)round(current.x)] == '1')
-		return ('S');
-	else if (param->map.board[(int)round(current.y - 0.5)]
-		[(int)round(current.x)] == '1')
-		return ('N');
-	else if (param->map.board[(int)round(current.y)]
-		[(int)round(current.x + 0.5)] == '1')
-		return ('E');
 	else
-		return ('W');
+		return (other_axis(param, current));
 }
 
 void	initialize_wall_info(t_wall_info *wall)
@@ -259,7 +212,6 @@ void	initialize_wall_info(t_wall_info *wall)
 void	print_all_walls(t_param_mlx *param_real)
 {
 	int			i;
-	t_line		corner_line;
 	t_wall_info	wall;
 
 	initialize_wall_info(&wall);
@@ -270,15 +222,9 @@ void	print_all_walls(t_param_mlx *param_real)
 	i = 0;
 	while (param_real->current_visible_walls[i])
 	{
-		corner_line = find_wall_down_corner(
-				param_real->current_visible_walls[i],
-				param_real->map.player, param_real->y_resolution, i);
-		if (are_double_in_screen(corner_line.A.x, corner_line.A.y, param_real))
-		{
-			wall.collision = *param_real->current_visible_walls[i];
-			wall.wall_face = determine_face(param_real, i);
-			wall_texture(param_real, i, wall, 400);
-		}
+		wall.collision = *param_real->current_visible_walls[i];
+		wall.wall_face = determine_face(param_real, i);
+		wall_texture(param_real, i, wall, 400);
 		i++;
 	}
 	mlx_image_to_window(param_real->mlx, param_real->image_to_draw_pixel, 0, 0);
