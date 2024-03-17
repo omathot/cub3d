@@ -34,6 +34,8 @@ ifeq ($(OS), arm64)
 	OSFLAGS = -lglfw -L"/opt/homebrew/Cellar/glfw/3.4/lib/" -framework OpenGL
 else ifeq ($(OS), x86_64)
 	OSFLAGS = -Iinclude -ldl -lglfw -pthread -lm
+else ifeq ($(OS), aarch64)
+	OSFLAGS = -Iinclude -ldl -lglfw -pthread -lm
 endif
 
 #---------------------------------

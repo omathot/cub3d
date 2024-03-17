@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omathot <omathot@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 01:28:19 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/02/08 15:09:03 by omathot          ###   ########.fr       */
+/*   Updated: 2024/03/13 17:27:07 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ int	no_numbers(char *str, int *pos)
 	{
 		if (str[i] == ',')
 			commas++;
-		if ((str[i] > 57 || str[i] < 48) && !ft_isspace(str[i]) && str[i] != '\0')
+		if ((str[i] > 57 || str[i] < 48)
+			&& !ft_isspace(str[i]) && str[i] != '\0')
 		{
 			if (commas <= 2 && str[i] == ',')
 			{
