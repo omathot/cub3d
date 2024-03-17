@@ -15,7 +15,7 @@
 
 NAME 	:= cub3d
 SRC 	:= main.c helpers.c read_map.c file_checks.c initialize.c map_checks.c raycast.c utils.c \
-			debug.c mlx.c player.c mouse.c texture.c
+			debug.c mlx.c player.c mouse.c texture.c cnf.c
 SUBDIR	:= srcs/
 SRCS	:= $(addprefix $(SUBDIR),$(SRC))
 OBJ 	:= $(SRCS:.c=.o)

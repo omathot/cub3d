@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
+/*   By: oscar <oscar@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 17:28:46 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/17 13:57:09 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/17 16:42:14 by oscar            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ typedef	struct s_texture_vars
 	int				y_diff;
 	int				end_y;
 	int				screen_height;
-	int				corrected_height;
+	double				corrected_height;
 	int				size;
 	double			magnitude;
 	int				texture_y;
