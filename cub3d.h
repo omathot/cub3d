@@ -6,7 +6,7 @@
 /*   By: oscar <oscar@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 17:28:46 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/17 16:42:14 by oscar            ###   ########.fr       */
+/*   Updated: 2024/03/17 16:56:28 by oscar            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,7 @@ typedef	struct s_texture_vars
 	int				size;
 	double			magnitude;
 	int				texture_y;
+	int				cur_screen_x;
 }	t_texture_vars;
 
 

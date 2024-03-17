@@ -6,7 +6,7 @@
 /*   By: oscar <oscar@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 17:52:31 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/17 16:27:47 by oscar            ###   ########.fr       */
+/*   Updated: 2024/03/17 16:57:03 by oscar            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ t_texture_data	normalize_collision_point(t_point collision_point, bool side)
 	return (data);
 }
 
-void	initialize_tex_variables(t_texture_vars *vars)
+void	initialize_tex_variables(t_texture_vars *vars, int cur_x)
 {
 	vars->to_place = NULL;
 	vars->screen_height = 720;
@@ -113,6 +113,7 @@ void	initialize_tex_variables(t_texture_vars *vars)
 	vars->color = 0;
 	vars->size = 0;
 	vars->corrected_height = 0;
+	vars->cur_screen_x = cur_x;
 }
 
 void	initialize_rgba(t_rgba *rgba)
@@ -154,7 +155,7 @@ double	do_the_maths(t_param_mlx *param, int screen_x, double magnitude)
 	relative_angle = fabs(param->map.player.angle
 			- (angle_drift * screen_x + current_angle));
 	corrected_height = magnitude * cos(relative_angle * (M_PI / 180));
-	corrected_height = magnitude;
+	corrected_height = magnitude/ 3 + magnitude/ 3 + corrected_height/ 3;
 	return (corrected_height);
 }
 
@@ -169,7 +170,7 @@ void	clamp_xy(t_texture_vars *variables,
 	(*variables).texture_x = (int)(variables->normalized.decimal
 			* variables->to_place->width);
 	(*variables).corrected_height = do_the_maths(param,
-			param->x_resolution, variables->magnitude);
+			variables->cur_screen_x, variables->magnitude);
 	(*variables).start_y = ((double)param->y_resolution / 2)
 		- (wall_height / variables->corrected_height);
 	(*variables).end_y = ((double)param->y_resolution / 2)
@@ -183,7 +184,7 @@ void	clamp_xy(t_texture_vars *variables,
 
 //point.y = screen_hight. point.x = screen_x
 void	place_wall_slice(t_texture_vars *variables,
-	t_point point, t_param_mlx *param, t_rgba rgba)
+	double wall_height, t_param_mlx *param, t_rgba rgba)
 {
 	int	y;
 
@@ -195,7 +196,7 @@ void	place_wall_slice(t_texture_vars *variables,
 			y++;
 			continue ;
 		}
-		(*variables).texture_y = (int)((y / (point.y
+		(*variables).texture_y = (int)((y / (wall_height
 						/ variables->corrected_height) / 2)
 				* variables->to_place->height);
 		if (variables->texture_y < 0)
@@ -205,7 +206,7 @@ void	place_wall_slice(t_texture_vars *variables,
 		get_rgba((*variables).texture_y * (*variables).to_place->width
 			+ (*variables).texture_x, (*variables).to_place, &rgba);
 		(*variables).color = get_collor(rgba.r, rgba.g, rgba.b, 255);
-		mlx_put_pixel(param->image_to_draw_pixel, floor(point.x),
+		mlx_put_pixel(param->image_to_draw_pixel, floor(variables->cur_screen_x),
 			(floor((*variables).start_y) + y), (*variables).color);
 		y++;
 	}
@@ -218,12 +219,12 @@ void	wall_texture(t_param_mlx *param, int screen_x,
 	t_texture_vars	variables;
 	t_rgba			rgba;
 
-	initialize_tex_variables(&variables);
+	initialize_tex_variables(&variables, screen_x);
 	
 	initialize_rgba(&rgba);
 	determine_texture(&variables, wall, param);
 	clamp_xy(&variables, wall_height, param, wall);
-	place_wall_slice(&variables, mk_point((double)screen_x,
-			wall_height), param, rgba);
+	place_wall_slice(&variables, 
+			wall_height, param, rgba);
 	mlx_delete_image(param->mlx, variables.to_place);
 }
