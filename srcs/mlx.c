@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
+/*   By: oscar <oscar@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 17:48:24 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/17 14:24:54 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/17 16:27:35 by oscar            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*get_data_line(t_param_mlx *param, char x);
 void	handle_mouse(t_param_mlx *mlx);
 bool	double_is_zero_modular_tolerence(double number, double tolerence);
 bool	is_double_pretty_much_zero(double number);
+void 	make_floor_ceil(t_param_mlx *param_real);
+void	save_ceil_floor_rgb(t_param_mlx *param);
 void	wall_texture(t_param_mlx *param, int screen_x,
 			t_wall_info wall, double wall_height);
 
@@ -219,6 +221,7 @@ void	print_all_walls(t_param_mlx *param_real)
 	param_real->image_to_draw_pixel = mlx_new_image(
 			param_real->mlx, param_real->x_resolution,
 			param_real->y_resolution);
+	make_floor_ceil(param_real);
 	i = 0;
 	while (param_real->current_visible_walls[i])
 	{
@@ -242,6 +245,7 @@ void	save_file_data(t_param_mlx *param)
 	param->map.wall_S = mlx_load_png(get_data_line(param, 'S'));
 	param->map.wall_E = mlx_load_png(get_data_line(param, 'E'));
 	param->map.wall_W = mlx_load_png(get_data_line(param, 'W'));
+	save_ceil_floor_rgb(param);
 }
 
 void	mlx_shit(t_map map)

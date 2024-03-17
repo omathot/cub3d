@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
+/*   By: oscar <oscar@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 17:52:31 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/17 14:33:09 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/17 16:27:47 by oscar            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ void	initialize_rgba(t_rgba *rgba)
 	rgba->r = 0;
 	rgba->b = 0;
 	rgba->g = 0;
-	rgba->rgb = 0;
 }
 
 void	determine_texture(t_texture_vars *variables,
@@ -142,6 +141,23 @@ void	determine_texture(t_texture_vars *variables,
 			* variables->to_place->width) - 1;
 }
 
+double	do_the_maths(t_param_mlx *param, int screen_x, double magnitude)
+{
+	double	angle_drift;
+	double	current_angle;
+	double	relative_angle;
+	double	corrected_height;
+
+	angle_drift = param->map.player.angle_view / param->x_resolution;
+	current_angle = param->map.player.angle
+		- (param->map.player.angle_view / 2);
+	relative_angle = fabs(param->map.player.angle
+			- (angle_drift * screen_x + current_angle));
+	corrected_height = magnitude * cos(relative_angle * (M_PI / 180));
+	corrected_height = magnitude;
+	return (corrected_height);
+}
+
 void	clamp_xy(t_texture_vars *variables,
 	double wall_height, t_param_mlx *param, t_wall_info wall)
 {
@@ -152,14 +168,12 @@ void	clamp_xy(t_texture_vars *variables,
 			wall.wall_face == 'E' || wall.wall_face == 'W');
 	(*variables).texture_x = (int)(variables->normalized.decimal
 			* variables->to_place->width);
+	(*variables).corrected_height = do_the_maths(param,
+			param->x_resolution, variables->magnitude);
 	(*variables).start_y = ((double)param->y_resolution / 2)
-		- (wall_height / variables->magnitude);
-	if ((*variables).start_y < 0)
-		(*variables).start_y = 0;
+		- (wall_height / variables->corrected_height);
 	(*variables).end_y = ((double)param->y_resolution / 2)
 		+ (wall_height / variables->corrected_height);
-	if (variables->end_y > variables->screen_height)
-		(*variables).end_y = variables->screen_height;
 	if (variables->texture_x < 0)
 		(*variables).texture_x = 0;
 	else if (variables->texture_x >= (int)variables->to_place->width)
@@ -176,6 +190,11 @@ void	place_wall_slice(t_texture_vars *variables,
 	y = 0;
 	while (y < variables->y_diff)
 	{
+		if (floor((*variables).start_y + y) >= variables->screen_height || floor((*variables).start_y + y) < 0)
+		{
+			y++;
+			continue ;
+		}
 		(*variables).texture_y = (int)((y / (point.y
 						/ variables->corrected_height) / 2)
 				* variables->to_place->height);
@@ -192,23 +211,6 @@ void	place_wall_slice(t_texture_vars *variables,
 	}
 }
 
-int	do_the_maths(t_param_mlx *param, int screen_x, double magnitude)
-{
-	double	angle_drift;
-	double	current_angle;
-	double	relative_angle;
-	double	corrected_height;
-
-	angle_drift = param->map.player.angle_view / param->x_resolution;
-	current_angle = param->map.player.angle
-		- (param->map.player.angle_view / 2);
-	relative_angle = fabs(param->map.player.angle
-			- (angle_drift * screen_x + current_angle));
-	corrected_height = magnitude * cos(relative_angle * (M_PI / 180));
-	corrected_height = corrected_height / 3
-		+ corrected_height / 3 + magnitude / 3;
-	return (corrected_height);
-}
 
 void	wall_texture(t_param_mlx *param, int screen_x,
 	t_wall_info wall, double wall_height)
@@ -217,8 +219,7 @@ void	wall_texture(t_param_mlx *param, int screen_x,
 	t_rgba			rgba;
 
 	initialize_tex_variables(&variables);
-	variables.corrected_height = do_the_maths(param,
-			screen_x, variables.magnitude);
+	
 	initialize_rgba(&rgba);
 	determine_texture(&variables, wall, param);
 	clamp_xy(&variables, wall_height, param, wall);

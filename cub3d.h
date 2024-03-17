@@ -109,6 +109,13 @@ typedef struct s_player
 	double	angle_view;
 }	t_player;
 
+typedef	struct s_rgba
+{
+	int	r;
+	int	g;
+	int	b;
+}	t_rgba;
+
 typedef struct s_map
 {
 	mlx_t			*mlx;
@@ -123,6 +130,8 @@ typedef struct s_map
 	mlx_texture_t	*wall_W;
 	int				width;
 	int				height;
+	t_rgba *floor_rgb;
+	t_rgba *ceil_rgb;
 	int				size;
 }	t_map;
 
@@ -160,13 +169,19 @@ typedef	struct s_texture_vars
 	int				texture_y;
 }	t_texture_vars;
 
-typedef	struct s_rgba
+
+typedef struct s_ray_cast
 {
-	int	r;
-	int	g;
-	int	b;
-	int	rgb;
-}	t_rgba;
+  double  current_x;
+    double  current_y;
+    t_point  player_offsets;
+    double  change_wall_size_look;
+    t_point  *good_coord;
+    double  slope;
+    t_point  cur_coord;
+    double  lenght_check;
+
+} t_ray_cast;
 
 void		print_map(char **map);
 bool		ft_isspace(unsigned char c);
