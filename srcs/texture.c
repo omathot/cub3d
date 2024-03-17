@@ -1,148 +1,230 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   texture.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: oscar <oscar@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/13 17:52:31 by oscarmathot       #+#    #+#             */
+/*   Updated: 2024/03/17 16:57:03 by oscar            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../cub3d.h"
 
+uint32_t	get_collor(int r, int g, int b, int a);
+
 // Get the red channel
-int get_r(int rgba) { return ((rgba >> 24) & 0xFF); }
+int	get_r(int rgba)
+{
+	return ((rgba >> 24) & 0xFF);
+}
 
 // Get the green channel
-int get_g(int rgba) { return ((rgba >> 16) & 0xFF); }
+int	get_g(int rgba)
+{
+	return ((rgba >> 16) & 0xFF);
+}
 
 // Get the blue channel.
-int get_b(int rgba) { return ((rgba >> 8) & 0xFF); }
-
-// Get the alpha channel.
-int get_a(int rgba) { return (rgba & 0xFF); }
-
-void get_rgba(int i, mlx_image_t *to_place, int *r, int *g, int *b) {
-  int rgba;
-  rgba = (to_place->pixels[i * 4] << 24) | (to_place->pixels[i * 4 + 1] << 16) |
-         (to_place->pixels[i * 4 + 2] << 8) | (to_place->pixels[i * 4 + 3]);
-  (*r) = get_r(rgba);
-  (*g) = get_g(rgba);
-  (*b) = get_b(rgba);
+int	get_b(int rgba)
+{
+	return ((rgba >> 8) & 0xFF);
 }
 
-char *get_data_line(t_param_mlx *param, char x) {
-  char *to_return;
-  int i;
-  int j;
-  int k;
+void	get_rgba(int i, mlx_image_t *to_place, t_rgba *rgb)
+{
+	int	rgba;
 
-  i = 0;
-  k = 0;
-  to_return =
-      (char *)malloc(sizeof(ft_strlen(param->map.file_data[i]) * 2 + 1));
-  while (param->map.file_data[i]) {
-    j = 0;
-    if (param->map.file_data[i][j] == x) {
-      while (!(ft_isspace(param->map.file_data[i][j])))
-        j++;
-      j++;
-      while (param->map.file_data[i][j]) {
-        to_return[k] = param->map.file_data[i][j];
-        j++;
-        k++;
-      }
-      to_return[k] = '\0';
-    }
-    i++;
-  }
-  return (to_return);
+	rgba = (to_place->pixels[i * 4] << 24) | (to_place->pixels[i * 4 + 1] << 16)
+		| (to_place->pixels[i * 4 + 2] << 8) | (to_place->pixels[i * 4 + 3]);
+	(*rgb).r = get_r(rgba);
+	(*rgb).g = get_g(rgba);
+	(*rgb).b = get_b(rgba);
 }
 
-t_texture_data normalize_collision_point(t_point collision_point, bool side) {
-  t_texture_data data;
+void	write_line(t_param_mlx *param, int i, int *j, char **to_return)
+{
+	int	k;
 
-  if (!side) {
-    data.wall_n = round(collision_point.x - 0.5);
-    data.decimal = (collision_point.x - data.wall_n);
-  } else {
-    data.wall_n = round(collision_point.y - 0.5);
-    data.decimal = (collision_point.y - data.wall_n);
-  }
-  return (data);
+	k = 0;
+	printf("test\n");
+	while (param->map.file_data[i][(*j)])
+	{
+		(*to_return)[k] = param->map.file_data[i][(*j)];
+		(*j)++;
+		k++;
+	}
+	(*to_return)[k] = '\0';
+	printf("data = (%s)", (*to_return));
 }
 
-uint32_t get_collor(int r, int g, int b, int a);
+char	*get_data_line(t_param_mlx *param, char x)
+{
+	char	*to_return;
+	int		i;
+	int		j;
 
-void wall_texture(t_param_mlx *param, int screen_x, t_point collision_point,
-                  char wall_face, double wall_height) {
-  // take vertical row ON THE IMAGE(TEXTURE) that corresponds to the collision
-  // "loop through resolution of the image and draw them as lines on the screen"
-  int i = 0;
-  int red = 0, green = 0, blue = 0, rgba = 0;
-  // int y = 0;
-  mlx_image_t *to_place;
-  int screen_height = 720;
-  to_place = NULL;
-  if (wall_face == 'N')
-    to_place = mlx_texture_to_image(param->mlx, param->map.wall_N);
-  else if (wall_face == 'S')
-    to_place = mlx_texture_to_image(param->mlx, param->map.wall_S);
-  else if (wall_face == 'E')
-    to_place = mlx_texture_to_image(param->mlx, param->map.wall_E);
-  else if (wall_face == 'W')
-    to_place = mlx_texture_to_image(param->mlx, param->map.wall_W);
-  int size = (to_place->height * to_place->width) - 1;
-  while (i <= size) {
-    rgba = (to_place->pixels[i * 4] << 24) |
-           (to_place->pixels[i * 4 + 1] << 16) |
-           (to_place->pixels[i * 4 + 2] << 8) | (to_place->pixels[i * 4 + 3]);
-    red = get_r(rgba);
-    green = get_g(rgba);
-    blue = get_b(rgba);
-    // alpha = get_a(rgba);
-    // printf("pixel[%i] = (%i)\nred = (%i), green = (%i), blue = (%i)\n", i,
-    //        to_place->pixels[i], red, green, blue);
-    i++;
-  }
-  // pause();
-  double magnitude =
-      sqrt(pow((param->map.player.pos.x - collision_point.x), 2) +
-           pow(param->map.player.pos.y - collision_point.y, 2));
-  t_texture_data normalized = normalize_collision_point(
-      collision_point, wall_face == 'E' || wall_face == 'W');
-  // Now convert this to a texture coordinate
-  int texture_x = (int)(normalized.decimal * to_place->width);
-  // Calculate start_y and end_y ensuring we are within screen bounds
-  double start_y =
-      ((double)param->y_resolution / 2) - (wall_height / magnitude);
-  if (start_y < 0)
-    start_y = 0;
+	i = 0;
+	to_return = (char *)malloc(sizeof(
+				ft_strlen(param->map.file_data[i]) * 2 + 1));
+	while (param->map.file_data[i])
+	{
+		j = 0;
+		if (param->map.file_data[i][j] == x)
+		{
+			while (!(ft_isspace(param->map.file_data[i][j])))
+				j++;
+			j++;
+			write_line(param, i, &j, &to_return);
+		}
+		i++;
+	}
+	return (to_return);
+}
 
-  int end_y = ((double)param->y_resolution / 2) + (wall_height / magnitude);
-  if (end_y > screen_height)
-    end_y = screen_height;
+t_texture_data	normalize_collision_point(t_point collision_point, bool side)
+{
+	t_texture_data	data;
 
-  // Clamp texture_x to within bounds
-  if (texture_x < 0)
-    texture_x = 0;
-  else if (texture_x >= (int)to_place->width)
-    texture_x = to_place->width - 1;
+	if (!side)
+	{
+		data.wall_n = round(collision_point.x - 0.5);
+		data.decimal = (collision_point.x - data.wall_n);
+	}
+	else
+	{
+		data.wall_n = round(collision_point.y - 0.5);
+		data.decimal = (collision_point.y - data.wall_n);
+	}
+	return (data);
+}
 
-  // Loop over each y coordinate and draw the wall slice
-  int y = 0;
-  int y_diff = fabs(start_y - end_y) - 1;
-  while (y < y_diff) {
-    int texture_y =
-        (int)((y / (wall_height / magnitude) / 2) * to_place->height);
-    // Clamp texture_y to within bounds
-    if (texture_y < 0)
-      texture_y = 0;
-    else if (texture_y >= (int)to_place->height)
-      texture_y = to_place->height - 1;
-    // int offset = (texture_y * to_place->width + texture_x) *
-    //              4; // Assuming 4 bytes per pixel
-    // Get the color from the texture
-    // ((((y / wall_height) * to_place->height) * to_place->width) + texture_x)
-    get_rgba(texture_y * to_place->width + texture_x, to_place, &red, &green,
-             &blue);
-    u_int32_t color = get_collor(red, green, blue, 255);
-    // printf("color = (%d)\n", color);
-    // Draw a vertical line at screen_x and y with the fetched color
-    mlx_put_pixel(param->image_to_draw_pixel, floor(screen_x),
-                  (floor(start_y) + y), color);
-    // Increment the y coordinate
-    y++;
-  }
-  mlx_delete_image(param->mlx, to_place);
+void	initialize_tex_variables(t_texture_vars *vars, int cur_x)
+{
+	vars->to_place = NULL;
+	vars->screen_height = 720;
+	vars->magnitude = 0;
+	vars->texture_x = 0;
+	vars->start_y = 0;
+	vars->end_y = 0;
+	vars->y_diff = 0;
+	vars->texture_y = 0;
+	vars->color = 0;
+	vars->size = 0;
+	vars->corrected_height = 0;
+	vars->cur_screen_x = cur_x;
+}
+
+void	initialize_rgba(t_rgba *rgba)
+{
+	rgba->r = 0;
+	rgba->b = 0;
+	rgba->g = 0;
+}
+
+void	determine_texture(t_texture_vars *variables,
+	t_wall_info wall, t_param_mlx *param)
+{
+	if (wall.wall_face == 'N')
+		(*variables).to_place = mlx_texture_to_image(
+				param->mlx, param->map.wall_N);
+	else if (wall.wall_face == 'S')
+		(*variables).to_place = mlx_texture_to_image(
+				param->mlx, param->map.wall_S);
+	else if (wall.wall_face == 'E')
+		(*variables).to_place = mlx_texture_to_image(
+				param->mlx, param->map.wall_E);
+	else if (wall.wall_face == 'W')
+		(*variables).to_place = mlx_texture_to_image(
+				param->mlx, param->map.wall_W);
+	(*variables).size = (variables->to_place->height
+			* variables->to_place->width) - 1;
+}
+
+double	do_the_maths(t_param_mlx *param, int screen_x, double magnitude)
+{
+	double	angle_drift;
+	double	current_angle;
+	double	relative_angle;
+	double	corrected_height;
+
+	angle_drift = param->map.player.angle_view / param->x_resolution;
+	current_angle = param->map.player.angle
+		- (param->map.player.angle_view / 2);
+	relative_angle = fabs(param->map.player.angle
+			- (angle_drift * screen_x + current_angle));
+	corrected_height = magnitude * cos(relative_angle * (M_PI / 180));
+	corrected_height = magnitude/ 3 + magnitude/ 3 + corrected_height/ 3;
+	return (corrected_height);
+}
+
+void	clamp_xy(t_texture_vars *variables,
+	double wall_height, t_param_mlx *param, t_wall_info wall)
+{
+	(*variables).magnitude = sqrt(pow((param->map.player.pos.x
+					- wall.collision.x), 2) + pow(
+				param->map.player.pos.y - wall.collision.y, 2));
+	(*variables).normalized = normalize_collision_point(wall.collision,
+			wall.wall_face == 'E' || wall.wall_face == 'W');
+	(*variables).texture_x = (int)(variables->normalized.decimal
+			* variables->to_place->width);
+	(*variables).corrected_height = do_the_maths(param,
+			variables->cur_screen_x, variables->magnitude);
+	(*variables).start_y = ((double)param->y_resolution / 2)
+		- (wall_height / variables->corrected_height);
+	(*variables).end_y = ((double)param->y_resolution / 2)
+		+ (wall_height / variables->corrected_height);
+	if (variables->texture_x < 0)
+		(*variables).texture_x = 0;
+	else if (variables->texture_x >= (int)variables->to_place->width)
+		(*variables).texture_x = variables->to_place->width - 1;
+	(*variables).y_diff = fabs(variables->start_y - variables->end_y) - 1;
+}
+
+//point.y = screen_hight. point.x = screen_x
+void	place_wall_slice(t_texture_vars *variables,
+	double wall_height, t_param_mlx *param, t_rgba rgba)
+{
+	int	y;
+
+	y = 0;
+	while (y < variables->y_diff)
+	{
+		if (floor((*variables).start_y + y) >= variables->screen_height || floor((*variables).start_y + y) < 0)
+		{
+			y++;
+			continue ;
+		}
+		(*variables).texture_y = (int)((y / (wall_height
+						/ variables->corrected_height) / 2)
+				* variables->to_place->height);
+		if (variables->texture_y < 0)
+			(*variables).texture_y = 0;
+		else if (variables->texture_y >= (int)variables->to_place->height)
+			(*variables).texture_y = variables->to_place->height - 1;
+		get_rgba((*variables).texture_y * (*variables).to_place->width
+			+ (*variables).texture_x, (*variables).to_place, &rgba);
+		(*variables).color = get_collor(rgba.r, rgba.g, rgba.b, 255);
+		mlx_put_pixel(param->image_to_draw_pixel, floor(variables->cur_screen_x),
+			(floor((*variables).start_y) + y), (*variables).color);
+		y++;
+	}
+}
+
+
+void	wall_texture(t_param_mlx *param, int screen_x,
+	t_wall_info wall, double wall_height)
+{
+	t_texture_vars	variables;
+	t_rgba			rgba;
+
+	initialize_tex_variables(&variables, screen_x);
+	
+	initialize_rgba(&rgba);
+	determine_texture(&variables, wall, param);
+	clamp_xy(&variables, wall_height, param, wall);
+	place_wall_slice(&variables, 
+			wall_height, param, rgba);
+	mlx_delete_image(param->mlx, variables.to_place);
 }

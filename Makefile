@@ -15,7 +15,7 @@
 
 NAME 	:= cub3d
 SRC 	:= main.c helpers.c read_map.c file_checks.c initialize.c map_checks.c raycast.c utils.c \
-			debug.c mlx.c player.c mouse.c texture.c
+			debug.c mlx.c player.c mouse.c texture.c cnf.c
 SUBDIR	:= srcs/
 SRCS	:= $(addprefix $(SUBDIR),$(SRC))
 OBJ 	:= $(SRCS:.c=.o)
@@ -33,6 +33,8 @@ OS 		:= $(shell uname -m)
 ifeq ($(OS), arm64)
 	OSFLAGS = -lglfw -L"/opt/homebrew/Cellar/glfw/3.4/lib/" -framework OpenGL
 else ifeq ($(OS), x86_64)
+	OSFLAGS = -Iinclude -ldl -lglfw -pthread -lm
+else ifeq ($(OS), aarch64)
 	OSFLAGS = -Iinclude -ldl -lglfw -pthread -lm
 endif
 
