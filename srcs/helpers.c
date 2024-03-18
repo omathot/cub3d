@@ -6,23 +6,11 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 01:28:19 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/13 17:27:07 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/18 15:37:20 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
-void	print_map(char **map)
-{
-	int	i;
-
-	i = 0;
-	while (map[i])
-	{
-		printf("%s\n", map[i]);
-		i++;
-	}
-}
 
 bool	ft_isspace(unsigned char c)
 {

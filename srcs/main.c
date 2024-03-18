@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 17:28:37 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/15 18:20:37 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/18 15:47:52 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int	main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 	save_player_data(&map);
-	print_map(map.board);
 	view_walls(map, 1080);
 	map.player.angle_view = 180;
 	mlx_shit(map);
