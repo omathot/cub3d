@@ -152,7 +152,6 @@ typedef	struct s_wall_info
 	char	wall_face;
 }	t_wall_info;
 
-
 typedef	struct s_texture_vars
 {
 	t_texture_data	normalized;
@@ -163,26 +162,35 @@ typedef	struct s_texture_vars
 	int				y_diff;
 	int				end_y;
 	int				screen_height;
-	double				corrected_height;
+	double			corrected_height;
 	int				size;
 	double			magnitude;
 	int				texture_y;
 	int				cur_screen_x;
 }	t_texture_vars;
 
-
 typedef struct s_ray_cast
 {
-  double  current_x;
-    double  current_y;
-    t_point  player_offsets;
-    double  change_wall_size_look;
-    t_point  *good_coord;
-    double  slope;
-    t_point  cur_coord;
-    double  lenght_check;
+	double	current_x;
+	double	current_y;
+	t_point	player_offsets;
+	double	change_wall_size_look;
+	t_point	*good_coord;
+	double	slope;
+	t_point	cur_coord;
+	double	lenght_check;
 
-} t_ray_cast;
+}	t_ray_cast;
+
+typedef struct s_raycast_sender
+{
+	double	angle_drift;
+	int		current_wall_index;
+	double	current_angle;
+	double	final_angle;
+	double	number_of_found_walls;
+	t_point	*current_wall;
+}	t_raycast_sender;
 
 void		print_map(char **map);
 bool		ft_isspace(unsigned char c);
