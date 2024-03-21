@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 15:11:49 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/18 15:17:43 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/21 21:37:44 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ char	**make_board(char **content, int start)
 	i = 0;
 	while (content[start + i])
 		i++;
-	to_return = (char **)malloc(sizeof(char *) * (i + 1));
+	to_return = (char **)malloc(sizeof(char *) * (i + 2));
 	i = 0;
 	while (content[start + i])
 	{

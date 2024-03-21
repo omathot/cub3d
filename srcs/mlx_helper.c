@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 15:25:31 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/18 15:48:36 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/21 20:20:49 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ void	wall_texture(t_param_mlx *param, int screen_x,
 
 void	save_file_data(t_param_mlx *param)
 {
-	param->map.wall_N = mlx_load_png(get_data_line(param, 'N'));
-	param->map.wall_S = mlx_load_png(get_data_line(param, 'S'));
-	param->map.wall_E = mlx_load_png(get_data_line(param, 'E'));
-	param->map.wall_W = mlx_load_png(get_data_line(param, 'W'));
+	param->map.wall_n = mlx_load_png(get_data_line(param, 'N'));
+	param->map.wall_s = mlx_load_png(get_data_line(param, 'S'));
+	param->map.wall_e = mlx_load_png(get_data_line(param, 'E'));
+	param->map.wall_w = mlx_load_png(get_data_line(param, 'W'));
 }
 
 void	print_all_walls(t_param_mlx *param_real)

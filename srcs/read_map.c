@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:51:12 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/13 17:43:50 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/21 19:34:19 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ char	*get_map(char **argv)
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read == -1)
+		{
+			free(content);
 			exit(write(2, "Error while reading\n", 20));
+		}
 		ft_memcpy(content + content_size, buffer, bytes_read);
 		content_size += bytes_read;
 	}

@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 17:52:31 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/18 16:09:58 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/21 21:44:54 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	write_line(t_param_mlx *param, int i, int *j, char **to_return)
 	int	k;
 
 	k = 0;
-	printf("test\n");
 	while (param->map.file_data[i][(*j)])
 	{
 		(*to_return)[k] = param->map.file_data[i][(*j)];
@@ -34,7 +33,6 @@ void	write_line(t_param_mlx *param, int i, int *j, char **to_return)
 		k++;
 	}
 	(*to_return)[k] = '\0';
-	printf("data = (%s)", (*to_return));
 }
 
 char	*get_data_line(t_param_mlx *param, char x)
@@ -44,8 +42,7 @@ char	*get_data_line(t_param_mlx *param, char x)
 	int		j;
 
 	i = 0;
-	to_return = (char *)malloc(sizeof(
-				ft_strlen(param->map.file_data[i]) * 2 + 1));
+	to_return = (char *)malloc((ft_strlen(param->map.file_data[i]) * 2) + 1);
 	while (param->map.file_data[i])
 	{
 		j = 0;

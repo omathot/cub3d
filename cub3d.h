@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: samuel <samuel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 17:28:46 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/21 14:36:23 by samuel           ###   ########.fr       */
+/*   Updated: 2024/03/21 21:54:31 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,6 @@ typedef struct s_file_loc
 	char	*s_wall;
 	char	*e_wall;
 	char	*w_wall;
-	char	*path;
-	char	*gun;
-	char	*portal1;
-	char	*portal2;
-	char	*nazis;
-	char	*decor;
 }	t_file_loc;
 
 typedef struct s_file_reqs
@@ -124,14 +118,14 @@ typedef struct s_map
 	char			**content;
 	char			**board;
 	char			**file_data;
-	mlx_texture_t	*wall_N;
-	mlx_texture_t	*wall_S;
-	mlx_texture_t	*wall_E;
-	mlx_texture_t	*wall_W;
+	mlx_texture_t	*wall_n;
+	mlx_texture_t	*wall_s;
+	mlx_texture_t	*wall_e;
+	mlx_texture_t	*wall_w;
 	int				width;
 	int				height;
-	t_rgba *floor_rgb;
-	t_rgba *ceil_rgb;
+	t_rgba			*floor_rgb;
+	t_rgba			*ceil_rgb;
 	int				size;
 }	t_map;
 
@@ -195,7 +189,6 @@ typedef struct s_raycast_sender
 void		print_map(char **map);
 bool		ft_isspace(unsigned char c);
 void		free_double_char(char **array);
-char		*cp_until_sp(char *str, int *pos);
 int			are_letters(char *str);
 int			no_numbers(char *str, int *pos);
 t_point		mk_point(double x, double y);
@@ -206,5 +199,6 @@ void		print_point(char *start_message, t_point point);
 t_point_int	mk_point_int(int x, int y);
 bool		double_is_zero_modular_tolerence(double number, double tolerence);
 bool		is_double_pretty_much_zero(double number);
+void		free_map(t_map *map);
 
 #endif

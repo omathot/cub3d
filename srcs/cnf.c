@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 16:22:53 by oscar             #+#    #+#             */
-/*   Updated: 2024/03/18 16:21:19 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/21 19:34:16 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ void	save_ceil_floor_rgb(t_param_mlx *param)
 	temp = get_rgb__data(param, 'c', 'g');
 	(param)->map.ceil_rgb->g = temp;
 	temp = get_rgb__data(param, 'c', 'b');
-	puts("half way mark");
 	(param)->map.ceil_rgb->b = temp;
 	(param)->map.floor_rgb = (t_rgba *)malloc(sizeof(t_rgba));
 	temp = get_rgb__data(param, 'f', 'r');

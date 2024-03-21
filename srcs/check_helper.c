@@ -6,11 +6,15 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 15:16:06 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/18 15:16:15 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/21 21:47:05 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+int		else_free_locs(t_file_loc **locs);
+void	free_locs(t_file_loc **locs);
+void	cp_until_sp(char *str, int *pos, char **temp);
 
 int	check_nm(int *i, char *str, char **sprite_loc)
 {
@@ -19,7 +23,7 @@ int	check_nm(int *i, char *str, char **sprite_loc)
 	(*i) += 2;
 	while (ft_isspace(str[(*i)]))
 		(*i)++;
-	temp = cp_until_sp(str, i);
+	cp_until_sp(str, i, &temp);
 	(*sprite_loc) = temp;
 	while (str[(*i)] != '\0')
 	{
@@ -35,6 +39,7 @@ int	check_nm(int *i, char *str, char **sprite_loc)
 		free(temp);
 		return (1);
 	}
+	free(temp);
 	return (0);
 }
 
@@ -44,14 +49,14 @@ int	last_checks(char *str, t_file_loc **locs, int *i, t_file_reqs **check)
 	{
 		if (check_nm(i, str, &(*locs)->e_wall) == 1)
 		{
-			free((*locs));
+			free_locs(locs);
 			return (1);
 		}
 		(*check)->ea++;
 	}
 	else
 	{
-		free((*locs));
+		free_locs(locs);
 		return (1);
 	}
 	return (0);
@@ -82,30 +87,27 @@ int	other_checks(char *str, t_file_loc **locs, int *i, t_file_reqs **check)
 	return (0);
 }
 
+// changed for free, if error here it's related to else_free()
 int	check_texture(char *str, int *i, t_file_reqs **check)
 {
 	t_file_loc	*locs;
 	int			len;
 
 	locs = (t_file_loc *)malloc(sizeof(t_file_loc));
-	printf("(%s)\n", str);
 	len = ft_strlen(str);
 	if ((*i) + 2 < len)
 	{
 		if (str[(*i)] == 'N' && str[(*i) + 1] == 'O')
 		{
 			if (check_nm(i, str, &locs->n_wall) == 1)
-			{
-				free(locs);
-				return (1);
-			}
+				return (free(locs), 1);
 			(*check)->no++;
 		}
 		else if (other_checks(str, &locs, i, check) == 1)
-			return (1);
+			return (free(locs), 1);
 	}
 	else
-		return (1);
+		return (free(locs), 1);
 	free(locs);
 	return (0);
 }

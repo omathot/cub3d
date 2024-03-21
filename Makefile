@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: samuel <samuel@student.42.fr>              +#+  +:+       +#+         #
+#    By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/03 17:33:31 by oscarmathot       #+#    #+#              #
-#    Updated: 2024/03/21 14:37:07 by samuel           ###   ########.fr        #
+#    Updated: 2024/03/21 21:35:48 by oscarmathot      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,8 @@ NAME 	:= cub3d
 SRC 	:= main.c helpers.c read_map.c file_checks.c initialize.c map_checks.c raycast.c utils.c \
 			mlx.c player.c mouse.c texture.c player_helper.c filedata.c check_helper.c cnf.c \
 			edge_verification.c map_checks_helper.c mlx_helper.c stack.c mlx_walls.c rgba.c \
-			texture_init.c raycast_utils.c raycast_process.c raycast_handle_casses.c
+			texture_init.c raycast_utils.c raycast_process.c raycast_handle_casses.c \
+			free_helpers.c
 SUBDIR	:= srcs/
 SRCS	:= $(addprefix $(SUBDIR),$(SRC))
 OBJ 	:= $(SRCS:.c=.o)

@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:51:58 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/18 15:17:37 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/21 21:03:05 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int		check_texture(char *str, int *i, t_file_reqs **check);
 int		other_checks(char *str, t_file_loc **locs, int *i, t_file_reqs **check);
 int		last_checks(char *str, t_file_loc **locs, int *i, t_file_reqs **check);
 int		check_nm(int *i, char *str, char **sprite_loc);
+int		else_free_reqs(t_file_reqs **reqs);
 
 int	check_cnf(char *str, int *i, t_file_reqs **reqs, char ref)
 {
@@ -108,10 +109,7 @@ int	check_format(t_map *map)
 	{
 		res = check_line((*map).content[i], &reqs);
 		if (res == 1)
-		{
-			free(reqs);
-			return (1);
-		}
+			return (else_free_reqs(&reqs));
 		else if (res == 2)
 		{
 			(*map).board = make_board((*map).content, i);
@@ -120,6 +118,11 @@ int	check_format(t_map *map)
 		}
 		i++;
 	}
-	final_format_check(reqs, map, i);
+	if (final_format_check(reqs, map, i) == 1)
+	{
+		free(reqs);
+		return (1);
+	}
+	free(reqs);
 	return (0);
 }
