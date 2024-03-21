@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 15:40:05 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/18 16:20:59 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/21 20:20:56 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,16 @@ void	determine_texture(t_texture_vars *variables,
 {
 	if (wall.wall_face == 'N')
 		(*variables).to_place = mlx_texture_to_image(
-				param->mlx, param->map.wall_N);
+				param->mlx, param->map.wall_n);
 	else if (wall.wall_face == 'S')
 		(*variables).to_place = mlx_texture_to_image(
-				param->mlx, param->map.wall_S);
+				param->mlx, param->map.wall_s);
 	else if (wall.wall_face == 'E')
 		(*variables).to_place = mlx_texture_to_image(
-				param->mlx, param->map.wall_E);
+				param->mlx, param->map.wall_e);
 	else if (wall.wall_face == 'W')
 		(*variables).to_place = mlx_texture_to_image(
-				param->mlx, param->map.wall_W);
+				param->mlx, param->map.wall_w);
 	(*variables).size = (variables->to_place->height
 			* variables->to_place->width) - 1;
 }

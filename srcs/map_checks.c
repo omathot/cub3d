@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 23:10:11 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/18 15:22:03 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/21 21:00:20 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,9 @@ int	check_characters(char **map, int *j, int i, int *count)
 	if (map[i][(*j)] == 'N' || map[i][(*j)] == 'S' || map[i][(*j)] == 'W' ||
 		map[i][(*j)] == 'E')
 	{
-		(*j)++;
+		printf("found player");
 		(*count)++;
 	}
-	if ((*count) > 1)
-		return (1);
 	(*j)++;
 	return (0);
 }
@@ -119,6 +117,11 @@ int	check_map(char **map, int pos)
 				return (1);
 		}
 		i++;
+	}
+	if (count > 1 || count == 0)
+	{
+		printf("count check = %i\n", count);
+		return (1);
 	}
 	return (0);
 }

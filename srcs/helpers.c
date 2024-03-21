@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 01:28:19 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/18 15:37:20 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/21 21:14:47 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,29 +32,28 @@ void	free_double_char(char **array)
 		free(array[i]);
 		i++;
 	}
+	free(array);
 }
 
-char	*cp_until_sp(char *str, int *pos)
+void	cp_until_sp(char *str, int *pos, char **temp)
 {
 	int		i;
-	char	*final;
 
 	i = 0;
-	final = (char *)malloc(ft_strlen(str) + 1);
+	(*temp) = (char *)malloc(ft_strlen(str) + 1);
 	while (str[i + (*pos)])
 	{
 		if (ft_isspace(str[i + (*pos)]))
 		{
-			final[i] = '\0';
+			(*temp)[i] = '\0';
 			(*pos) = (*pos) + i;
-			return (final);
+			return ;
 		}
-		final[i] = str[i + (*pos)];
+		(*temp)[i] = str[i + (*pos)];
 		i++;
 	}
-	final[i] = '\0';
+	(*temp)[i] = '\0';
 	(*pos) = (*pos) + i;
-	return (final);
 }
 
 int	are_letters(char *str)

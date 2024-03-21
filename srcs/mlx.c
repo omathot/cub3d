@@ -6,12 +6,13 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 17:48:24 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/18 15:44:34 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/21 21:55:44 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
+void	free_visible_walls(t_point **walls);
 void	player_move(void *param);
 double	find_distance(t_point a, t_point b);
 double	radiant_to_dregre_angle(double angle);
@@ -62,6 +63,7 @@ uint32_t	get_collor(int r, int g, int b, int a)
 
 void	update_current_wall(t_point ***walls, t_map map, double x_resolution)
 {
+	free_visible_walls((*walls));
 	(*walls) = view_walls(map, x_resolution);
 	return ;
 }
@@ -86,4 +88,7 @@ void	mlx_shit(t_map map)
 	mlx_loop_hook(mlx, player_move, param_mlx);
 	handle_mouse(param_mlx);
 	mlx_loop(mlx);
+	mlx_terminate(mlx);
+	free_visible_walls(param_mlx->current_visible_walls);
+	free(param_mlx);
 }
