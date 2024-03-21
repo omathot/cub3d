@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
+/*   By: samuel <samuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 17:28:46 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/18 16:20:12 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/21 14:36:23 by samuel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,6 @@ typedef	struct s_wall_info
 	char	wall_face;
 }	t_wall_info;
 
-
 typedef	struct s_texture_vars
 {
 	t_texture_data	normalized;
@@ -163,13 +162,35 @@ typedef	struct s_texture_vars
 	int				y_diff;
 	int				end_y;
 	int				screen_height;
-	int				corrected_height;
+	double			corrected_height;
 	int				size;
 	double			magnitude;
 	int				texture_y;
 	int				cur_screen_x;
 }	t_texture_vars;
 
+typedef struct s_ray_cast
+{
+	double	current_x;
+	double	current_y;
+	t_point	player_offsets;
+	double	change_wall_size_look;
+	t_point	*good_coord;
+	double	slope;
+	t_point	cur_coord;
+	double	lenght_check;
+
+}	t_ray_cast;
+
+typedef struct s_raycast_sender
+{
+	double	angle_drift;
+	int		current_wall_index;
+	double	current_angle;
+	double	final_angle;
+	double	number_of_found_walls;
+	t_point	*current_wall;
+}	t_raycast_sender;
 
 void		print_map(char **map);
 bool		ft_isspace(unsigned char c);
@@ -183,5 +204,7 @@ char		**debug_copy(char **board);
 void		mlx_shit(t_map map);
 void		print_point(char *start_message, t_point point);
 t_point_int	mk_point_int(int x, int y);
+bool		double_is_zero_modular_tolerence(double number, double tolerence);
+bool		is_double_pretty_much_zero(double number);
 
 #endif

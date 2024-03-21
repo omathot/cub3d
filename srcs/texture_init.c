@@ -12,6 +12,8 @@
 
 #include "../cub3d.h"
 
+double	do_the_maths(t_param_mlx *param, int screen_x, double magnitude);
+
 t_texture_data	normalize_collision_point(t_point collision_point, bool side)
 {
 	t_texture_data	data;
@@ -81,14 +83,12 @@ void	clamp_xy(t_texture_vars *variables,
 			wall.wall_face == 'E' || wall.wall_face == 'W');
 	(*variables).texture_x = (int)(variables->normalized.decimal
 			* variables->to_place->width);
+	(*variables).corrected_height = do_the_maths(param,
+			(*variables).cur_screen_x, (*variables).magnitude);
 	(*variables).start_y = ((double)param->y_resolution / 2)
-		- (wall_height / variables->magnitude);
-	if ((*variables).start_y < 0)
-		(*variables).start_y = 0;
+		- (wall_height / variables->corrected_height);
 	(*variables).end_y = ((double)param->y_resolution / 2)
 		+ (wall_height / variables->corrected_height);
-	if (variables->end_y > variables->screen_height)
-		(*variables).end_y = variables->screen_height;
 	if (variables->texture_x < 0)
 		(*variables).texture_x = 0;
 	else if (variables->texture_x >= (int)variables->to_place->width)

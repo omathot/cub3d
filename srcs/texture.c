@@ -70,6 +70,12 @@ void	place_wall_slice(t_texture_vars *variables,
 	y = 0;
 	while (y < variables->y_diff)
 	{
+		if (floor((*variables).start_y + y) >= param->y_resolution
+			|| floor((*variables).start_y + y) < 0)
+		{
+			y++;
+			continue ;
+		}
 		(*variables).texture_y = (int)((y / (wall_height
 						/ variables->corrected_height) / 2)
 				* variables->to_place->height);
@@ -82,12 +88,11 @@ void	place_wall_slice(t_texture_vars *variables,
 		(*variables).color = get_collor(rgba.r, rgba.g, rgba.b, 255);
 		mlx_put_pixel(param->image_to_draw_pixel,
 			floor(variables->cur_screen_x),
-			(floor((*variables).start_y) + y), (*variables).color);
-		y++;
+			(floor((*variables).start_y + y++)), (*variables).color);
 	}
 }
 
-int	do_the_maths(t_param_mlx *param, int screen_x, double magnitude)
+double	do_the_maths(t_param_mlx *param, int screen_x, double magnitude)
 {
 	double	angle_drift;
 	double	current_angle;
@@ -112,8 +117,6 @@ void	wall_texture(t_param_mlx *param, int screen_x,
 	t_rgba			rgba;
 
 	initialize_tex_variables(&variables, screen_x);
-	variables.corrected_height = do_the_maths(param,
-			variables.cur_screen_x, variables.magnitude);
 	initialize_rgba(&rgba);
 	determine_texture(&variables, wall, param);
 	clamp_xy(&variables, wall_height, param, wall);
