@@ -71,8 +71,8 @@ int	main(int argc, char **argv)
 	// 	exit(EXIT_FAILURE);
 	// }
 	save_player_data(&map);
-	view_walls(map, 1080);
 	map.player.angle_view = 180;
-	mlx_shit(map);
+	// view_walls(map, 1080);
+	mlx_shit(&map);
 	return (0);
 }

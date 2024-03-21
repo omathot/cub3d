@@ -68,16 +68,16 @@ void	update_current_wall(t_point ***walls, t_map map, double x_resolution)
 	return ;
 }
 
-void	mlx_shit(t_map map)
+void	mlx_shit(t_map *map)
 {
 	t_param_mlx	*param_mlx;
 	mlx_t		*mlx;
 
 	param_mlx = malloc(sizeof(t_param_mlx));
-	param_mlx->current_visible_walls = view_walls(map, 1080);
+	param_mlx->current_visible_walls = view_walls((*map), 1080);
 	param_mlx->x_resolution = 1080;
 	param_mlx->y_resolution = 720;
-	param_mlx->map = map;
+	param_mlx->map = (*map);
 	save_file_data(param_mlx);
 	mlx = mlx_init(1080, 720, "main_window", false);
 	param_mlx->image_to_draw_pixel = mlx_new_image(
@@ -88,7 +88,16 @@ void	mlx_shit(t_map map)
 	mlx_loop_hook(mlx, player_move, param_mlx);
 	handle_mouse(param_mlx);
 	mlx_loop(mlx);
+	free_map(map);
 	mlx_terminate(mlx);
 	free_visible_walls(param_mlx->current_visible_walls);
+	// if (map->wall_e)
+		// free(map->wall_e);
+	// if (map->wall_w)
+		// free(map->wall_w);
+	// if (map->wall_s)
+		// free(map->wall_s);
+	// if (map->wall_n)
+	// free(map->wall_n);
 	free(param_mlx);
 }

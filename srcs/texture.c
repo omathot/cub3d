@@ -37,12 +37,13 @@ void	write_line(t_param_mlx *param, int i, int *j, char **to_return)
 
 char	*get_data_line(t_param_mlx *param, char x)
 {
-	char	*to_return;
+	static char	*to_return = NULL;
 	int		i;
 	int		j;
 
 	i = 0;
-	to_return = (char *)malloc((ft_strlen(param->map.file_data[i]) * 2) + 1);
+	if (to_return == NULL)
+		to_return = (char *)malloc((ft_strlen(param->map.file_data[i]) * 2) + 1);
 	while (param->map.file_data[i])
 	{
 		j = 0;
