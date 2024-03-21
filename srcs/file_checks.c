@@ -27,16 +27,18 @@ int	check_cnf(char *str, int *i, t_file_reqs **reqs, char ref)
 {
 	char	**nbrs;
 	int		j;
+	int		count_three;
 
 	(*i) += 1;
-	while (str[(*i)])
+	count_three = 0;
+	if (no_numbers(str, i) == 1)
+		return (1);
+	nbrs = ft_split(&str[(*i)], ',');
+	while (count_three != 2)
 	{
 		j = 0;
 		while (ft_isspace(str[(*i)]))
 			(*i)++;
-		if (no_numbers(str, i) == 1)
-			return (1);
-		nbrs = ft_split(&str[(*i)], ',');
 		while (nbrs[j])
 		{
 			if (ft_atoi(nbrs[j]) > 255 || ft_atoi(nbrs[j]) < 0)
@@ -47,8 +49,10 @@ int	check_cnf(char *str, int *i, t_file_reqs **reqs, char ref)
 			j++;
 		}
 		(*i)++;
+		count_three++;
 	}
 	set_cnf_reqs(ref, reqs);
+	free_double_char(nbrs);
 	return (0);
 }
 

@@ -90,7 +90,7 @@ t_point	**view_walls(t_map map, int x_resolution)
 	walls.final_angle = map.player.angle + (map.player.angle_view / 2);
 	walls.number_of_found_walls = ceil(map.player.angle_view
 			/ walls.angle_drift);
-	printf("walls.number_of_found_walls + 3 == %f, angle view %f, angle dirfe %f\n", (walls.number_of_found_walls), map.player.angle_view, walls.angle_drift);
+	// printf("walls.number_of_found_walls + 3 == %f, angle view %f, angle dirfe %f\n", (walls.number_of_found_walls), map.player.angle_view, walls.angle_drift);
 	all_walls = (t_point **)malloc(sizeof(t_point *) * (walls.number_of_found_walls + 3));
 	while (walls.final_angle > walls.current_angle)
 	{

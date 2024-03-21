@@ -93,5 +93,7 @@ int	no_numbers(char *str, int *pos)
 		}
 		i++;
 	}
+	if (commas != 2)
+		return (1);
 	return (0);
 }

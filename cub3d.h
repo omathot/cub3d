@@ -194,7 +194,7 @@ int			no_numbers(char *str, int *pos);
 t_point		mk_point(double x, double y);
 t_point		**view_walls(t_map map, int x_resolution);
 char		**debug_copy(char **board);
-void		mlx_shit(t_map map);
+void		mlx_shit(t_map *map);
 void		print_point(char *start_message, t_point point);
 t_point_int	mk_point_int(int x, int y);
 bool		double_is_zero_modular_tolerence(double number, double tolerence);
