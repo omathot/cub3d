@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oscar <oscar@student.42.fr>                +#+  +:+       +#+        */
+/*   By: samuel <samuel@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 17:28:46 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/17 16:56:28 by oscar            ###   ########.fr       */
+/*   Updated: 2024/03/21 14:36:23 by samuel           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,5 +204,7 @@ char		**debug_copy(char **board);
 void		mlx_shit(t_map map);
 void		print_point(char *start_message, t_point point);
 t_point_int	mk_point_int(int x, int y);
+bool		double_is_zero_modular_tolerence(double number, double tolerence);
+bool		is_double_pretty_much_zero(double number);
 
 #endif
