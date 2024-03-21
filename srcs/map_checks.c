@@ -6,13 +6,16 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 23:10:11 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/17 13:33:43 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/18 15:22:03 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
 int	check_spaces(char **map);
+int	check_context(char **board, int i, int j);
+int	check_enclosure(char **map, int *j, int i, int rows);
+int	check_map_walls(char **board);
 
 int	verify_edges(char **board, int *j, int rows, int i)
 {
@@ -40,126 +43,6 @@ int	verify_edges(char **board, int *j, int rows, int i)
 	return (0);
 }
 
-int	check_updown_player(char **board, int i, int j, int mode)
-{
-	if (mode == 1)
-	{
-		if (board[i + 1][j] != 'N' && board[i + 1][j] != 'S'
-					&& board[i + 1][j] != 'E'
-					&& board[i + 1][j] != 'W')
-			return (1);
-	}
-	if (mode == 2)
-	{
-		if (board[i - 1][j] != 'N' && board[i - 1][j] != 'S'
-				&& board[i - 1][j] != 'E'
-				&& board[i - 1][j] != 'W')
-			return (1);
-	}
-	return (0);
-}
-
-int	is_player(char **board, int i, int j, int mode)
-{
-	if (mode == 1)
-	{
-		if (board[i][j - 1] != 'N' && board[i][j - 1] != 'S'
-				&& board[i][j - 1] != 'E'
-				&& board[i][j - 1] != 'W')
-			return (1);
-	}
-	if (mode == 2)
-	{
-		if (board[i][j + 1] != 'N' && board[i][j + 1] != 'S'
-				&& board[i][j + 1] != 'E'
-				&& board[i][j + 1] != 'W')
-			return (1);
-	}
-	if (mode == 3)
-	{
-		if (check_updown_player(board, i, j, 1) == 1)
-			return (1);
-	}
-	if (mode == 4)
-	{
-		if (check_updown_player(board, i, j, 2) == 1)
-			return (1);
-	}
-	return (0);
-}
-
-int	check_updown_diagonals(char **board, int i, int j, int mode)
-{
-	if (mode == 1)
-	{
-		if (board[i - 1][j - 1] != '1' && board[i - 1][j - 1] != '0')
-			return (1);
-		if (board[i - 1][j + 1] != '1' && board[i - 1][j + 1] != '0')
-			return (1);
-	}
-	if (mode == 2)
-	{
-		if (board[i + 1][j - 1] != '1' && board[i + 1][j - 1] != '0')
-			return (1);
-		if (board[i + 1][j + 1] != '1' && board[i + 1][j + 1] != '0')
-			return (1);
-	}
-	return (0);
-}
-
-int	check_1_edges(char **board, int i, int j)
-{
-	if (board[i - 1][j] == '1')
-	{
-		if (check_updown_diagonals(board, i, j, 1) == 1)
-			return (1);
-	}
-	if (board[i + 1][j] == '1')
-	{
-		if (check_updown_diagonals(board, i, j, 2) == 1)
-			return (1);
-	}
-	if (board[i][j - 1] == '1')
-	{
-		if (board[i - 1][j - 1] != '1' && board[i - 1][j - 1] != '0')
-			return (1);
-		if (board[i + 1][j - 1] != '1' && board[i + 1][j - 1] != '0')
-			return (1);
-	}
-	if (board[i][j + 1] == '1')
-	{
-		if (board[i - 1][j + 1] != '1' && board[i - 1][j + 1] != '0')
-			return (1);
-		if (board[i + 1][j + 1] != '1' && board[i + 1][j + 1] != '0')
-			return (1);
-	}
-	return (0);
-}
-
-int	check_context(char **board, int i, int j)
-{
-	if (check_1_edges(board, i, j) == 1)
-		return (1);
-	if (board[i][j - 1] != '1' && board[i][j - 1]
-			!= '0' && is_player(board, i, j, 1) == 1)
-		return (1);
-	if (board[i][j + 1] != '1' && board[i][j + 1]
-			!= '0' && is_player(board, i, j, 2) == 1)
-		return (1);
-	if (board[i + 1])
-	{
-		if (j > (int)ft_strlen(board[i + 1]))
-			return (1);
-		if (board[i + 1][j] != '1' && board[i + 1][j]
-				!= '0' && is_player(board, i, j, 3) == 1)
-			return (1);
-	}
-	if (board[i - 1][j] != '1' && board[i - 1][j] != '0'
-			&& is_player(board, i, j, 4) == 1)
-		return (1);
-	return (0);
-}
-
 int	handle_fun_cases(char **board)
 {
 	int	i;
@@ -177,83 +60,6 @@ int	handle_fun_cases(char **board)
 					return (1);
 			}
 			j++;
-		}
-		i++;
-	}
-	return (0);
-}
-
-int	check_map_walls(char **board)
-{
-	int	i;
-	int	j;
-	int	rows;
-
-	i = 0;
-	rows = 0;
-	while (board[rows])
-		rows++;
-	rows--;
-	while (board[i])
-	{
-		j = 0;
-		while (board[i][j])
-		{
-			if (verify_edges(board, &j, rows, i) == 1)
-				return (1);
-			j++;
-		}
-		i++;
-	}
-	if (handle_fun_cases(board) == 1)
-		return (1);
-	return (0);
-}
-
-int	check_enclosure(char **map, int *j, int i, int rows)
-{
-	while (ft_isspace(map[i][(*j)]))
-		(*j)++;
-	while (map[i][(*j)] && map[i][(*j)] != ' ')
-		(*j)++;
-	if (map[i][(*j)] == ' ')
-	{
-		if (map[i][(*j) - 1] != '1')
-			return (1);
-		while (ft_isspace(map[i][(*j)]))
-		{
-			if (map[i - 1] && (i - 1) > 0)
-				if (map[i - 1][(*j)] != '1' && map[i - 1][(*j)] != ' ')
-					return (1);
-			if (map[i + 1] && (i + 1) <= rows)
-				if (map[i + 1][(*j)] != '1' && map[i + 1][(*j)] != ' ')
-					return (1);
-			(*j)++;
-		}
-		if (map[i][(*j)] != '1')
-			return (1);
-	}
-	return (0);
-}
-
-int	check_spaces(char **map)
-{
-	int	i;
-	int	j;
-	int	rows;
-
-	i = 1;
-	rows = 1;
-	while (map[rows])
-		rows++;
-	rows -= 2;
-	while (i <= rows)
-	{
-		j = 0;
-		while (map[i][j])
-		{
-			if (check_enclosure(map, &j, i, rows) == 1)
-				return (1);
 		}
 		i++;
 	}
