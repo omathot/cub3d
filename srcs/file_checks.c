@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_checks.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
+/*   By: omathot <omathot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:51:58 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/21 21:03:05 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/22 10:48:29 by omathot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int	check_line(char *str, t_file_reqs **reqs)
 	int	i;
 
 	i = 0;
+	// if (str[i] == '\n')
+	// 	return (0);
 	while (ft_isspace(str[i]))
 		i++;
 	if (str[i] == 'N' || str[i] == 'S' || str[i] == 'E' || str[i] == 'W')

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
+/*   By: omathot <omathot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:51:12 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/21 19:34:19 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/22 10:40:37 by omathot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ char	*get_map(char **argv)
 	return (content);
 }
 
+char    **split_cub3d(char *str, char c);
+
 void	input_n_file_checks(int argc, char **argv, t_map *map)
 {
 	int		len;
@@ -58,6 +60,6 @@ void	input_n_file_checks(int argc, char **argv, t_map *map)
 		|| argv[1][len - 2] != 'u' || argv[1][len - 1] != 'b')
 		exit(write(2, "Not a .cub file\n", 16));
 	content = get_map(argv);
-	(*map).content = ft_split(content, '\n');
+	(*map).content = split_cub3d(content, '\n');
 	free(content);
 }
