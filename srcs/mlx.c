@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
+/*   By: omathot <omathot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 17:48:24 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/21 21:55:44 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/22 08:48:26 by omathot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,13 @@ void	mlx_shit(t_map *map)
 	free_map(map);
 	mlx_terminate(mlx);
 	free_visible_walls(param_mlx->current_visible_walls);
-	// if (map->wall_e)
-		// free(map->wall_e);
-	// if (map->wall_w)
-		// free(map->wall_w);
-	// if (map->wall_s)
-		// free(map->wall_s);
-	// if (map->wall_n)
-	// free(map->wall_n);
+	if (param_mlx->map.wall_e)
+		free(param_mlx->map.wall_e);
+	if (param_mlx->map.wall_w)
+		free(param_mlx->map.wall_w);
+	if (param_mlx->map.wall_s)
+		free(param_mlx->map.wall_s);
+	if (param_mlx->map.wall_n)
+		free(param_mlx->map.wall_n);
 	free(param_mlx);
 }
