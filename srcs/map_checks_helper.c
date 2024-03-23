@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 15:21:28 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/18 15:45:29 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/23 14:58:54 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,16 @@
 
 int	verify_edges(char **board, int *j, int rows, int i);
 int	handle_fun_cases(char **board);
+
+int	check_end_map(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[i] == '\0')
+		return (1);
+	return (0);
+}
 
 int	check_map_walls(char **board)
 {
@@ -88,6 +98,25 @@ int	check_spaces(char **map)
 				return (1);
 		}
 		i++;
+	}
+	return (0);
+}
+
+int	validate_next(char **map, int index)
+{
+	int	j;
+
+	j = 0;
+	if (map[index + 1])
+	{
+		if (map[index + 1][0] == '\0')
+			return (0);
+		while (map[index + 1][j])
+		{
+			if (!(ft_isspace(map[index + 1][j])) && map[index + 1][j] != '\0')
+				return (1);
+			j++;
+		}
 	}
 	return (0);
 }

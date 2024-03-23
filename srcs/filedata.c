@@ -6,11 +6,13 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 15:11:49 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/21 21:37:44 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/23 14:56:17 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+int	check_end_map(char *str);
 
 void	add_line(char **content, char ***to_return, t_point_int data, int *j)
 {
@@ -135,6 +137,8 @@ char	**make_board(char **content, int start)
 	i = 0;
 	while (content[start + i])
 	{
+		if (check_end_map(content[start + i]))
+			break ;
 		to_return[i] = ft_strdup(content[start + i]);
 		i++;
 	}

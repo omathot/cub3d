@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 15:16:06 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/21 21:47:05 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/23 13:41:29 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,22 +43,22 @@ int	check_nm(int *i, char *str, char **sprite_loc)
 	return (0);
 }
 
+/*
+commenting the first free fixes error with invalid texture file,
+can't find a leak created by it.
+commenting this second free seems to fix the second letter missing leak.
+Also can't find leaks created by this.
+*/
 int	last_checks(char *str, t_file_loc **locs, int *i, t_file_reqs **check)
 {
 	if (str[(*i)] == 'E' && str[(*i) + 1] == 'A')
 	{
 		if (check_nm(i, str, &(*locs)->e_wall) == 1)
-		{
-			free_locs(locs);
 			return (1);
-		}
 		(*check)->ea++;
 	}
 	else
-	{
-		free_locs(locs);
 		return (1);
-	}
 	return (0);
 }
 

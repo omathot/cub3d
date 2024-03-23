@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 17:28:46 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/21 21:54:31 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/23 14:05:56 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ typedef struct s_stack
 
 typedef struct s_line
 {
-	t_point	A;
-	t_point	B;
+	t_point	a;
+	t_point	b;
 }	t_line;
 
 typedef struct s_vector
@@ -103,7 +103,7 @@ typedef struct s_player
 	double	angle_view;
 }	t_player;
 
-typedef	struct s_rgba
+typedef struct s_rgba
 {
 	int	r;
 	int	g;
@@ -140,13 +140,13 @@ typedef struct s_param_mlx
 	int					y_resolution;
 }	t_param_mlx;
 
-typedef	struct s_wall_info
+typedef struct s_wall_info
 {
 	t_point	collision;
 	char	wall_face;
 }	t_wall_info;
 
-typedef	struct s_texture_vars
+typedef struct s_texture_vars
 {
 	t_texture_data	normalized;
 	mlx_image_t		*to_place;
@@ -182,7 +182,7 @@ typedef struct s_raycast_sender
 	int		current_wall_index;
 	double	current_angle;
 	double	final_angle;
-	double	number_of_found_walls;
+	double	nb_walls;
 	t_point	*current_wall;
 }	t_raycast_sender;
 

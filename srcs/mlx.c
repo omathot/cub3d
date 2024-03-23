@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 17:48:24 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/21 21:55:44 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/23 13:45:34 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	free_visible_walls(t_point **walls);
 void	player_move(void *param);
 double	find_distance(t_point a, t_point b);
-double	radiant_to_dregre_angle(double angle);
 char	*get_data_line(t_param_mlx *param, char x);
 void	handle_mouse(t_param_mlx *mlx);
 bool	double_is_zero_modular_tolerence(double number, double tolerence);
@@ -25,6 +24,7 @@ bool	are_double_in_screen(double x, double y, t_param_mlx *param_real);
 void	print_all_walls(t_param_mlx *param_real);
 t_stack	*init_stack(void);
 void	print_point(char *start_message, t_point point);
+void	last_frees(t_param_mlx *param_mlx);
 void	wall_texture(t_param_mlx *param, int screen_x,
 			t_wall_info wall, double wall_height);
 
@@ -68,6 +68,8 @@ void	update_current_wall(t_point ***walls, t_map map, double x_resolution)
 	return ;
 }
 
+void	save_ceil_floor_rgb(t_param_mlx *param);
+
 void	mlx_shit(t_map *map)
 {
 	t_param_mlx	*param_mlx;
@@ -85,19 +87,11 @@ void	mlx_shit(t_map *map)
 	if (!mlx)
 		exit(1);
 	param_mlx->mlx = mlx;
+	save_ceil_floor_rgb(param_mlx);
 	mlx_loop_hook(mlx, player_move, param_mlx);
 	handle_mouse(param_mlx);
 	mlx_loop(mlx);
 	free_map(map);
 	mlx_terminate(mlx);
-	free_visible_walls(param_mlx->current_visible_walls);
-	// if (map->wall_e)
-		// free(map->wall_e);
-	// if (map->wall_w)
-		// free(map->wall_w);
-	// if (map->wall_s)
-		// free(map->wall_s);
-	// if (map->wall_n)
-	// free(map->wall_n);
-	free(param_mlx);
+	last_frees(param_mlx);
 }

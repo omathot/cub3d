@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:05:27 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/21 21:54:06 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/22 12:24:46 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,6 @@ void	free_map(t_map *map)
 		free_double_char(map->content);
 	if (map->file_data)
 		free_double_char(map->file_data);
-	// if (map->wall_e)
-	// 	mlx_delete_texture(map->wall_e);
-	// if (map->wall_w)
-	// 	mlx_delete_texture(map->wall_w);
-	// if (map->wall_s)
-	// 	mlx_delete_texture(map->wall_s);
-	// if (map->wall_n)
-	// 	mlx_delete_texture(map->wall_n);
 }
 
 int	else_free_locs(t_file_loc **locs)

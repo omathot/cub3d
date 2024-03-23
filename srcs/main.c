@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 17:28:37 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/21 21:46:48 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/23 13:41:45 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +61,11 @@ int	main(int argc, char **argv)
 	if (check_format(&map) == 1 || check_map_walls(map.board) == 1)
 	{
 		free_map(&map);
-		write(2, "Invalid map format\n", 19);
+		write(2, "Invalid map/file format\n", 24);
 		exit(EXIT_FAILURE);
 	}
-	// if (check_map_walls(map.board) == 1)
-	// {
-	// 	free_map(&map);
-	// 	write(2, "Invalid map format\n", 19);
-	// 	exit(EXIT_FAILURE);
-	// }
 	save_player_data(&map);
 	map.player.angle_view = 180;
-	// view_walls(map, 1080);
 	mlx_shit(&map);
 	return (0);
 }
