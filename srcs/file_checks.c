@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:51:58 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/22 21:33:25 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/23 13:38:33 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,27 +42,23 @@ int	check_cnf(char *str, int *i, t_file_reqs **reqs, char ref)
 		while (nbrs[j])
 		{
 			if (ft_atoi(nbrs[j]) > 255 || ft_atoi(nbrs[j]) < 0)
-			{
-				free_double_char(nbrs);
-				return (1);
-			}
+				return (free_double_char(nbrs), 1);
 			j++;
 		}
 		(*i)++;
 		count_three++;
 	}
 	set_cnf_reqs(ref, reqs);
-	free_double_char(nbrs);
-	return (0);
+	return (free_double_char(nbrs), 0);
 }
 
-// look into consequences of first if statement.
+// look into consequences of first if statement. !! 
 int	check_line(char *str, t_file_reqs **reqs)
 {
 	int	i;
 
 	i = 0;
-	if (str[i] == '\0') // !! !! 
+	if (str[i] == '\0')
 		return (0);
 	while (ft_isspace(str[i]))
 		i++;
@@ -126,10 +122,7 @@ int	check_format(t_map *map)
 		i++;
 	}
 	if (final_format_check(reqs, map, i) == 1)
-	{
-		free(reqs);
-		return (1);
-	}
+		return (free(reqs), 1);
 	free(reqs);
 	return (0);
 }

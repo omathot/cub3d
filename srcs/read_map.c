@@ -3,14 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   read_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omathot <omathot@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:51:12 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/22 10:40:37 by omathot          ###   ########.fr       */
+/*   Updated: 2024/03/23 13:54:11 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+char	**split_cub3d(char *str, char c);
+
+void	read_err(int bytes_read, char **content)
+{
+	if (bytes_read == -1)
+	{
+		free((*content));
+		exit(write(2, "Error while reading\n", 20));
+	}
+}
 
 char	*get_map(char **argv)
 {
@@ -29,11 +40,7 @@ char	*get_map(char **argv)
 	while (bytes_read > 0)
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		if (bytes_read == -1)
-		{
-			free(content);
-			exit(write(2, "Error while reading\n", 20));
-		}
+		read_err(bytes_read, &content);
 		ft_memcpy(content + content_size, buffer, bytes_read);
 		content_size += bytes_read;
 	}
@@ -41,8 +48,6 @@ char	*get_map(char **argv)
 	content[content_size] = '\0';
 	return (content);
 }
-
-char    **split_cub3d(char *str, char c);
 
 void	input_n_file_checks(int argc, char **argv, t_map *map)
 {

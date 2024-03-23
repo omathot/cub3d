@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 15:31:30 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/18 15:47:27 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/23 14:05:11 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ t_line	find_wall_down_corner(t_point *wall, t_player player,
 		corner_vector.angle = corner_vector.angle - (M_PI * 2);
 	pixel_point = mk_point(i, ((y_resolution / 2)
 				- ((400) / ((wall_vector.magnitude + 0.5)))));
-	return_line.A = pixel_point;
-	return_line.B = mk_point(pixel_point.x,
+	return_line.a = pixel_point;
+	return_line.b = mk_point(pixel_point.x,
 			((y_resolution / 2) + ((400)
 					/ ((wall_vector.magnitude + 0.5)))));
 	return (return_line);

@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 17:52:31 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/21 21:44:54 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/23 13:48:22 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,13 @@ void	write_line(t_param_mlx *param, int i, int *j, char **to_return)
 char	*get_data_line(t_param_mlx *param, char x)
 {
 	static char	*to_return = NULL;
-	int		i;
-	int		j;
+	int			i;
+	int			j;
 
 	i = 0;
 	if (to_return == NULL)
-		to_return = (char *)malloc((ft_strlen(param->map.file_data[i]) * 2) + 1);
+		to_return = (char *)malloc((ft_strlen(
+						param->map.file_data[i]) * 2) + 1);
 	while (param->map.file_data[i])
 	{
 		j = 0;

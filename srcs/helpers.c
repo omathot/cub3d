@@ -3,22 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omathot <omathot@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 01:28:19 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/22 10:13:14 by omathot          ###   ########.fr       */
+/*   Updated: 2024/03/23 13:47:30 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
-bool	ft_isspace_no_newline(unsigned char c)
-{
-	if (c == '\t' || c == '\v' || c == '\f' || c == '\r'
-		|| c == ' ')
-		return (true);
-	return (false);
-}
 
 bool	ft_isspace(unsigned char c)
 {

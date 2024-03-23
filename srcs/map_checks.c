@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_checks.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omathot <omathot@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 23:10:11 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/22 10:48:55 by omathot          ###   ########.fr       */
+/*   Updated: 2024/03/23 13:47:44 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int		check_spaces(char **map);
 int		check_context(char **board, int i, int j);
 int		check_enclosure(char **map, int *j, int i, int rows);
 int		check_map_walls(char **board);
-bool	ft_isspace_no_newline(unsigned char c);
 
 int	verify_edges(char **board, int *j, int rows, int i)
 {
@@ -71,14 +70,12 @@ int	check_characters(char **map, int *j, int i, int *count)
 {
 	if (!(ft_isdigit(map[i][(*j)])) && map[i][(*j)] != 'N'
 		&& map[i][(*j)] != 'S' &&
-		map[i][(*j)] != 'W' && map[i][(*j)] != 'E' && map[i][(*j)] != ' ' && map[i][(*j)] != '\n')
+		map[i][(*j)] != 'W' && map[i][(*j)] != 'E'
+		&& map[i][(*j)] != ' ' && map[i][(*j)] != '\n')
 		return (1);
 	if (map[i][(*j)] == 'N' || map[i][(*j)] == 'S' || map[i][(*j)] == 'W' ||
 		map[i][(*j)] == 'E')
-	{
-		printf("found player");
 		(*count)++;
-	}
 	(*j)++;
 	return (0);
 }
@@ -120,9 +117,6 @@ int	check_map(char **map, int pos)
 		i++;
 	}
 	if (count > 1 || count == 0)
-	{
-		printf("count check = %i\n", count);
 		return (1);
-	}
 	return (0);
 }

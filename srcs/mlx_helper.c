@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 15:25:31 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/21 20:20:49 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/23 13:49:26 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	initialize_wall_info(t_wall_info *wall);
 char	determine_face(t_param_mlx *param, int i);
 void	wall_texture(t_param_mlx *param, int screen_x,
 			t_wall_info wall, double wall_height);
+void	make_floor_ceil(t_param_mlx *param_real);
+void	free_visible_walls(t_point **walls);
 
 void	save_file_data(t_param_mlx *param)
 {
@@ -36,6 +38,7 @@ void	print_all_walls(t_param_mlx *param_real)
 	param_real->image_to_draw_pixel = mlx_new_image(
 			param_real->mlx, param_real->x_resolution,
 			param_real->y_resolution);
+	make_floor_ceil(param_real);
 	i = 0;
 	while (param_real->current_visible_walls[i])
 	{
@@ -57,7 +60,16 @@ double	find_distance(t_point a, t_point b)
 	return (sqrt(pow(a.y - b.y, 2) + pow(a.x - b.x, 2)));
 }
 
-double	radiant_to_dregre_angle(double angle)
+void	last_frees(t_param_mlx *param_mlx)
 {
-	return (angle * (180.0 / M_PI));
+	free_visible_walls(param_mlx->current_visible_walls);
+	if (param_mlx->map.wall_e)
+		free(param_mlx->map.wall_e);
+	if (param_mlx->map.wall_w)
+		free(param_mlx->map.wall_w);
+	if (param_mlx->map.wall_s)
+		free(param_mlx->map.wall_s);
+	if (param_mlx->map.wall_n)
+		free(param_mlx->map.wall_n);
+	free(param_mlx);
 }
