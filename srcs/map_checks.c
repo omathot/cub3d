@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 23:10:11 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/23 13:47:44 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/23 14:58:23 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int		check_spaces(char **map);
 int		check_context(char **board, int i, int j);
 int		check_enclosure(char **map, int *j, int i, int rows);
 int		check_map_walls(char **board);
+int		validate_next(char **map, int index);
 
 int	verify_edges(char **board, int *j, int rows, int i)
 {
@@ -71,7 +72,7 @@ int	check_characters(char **map, int *j, int i, int *count)
 	if (!(ft_isdigit(map[i][(*j)])) && map[i][(*j)] != 'N'
 		&& map[i][(*j)] != 'S' &&
 		map[i][(*j)] != 'W' && map[i][(*j)] != 'E'
-		&& map[i][(*j)] != ' ' && map[i][(*j)] != '\n')
+		&& map[i][(*j)] != ' ' && map[i][(*j)] != '\0')
 		return (1);
 	if (map[i][(*j)] == 'N' || map[i][(*j)] == 'S' || map[i][(*j)] == 'W' ||
 		map[i][(*j)] == 'E')
@@ -84,7 +85,7 @@ int	check_dimensions(char **map, int *i)
 {
 	while (map[(*i)])
 	{
-		if (ft_strlen(map[(*i)]) < 3)
+		if (ft_strlen(map[(*i)]) < 3 && map[(*i)][0] != '\0')
 			return (1);
 		(*i)++;
 	}
@@ -107,7 +108,7 @@ int	check_map(char **map, int pos)
 	while (map[i])
 	{
 		j = 0;
-		if (map[i][j] == '\0')
+		if (map[i][j] == '\0' && validate_next(map, i))
 			return (1);
 		while (map[i][j])
 		{
