@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omathot <omathot@student.42.fr>            +#+  +:+       +#+        */
+/*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 08:51:04 by omathot           #+#    #+#             */
-/*   Updated: 2024/03/22 10:44:43 by omathot          ###   ########.fr       */
+/*   Updated: 2024/03/22 21:29:25 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,15 @@ int get_longest(char *str, char c)
 {
     int i;
     int len;
-    int row;
     int count;
 
     len = 0;
     i = 0;
-    row = 0;
     count = 0;
     while (str[i])
     {
         if (str[i] == c)
         {
-            row++;
             if (len < count)
                 len = count;
             count = 0;
@@ -55,11 +52,11 @@ void    init_array(char *str, char c, char ***to_return)
     }
     i = 0;
     count = get_longest(str, c);
-    (*to_return) = (char **)malloc(sizeof(char *) * (rows + 1));
+    (*to_return) = (char **)malloc(sizeof(char *) * (rows + 2));
     printf("count = (%i)\n", count);
     while (i <= rows)
     {
-        (*to_return)[i] = (char *)malloc(count + 1);
+        (*to_return)[i] = (char *)malloc(sizeof(char *) * (count + 1));
         i++;
     }
 }
@@ -77,25 +74,29 @@ char    **split_cub3d(char *str, char c)
     init_array(str, c, &to_return);
     while (str[i])
     {
-        while (str[i] != c)
+        while (str[i] != c && str[i])
         {
             to_return[k][j] = str[i];
             j++;
             i++;
         }
-        if (str[i] == c)
+        if (str[i] == c || str[i] == '\0')
         {
             to_return[k][j] = '\0';
             k++;
             j = 0;
+			if (str[i] == '\0')
+				break ;
         }
-        i++;
+		// to_return[k][j] = '\0';
+		if (str[i] != '\0')
+        	i++;
     }
     to_return[k] = NULL;
     k = 0;
     while (to_return[k])
     {
-        printf("%s", to_return[k]);
+        printf("(%s)\n", to_return[k]);
         k++;
     }
     return (to_return);
