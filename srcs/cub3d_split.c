@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oscar <oscar@student.42.fr>                +#+  +:+       +#+        */
+/*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 08:51:04 by omathot           #+#    #+#             */
-/*   Updated: 2024/03/25 17:59:15 by oscar            ###   ########.fr       */
+/*   Updated: 2024/03/25 22:05:16 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,7 @@ char	**split_cub3d(char *str, char c)
 	while (str[i])
 	{
 		while (str[i] != c && str[i])
-		{
-			to_return[k][j] = str[i];
-			j++;
-			i++;
-		}
+			to_return[k][j++] = str[i++];
 		if (str[i] == c || str[i] == '\0')
 		{
 			to_return[k++][j] = '\0';

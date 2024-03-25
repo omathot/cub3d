@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:54:13 by oscarmathot       #+#    #+#             */
-/*   Updated: 2023/12/04 21:54:06 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/25 22:09:30 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,11 @@ void	init_file_reqs(t_file_reqs **reqs)
 	(*reqs)->ea = 0;
 	(*reqs)->f = 0;
 	(*reqs)->c = 0;
+}
+
+void	handle_escape(t_param_mlx **param)
+{
+	mlx_close_window((*param)->mlx);
+	free_map(&(*param)->map);
+	exit(0);
 }
