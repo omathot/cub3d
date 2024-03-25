@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 16:22:53 by oscar             #+#    #+#             */
-/*   Updated: 2024/03/23 13:29:48 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/23 23:46:51 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ void	make_floor_ceil(t_param_mlx *param_real)
 		{
 			if (y > param_real->y_resolution / 2)
 				mlx_put_pixel(param_real->image_to_draw_pixel, x, y,
-					get_collor(param_real->map.ceil_rgb->r,
-						param_real->map.ceil_rgb->g,
-						param_real->map.ceil_rgb->b, 255));
-			else
-				mlx_put_pixel(param_real->image_to_draw_pixel, x, y,
 					get_collor(param_real->map.floor_rgb->r,
 						param_real->map.floor_rgb->g,
 						param_real->map.floor_rgb->b, 255));
+			else
+				mlx_put_pixel(param_real->image_to_draw_pixel, x, y,
+					get_collor(param_real->map.ceil_rgb->r,
+						param_real->map.ceil_rgb->g,
+						param_real->map.ceil_rgb->b, 255));
 			x++;
 		}
 		y++;
