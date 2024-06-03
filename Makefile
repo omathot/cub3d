@@ -6,7 +6,7 @@
 #    By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/03 17:33:31 by oscarmathot       #+#    #+#              #
-#    Updated: 2024/06/03 17:22:30 by oscarmathot      ###   ########.fr        #
+#    Updated: 2024/06/03 17:49:12 by oscarmathot      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,17 +27,19 @@ MLX42_A	:= lib/MLX42/build/libmlx42.a
 CMP		:= gcc
 FLAGS 	:= -Werror -Wall -Wextra -g -Iinclude #-fsanitize=address
 # FLAGS 	:= -g -Iinclude
-OS 		:= $(shell uname -m)
+OS_unix 		:= $(shell uname -m)
 
 
 #---------------------------------
 #OS CHECK
-
-ifeq ($(OS), arm64)
+ifeq ($(OS),Windows_NT)
+    OS := Windows
+endif
+ifeq ($(OS_unix), arm64)
 	OSFLAGS = -lglfw -L"/opt/homebrew/Cellar/glfw/3.4/lib/" -framework OpenGL
-else ifeq ($(OS), x86_64)
+else ifeq ($(OS_unix), x86_64)
 	OSFLAGS = -Iinclude -ldl -lglfw -pthread -lm
-else ifeq ($(OS), aarch64)
+else ifeq ($(OS_unix), aarch64)
 	OSFLAGS = -Iinclude -ldl -lglfw -pthread -lm
 endif
 
