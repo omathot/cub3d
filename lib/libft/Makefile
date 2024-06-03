@@ -10,14 +10,6 @@
 #                                                                              #
 # **************************************************************************** #
 
-clear_line = \033[K
-move_up = \033[A
-define prettycomp
-	@printf "$(1)$(clear_line)\n"
-	@$(1)
-	@printf "$(move_up)"
-endef
-
 NAME = libft.a
 SRC = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c ft_isdigit.c ft_isprint.c \
  ft_itoa.c ft_memchr.c ft_memcmp.c ft_memcpy.c ft_memmove.c ft_memset.c ft_putchar_fd.c ft_putendl_fd.c \
@@ -36,7 +28,7 @@ $(NAME) : $(OBJ)
 	@ar rc $@ $^
 
 %.o : %.c
-	$(call prettycomp, $(CMP) $(FLAGS) -c $^)
+	$(CMP) $(FLAGS) -c $^
 
 bonus: $(OBJ_BONUS) $(OBJ)
 	ar rc $(NAME) $(OBJ) $(OBJ_BONUS)

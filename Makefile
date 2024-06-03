@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/12/03 17:33:31 by oscarmathot       #+#    #+#              #
-#    Updated: 2024/06/03 17:49:12 by oscarmathot      ###   ########.fr        #
+#    Created: 2023\12\03 17:33:31 by oscarmathot       #+#    #+#              #
+#    Updated: 2024\06\03 17:49:12 by oscarmathot      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,40 +19,17 @@ SRC 	:= main.c helpers.c read_map.c file_checks.c initialize.c map_checks.c rayc
 			edge_verification.c map_checks_helper.c mlx_helper.c stack.c mlx_walls.c rgba.c \
 			texture_init.c raycast_utils.c raycast_process.c raycast_handle_casses.c \
 			free_helpers.c cub3d_split.c safe_checking.c safe_checking_help.c
-SUBDIR	:= srcs/
+SUBDIR	:= srcs\
 SRCS	:= $(addprefix $(SUBDIR),$(SRC))
 OBJ 	:= $(SRCS:.c=.o)
-LIBFT_A	:= lib/libft/libft.a
-MLX42_A	:= lib/MLX42/build/libmlx42.a
+LIBFT_A	:= lib\libft\libft.a
+MLX42_A	:= lib\MLX42\build\libmlx42.a
 CMP		:= gcc
-FLAGS 	:= -Werror -Wall -Wextra -g -Iinclude #-fsanitize=address
-# FLAGS 	:= -g -Iinclude
-OS_unix 		:= $(shell uname -m)
-
-
-#---------------------------------
-#OS CHECK
-ifeq ($(OS),Windows_NT)
-    OS := Windows
-endif
-ifeq ($(OS_unix), arm64)
-	OSFLAGS = -lglfw -L"/opt/homebrew/Cellar/glfw/3.4/lib/" -framework OpenGL
-else ifeq ($(OS_unix), x86_64)
-	OSFLAGS = -Iinclude -ldl -lglfw -pthread -lm
-else ifeq ($(OS_unix), aarch64)
-	OSFLAGS = -Iinclude -ldl -lglfw -pthread -lm
-endif
+LDFLAGS = -mconsole -Wl,-e,mainCRTStartup
+FLAGS 	:= -Werror -Wall -Wextra -g -Iinclude -lglfw3 -lopengl32 -lgdi32 #-fsanitize=address
 
 #---------------------------------
 #FORMATTING AND FUN
-
-clear_line = \033[K
-move_up = \033[A
-define prettycomp
-	@printf "$(1)$(clear_line)\n"
-	@$(1)
-	@printf "$(move_up)"
-endef
 
 RED		:= \033[31m
 GREEN 	:= \033[32m
@@ -67,38 +44,41 @@ RESET	:= \033[0m
 
 all	: $(NAME)
 		@echo "$(GREEN)Project built successfully !$(RESET)"
-		@echo "$(BLUE)Usage: ./cub3d <map>$(RESET)"
+		@echo "$(BLUE)Usage: .\cub3d <map>$(RESET)"
 
 $(NAME) : $(OBJ) $(LIBFT_A) $(MLX42_A) cub3d.h
 		@echo "$(CYAN)Creating the executable...$(RESET)"
-		@$(CC) $(OBJ) $(LIBFT_A) $(MLX42_A) $(FLAGS) $(OSFLAGS) -o $(NAME)
+		$(CMP) $(OBJ) $(LIBFT_A) $(MLX42_A) $(FLAGS) $(OSFLAGS) $(LDFLAGS) -o $(NAME)
 
 %.o : %.c cub3d.h
 		@echo "$(CYAN)Compiling...$(RESET) $<"
-		$(call prettycomp, $(CMP) -c $(FLAGS) -o $@ $<)
+		$(CMP) -c $(FLAGS) -o $@ $<
 
 $(LIBFT_A) :
 		@echo "$(BLUE)Building libft library...$(RESET)\n"
-		$(call prettycomp, @make -C lib/libft)
+		make -C lib\libft
 
 $(MLX42_A) :
 		@echo "$(YELLOW)Building MLX42 library...$(RESET)"
-		(cd ./lib/MLX42 && cmake -B build)
-		(cd ./lib/MLX42 && cmake --build build -j4)
+		(cd .\lib\MLX42 && cmake -B build)
+		(cd .\lib\MLX42 && cmake --build build -j4)
 
 clean :
-		@rm -f $(OBJ) ./lib/libft/libft.a
+		@rm $(OBJ) .\lib\libft\libft.a
 		@echo "$(GREEN)Cleaned up the artifacts !$(RESET)"
 
 fclean :
-		@rm -f $(NAME) $(OBJ)
+		@rm $(NAME) $(OBJ)
 		@echo "$(MAGENTA)Cleaned up executable !$(RESET)"
 
 hardclean :
 		@make fclean
-		cd ./lib/libft && make clean
-		cd ./lib/libft && make fclean
-		cd ./lib/MLX42 && rm -rf build
+		cd .\lib\libft
+		make clean
+		make fclean
+		cd ..
+		cd .\lib\MLX42 
+		rm build
 		@echo "$(MAGENTA)Cleaned up all built files!$(RESET)"
 
 re : fclean all
