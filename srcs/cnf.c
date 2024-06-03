@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cnf.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
+/*   By: omathot <omathot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 16:22:53 by oscar             #+#    #+#             */
-/*   Updated: 2024/03/23 23:46:51 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/05/01 14:21:59 by omathot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,6 @@ char	*return_at_comma(int x, char *str)
 		}
 		i++;
 	}
-	puts("big data problem");
-	pause();
 	return (NULL);
 }
 

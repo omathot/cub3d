@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_helpers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oscar <oscar@student.42.fr>                +#+  +:+       +#+        */
+/*   By: omathot <omathot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:05:27 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/25 17:38:02 by oscar            ###   ########.fr       */
+/*   Updated: 2024/05/01 14:00:02 by omathot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	free_map(t_map *map)
 		free_double_char(map->content);
 		map->content = NULL;
 	}
-	if (map->file_data)
+	if (map->file_data != NULL)
 	{
 		free_double_char(map->file_data);
 		map->file_data = NULL;

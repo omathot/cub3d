@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   filedata.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
+/*   By: omathot <omathot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 15:11:49 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/23 14:56:17 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/05/01 14:07:00 by omathot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
 int	check_end_map(char *str);
+int	validate_line(char *line);
 
 void	add_line(char **content, char ***to_return, t_point_int data, int *j)
 {
@@ -106,8 +107,11 @@ char	**make_filedata(char **content, int start)
 	i = 0;
 	index = start;
 	longest = ft_strlen(content[index]);
+	to_return = NULL;
 	while (index >= 0)
 	{
+		if (validate_line(content[index]) == 1)
+			return (NULL);
 		if (longest < (int)ft_strlen(content[index]))
 			longest = ft_strlen(content[index]);
 		index--;
@@ -115,12 +119,7 @@ char	**make_filedata(char **content, int start)
 	index = start;
 	to_return = (char **)malloc(sizeof(char *) * (6 + 1));
 	while (i < 6)
-	{
-		to_return[i] = (char *)malloc(sizeof(char) * (longest + 1));
-		if (to_return[i] != NULL)
-			to_return[i][0] = '\0';
-		i++;
-	}
+		to_return[i++] = (char *)malloc(sizeof(char) * (longest + 1));
 	fetch_filedata(content, index, &to_return);
 	return (to_return);
 }
@@ -133,6 +132,8 @@ char	**make_board(char **content, int start)
 	i = 0;
 	while (content[start + i])
 		i++;
+	if (i < 3)
+		return (NULL);
 	to_return = (char **)malloc(sizeof(char *) * (i + 2));
 	i = 0;
 	while (content[start + i])

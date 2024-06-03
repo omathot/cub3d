@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oscar <oscar@student.42.fr>                +#+  +:+       +#+        */
+/*   By: omathot <omathot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:51:12 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/25 17:37:49 by oscar            ###   ########.fr       */
+/*   Updated: 2024/05/01 14:28:12 by omathot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,12 @@ void	input_n_file_checks(int argc, char **argv, t_map *map)
 	int		len;
 	char	*content;
 
+	map->board = NULL;
+	map->ceil_rgb = NULL;
+	map->floor_rgb = NULL;
+	map->map_name = NULL;
+	map->content = NULL;
+	map->file_data = NULL;
 	if (argc != 2)
 		exit(write(2, "wrong number of arguments\n", 26));
 	if (access(argv[1], F_OK) == -1)
