@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_helper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
+/*   By: omathot <omathot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 15:25:31 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/23 13:49:26 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/05/01 14:27:08 by omathot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,9 @@ void	last_frees(t_param_mlx *param_mlx)
 		free(param_mlx->map.wall_s);
 	if (param_mlx->map.wall_n)
 		free(param_mlx->map.wall_n);
+	if (param_mlx->map.ceil_rgb)
+		free(param_mlx->map.ceil_rgb);
+	if (param_mlx->map.floor_rgb)
+		free(param_mlx->map.floor_rgb);
 	free(param_mlx);
 }

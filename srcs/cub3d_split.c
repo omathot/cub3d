@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 08:51:04 by omathot           #+#    #+#             */
-/*   Updated: 2024/03/23 13:36:41 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/25 22:05:16 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,12 @@ void	init_array(char *str, char c, char ***to_return)
 			rows++;
 		i++;
 	}
+	if (str[i - 1] != '\n')
+		rows++;
 	i = 0;
 	count = get_longest(str, c);
 	(*to_return) = (char **)malloc(sizeof(char *) * (rows + 2));
-	while (i <= rows)
+	while (i < rows)
 	{
 		(*to_return)[i] = (char *)malloc(sizeof(char *) * (count + 1));
 		i++;

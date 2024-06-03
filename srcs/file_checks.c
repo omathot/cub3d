@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:51:58 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/23 13:38:33 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/06/03 17:24:28 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int		other_checks(char *str, t_file_loc **locs, int *i, t_file_reqs **check);
 int		last_checks(char *str, t_file_loc **locs, int *i, t_file_reqs **check);
 int		check_nm(int *i, char *str, char **sprite_loc);
 int		else_free_reqs(t_file_reqs **reqs);
+int		check_reqs(t_file_reqs *reqs);
 
 int	check_cnf(char *str, int *i, t_file_reqs **reqs, char ref)
 {
@@ -41,9 +42,8 @@ int	check_cnf(char *str, int *i, t_file_reqs **reqs, char ref)
 			(*i)++;
 		while (nbrs[j])
 		{
-			if (ft_atoi(nbrs[j]) > 255 || ft_atoi(nbrs[j]) < 0)
+			if (ft_atoi(nbrs[j]) > 255 || ft_atoi(nbrs[j++]) < 0)
 				return (free_double_char(nbrs), 1);
-			j++;
 		}
 		(*i)++;
 		count_three++;
@@ -58,24 +58,20 @@ int	check_line(char *str, t_file_reqs **reqs)
 	int	i;
 
 	i = 0;
-	if (str[i] == '\0')
-		return (0);
 	while (ft_isspace(str[i]))
 		i++;
+	if (str[i] == '\0')
+		return (0);
 	if (str[i] == 'N' || str[i] == 'S' || str[i] == 'E' || str[i] == 'W')
 	{
-		if (check_texture(str, &i, reqs) == 1)
-			return (1);
+		check_texture(str, &i, reqs);
 	}
 	else if (str[i] == 'C' || str[i] == 'F')
 	{
-		if (check_cnf(str, &i, reqs, str[i]) == 1)
-			return (1);
+		check_cnf(str, &i, reqs, str[i]);
 	}
-	else if (ft_isdigit(str[i]))
+	if (ft_isdigit(str[i]) && check_reqs((*reqs)) == 2)
 		return (2);
-	else
-		return (1);
 	return (0);
 }
 
@@ -111,18 +107,19 @@ int	check_format(t_map *map)
 	while ((*map).content[i])
 	{
 		res = check_line((*map).content[i], &reqs);
-		if (res == 1)
-			return (else_free_reqs(&reqs));
-		else if (res == 2)
+		if (res == 2)
 		{
 			(*map).board = make_board((*map).content, i);
-			(*map).file_data = make_filedata((*map).content, i);
+			if (!(*map).board)
+				return (free(reqs), 1);
+			(*map).file_data = make_filedata((*map).content, i - 1);
+			if (!(*map).file_data)
+				return (free(reqs), 1);
 			break ;
 		}
 		i++;
 	}
-	if (final_format_check(reqs, map, i) == 1)
+	if (!map->board || !map->file_data || final_format_check(reqs, map, i) == 1)
 		return (free(reqs), 1);
-	free(reqs);
-	return (0);
+	return (free(reqs), 0);
 }

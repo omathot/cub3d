@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: omathot <omathot@student.42.fr>            +#+  +:+       +#+         #
+#    By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/03 17:33:31 by oscarmathot       #+#    #+#              #
-#    Updated: 2024/03/22 09:31:43 by omathot          ###   ########.fr        #
+#    Updated: 2024/06/03 17:22:30 by oscarmathot      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,14 +18,14 @@ SRC 	:= main.c helpers.c read_map.c file_checks.c initialize.c map_checks.c rayc
 			mlx.c player.c mouse.c texture.c player_helper.c filedata.c check_helper.c cnf.c \
 			edge_verification.c map_checks_helper.c mlx_helper.c stack.c mlx_walls.c rgba.c \
 			texture_init.c raycast_utils.c raycast_process.c raycast_handle_casses.c \
-			free_helpers.c cub3d_split.c
+			free_helpers.c cub3d_split.c safe_checking.c safe_checking_help.c
 SUBDIR	:= srcs/
 SRCS	:= $(addprefix $(SUBDIR),$(SRC))
 OBJ 	:= $(SRCS:.c=.o)
 LIBFT_A	:= lib/libft/libft.a
 MLX42_A	:= lib/MLX42/build/libmlx42.a
 CMP		:= gcc
-FLAGS 	:= -Werror -Wall -Wextra -g -Iinclude -fsanitize=address
+FLAGS 	:= -Werror -Wall -Wextra -g -Iinclude #-fsanitize=address
 # FLAGS 	:= -g -Iinclude
 OS 		:= $(shell uname -m)
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
+/*   By: omathot <omathot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 17:48:24 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/23 13:45:34 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/05/01 14:22:08 by omathot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	mlx_shit(t_map *map)
 	mlx_loop_hook(mlx, player_move, param_mlx);
 	handle_mouse(param_mlx);
 	mlx_loop(mlx);
-	free_map(map);
 	mlx_terminate(mlx);
+	free_map(map);
 	last_frees(param_mlx);
 }

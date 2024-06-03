@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_helper.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
+/*   By: omathot <omathot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 15:16:06 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/23 13:41:29 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/05/01 14:00:20 by omathot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,40 +49,22 @@ can't find a leak created by it.
 commenting this second free seems to fix the second letter missing leak.
 Also can't find leaks created by this.
 */
-int	last_checks(char *str, t_file_loc **locs, int *i, t_file_reqs **check)
+int	last_checks(char *str, int *i, t_file_reqs **check)
 {
 	if (str[(*i)] == 'E' && str[(*i) + 1] == 'A')
-	{
-		if (check_nm(i, str, &(*locs)->e_wall) == 1)
-			return (1);
 		(*check)->ea++;
-	}
 	else
 		return (1);
 	return (0);
 }
 
-int	other_checks(char *str, t_file_loc **locs, int *i, t_file_reqs **check)
+int	other_checks(char *str, int *i, t_file_reqs **check)
 {
 	if (str[(*i)] == 'S' && str[(*i) + 1] == 'O')
-	{
-		if (check_nm(i, str, &(*locs)->s_wall) == 1)
-		{
-			free((*locs));
-			return (1);
-		}
 		(*check)->so++;
-	}
 	else if (str[(*i)] == 'W' && str[(*i) + 1] == 'E')
-	{
-		if (check_nm(i, str, &(*locs)->w_wall) == 1)
-		{
-			free((*locs));
-			return (1);
-		}
 		(*check)->we++;
-	}
-	else if (last_checks(str, locs, i, check) == 1)
+	else if (last_checks(str, i, check) == 1)
 		return (1);
 	return (0);
 }
@@ -90,25 +72,18 @@ int	other_checks(char *str, t_file_loc **locs, int *i, t_file_reqs **check)
 // changed for free, if error here it's related to else_free()
 int	check_texture(char *str, int *i, t_file_reqs **check)
 {
-	t_file_loc	*locs;
 	int			len;
 
-	locs = (t_file_loc *)malloc(sizeof(t_file_loc));
 	len = ft_strlen(str);
 	if ((*i) + 2 < len)
 	{
 		if (str[(*i)] == 'N' && str[(*i) + 1] == 'O')
-		{
-			if (check_nm(i, str, &locs->n_wall) == 1)
-				return (free(locs), 1);
 			(*check)->no++;
-		}
-		else if (other_checks(str, &locs, i, check) == 1)
-			return (free(locs), 1);
+		else if (other_checks(str, i, check) == 1)
+			return (1);
 	}
 	else
-		return (free(locs), 1);
-	free(locs);
+		return (1);
 	return (0);
 }
 

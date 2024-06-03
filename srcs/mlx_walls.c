@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_walls.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
+/*   By: omathot <omathot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 15:31:30 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/23 14:05:11 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/04/30 11:41:39 by omathot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,10 @@ t_line	find_wall_down_corner(t_point *wall, t_player player,
 	return (return_line);
 }
 
+// +0.5 we removed to fix last minute bug - if brekas stuff oopsies
 char	other_axis(t_param_mlx *param, t_point current)
 {
-	if (param->map.board[(int)round(current.y + 0.5)]
+	if (param->map.board[(int)round(current.y)]
 		[(int)round(current.x)] == '1')
 		return ('S');
 	else if (param->map.board[(int)round(current.y - 0.5)]

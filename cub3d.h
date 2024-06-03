@@ -6,7 +6,7 @@
 /*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 17:28:46 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/23 14:05:56 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/03/25 22:19:38 by oscarmathot      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,6 @@ typedef struct s_raycast_sender
 	t_point	*current_wall;
 }	t_raycast_sender;
 
-void		print_map(char **map);
 bool		ft_isspace(unsigned char c);
 void		free_double_char(char **array);
 int			are_letters(char *str);
