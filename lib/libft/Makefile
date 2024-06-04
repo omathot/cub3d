@@ -34,10 +34,10 @@ bonus: $(OBJ_BONUS) $(OBJ)
 	ar rc $(NAME) $(OBJ) $(OBJ_BONUS)
 
 clean:
-	rm -f $(OBJ) $(OBJ_BONUS)
+	del -f $(OBJ) $(OBJ_BONUS)
 
 fclean: clean
-	rm -f $(NAME)
+	del -f $(NAME)
 
 re: fclean all
 

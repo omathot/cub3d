@@ -150,7 +150,7 @@ typedef struct s_texture_vars
 {
 	t_texture_data	normalized;
 	mlx_image_t		*to_place;
-	u_int32_t		color;
+	int				color;
 	int				texture_x;
 	double			start_y;
 	int				y_diff;

@@ -19,14 +19,14 @@ SRC 	:= main.c helpers.c read_map.c file_checks.c initialize.c map_checks.c rayc
 			edge_verification.c map_checks_helper.c mlx_helper.c stack.c mlx_walls.c rgba.c \
 			texture_init.c raycast_utils.c raycast_process.c raycast_handle_casses.c \
 			free_helpers.c cub3d_split.c safe_checking.c safe_checking_help.c
-SUBDIR	:= srcs\
+SUBDIR	:= srcs/
 SRCS	:= $(addprefix $(SUBDIR),$(SRC))
 OBJ 	:= $(SRCS:.c=.o)
 LIBFT_A	:= lib\libft\libft.a
 MLX42_A	:= lib\MLX42\build\libmlx42.a
 CMP		:= gcc
-LDFLAGS = -mconsole -Wl,-e,mainCRTStartup
-FLAGS 	:= -Werror -Wall -Wextra -g -Iinclude -lglfw3 -lopengl32 -lgdi32 #-fsanitize=address
+LDFLAGS = -Wl,-subsystem,windows
+FLAGS 	:= -Werror -Wall -Wextra -g -Iinclude -lopengl32 -lglfw3 -lgdi32 #-fsanitize=address
 
 #---------------------------------
 #FORMATTING AND FUN
@@ -48,7 +48,7 @@ all	: $(NAME)
 
 $(NAME) : $(OBJ) $(LIBFT_A) $(MLX42_A) cub3d.h
 		@echo "$(CYAN)Creating the executable...$(RESET)"
-		$(CMP) $(OBJ) $(LIBFT_A) $(MLX42_A) $(FLAGS) $(OSFLAGS) $(LDFLAGS) -o $(NAME)
+		$(CMP) $(OBJ) $(LIBFT_A) $(MLX42_A) $(FLAGS) -o $(NAME) $(LDFLAGS)
 
 %.o : %.c cub3d.h
 		@echo "$(CYAN)Compiling...$(RESET) $<"
@@ -64,21 +64,18 @@ $(MLX42_A) :
 		(cd .\lib\MLX42 && cmake --build build -j4)
 
 clean :
-		@rm $(OBJ) .\lib\libft\libft.a
+		del /Q $(subst /,\,$(OBJ))
+		del .\lib\libft\libft.a
 		@echo "$(GREEN)Cleaned up the artifacts !$(RESET)"
 
 fclean :
-		@rm $(NAME) $(OBJ)
+		del /Q $(subst /,\,$(OBJ))
 		@echo "$(MAGENTA)Cleaned up executable !$(RESET)"
 
 hardclean :
 		@make fclean
-		cd .\lib\libft
-		make clean
-		make fclean
-		cd ..
-		cd .\lib\MLX42 
-		rm build
+		cd lib\libft && mingw32-make fclean
+		cd .\lib\MLX42 && del build
 		@echo "$(MAGENTA)Cleaned up all built files!$(RESET)"
 
 re : fclean all

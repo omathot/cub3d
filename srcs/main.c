@@ -11,10 +11,44 @@
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+// #include <windows.h>
 
 void	input_n_file_checks(int argc, char **argv, t_map *map);
 int		check_format(t_map *map);
 int		check_map_walls(char **board);
+void	save_player_data(t_map *map);
+// int		main(int argc, char **argv);
+
+// int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
+//     // Convert command line to argc and argv
+//     int argc;
+//     char **argv;
+
+//     // You need to convert lpCmdLine to argc and argv here.
+//     // This is a simple example; in a real case, you need to parse lpCmdLine properly.
+//     argc = __argc;
+//     argv = __argv;
+
+//     return main(argc, argv);
+// }
+
+int	main(int argc, char **argv)
+{
+	t_map	map;
+
+	input_n_file_checks(argc, argv, &map);
+	if (check_format(&map) == 1 || check_map_walls(map.board) == 1)
+	{
+		free_map(&map);
+		write(2, "Invalid map/file format\n", 24);
+		exit(EXIT_FAILURE);
+	}
+	save_player_data(&map);
+	map.player.angle_view = 90;
+	mlx_shit(&map);
+	free_map(&map);
+	return (0);
+}
 
 void	assign_start_angle(t_map *map, int k, int i)
 {
@@ -53,20 +87,4 @@ void	save_player_data(t_map *map)
 	}
 }
 
-int	main(int argc, char **argv)
-{
-	t_map	map;
 
-	input_n_file_checks(argc, argv, &map);
-	if (check_format(&map) == 1 || check_map_walls(map.board) == 1)
-	{
-		free_map(&map);
-		write(2, "Invalid map/file format\n", 24);
-		exit(EXIT_FAILURE);
-	}
-	save_player_data(&map);
-	map.player.angle_view = 90;
-	mlx_shit(&map);
-	free_map(&map);
-	return (0);
-}
