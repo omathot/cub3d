@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+         #
+#    By: sboulain <sboulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/03 17:33:31 by oscarmathot       #+#    #+#              #
-#    Updated: 2024/03/21 21:35:48 by oscarmathot      ###   ########.fr        #
+#    Updated: 2024/07/04 14:51:19 by sboulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,26 +18,28 @@ SRC 	:= main.c helpers.c read_map.c file_checks.c initialize.c map_checks.c rayc
 			mlx.c player.c mouse.c texture.c player_helper.c filedata.c check_helper.c cnf.c \
 			edge_verification.c map_checks_helper.c mlx_helper.c stack.c mlx_walls.c rgba.c \
 			texture_init.c raycast_utils.c raycast_process.c raycast_handle_casses.c \
-			free_helpers.c
+			free_helpers.c cub3d_split.c safe_checking.c safe_checking_help.c
 SUBDIR	:= srcs/
 SRCS	:= $(addprefix $(SUBDIR),$(SRC))
 OBJ 	:= $(SRCS:.c=.o)
 LIBFT_A	:= lib/libft/libft.a
 MLX42_A	:= lib/MLX42/build/libmlx42.a
 CMP		:= gcc
-FLAGS 	:= -Werror -Wall -Wextra -g -Iinclude -fsanitize=address
+FLAGS 	:= -Werror -Wall -Wextra -g -Iinclude #-fsanitize=address
 # FLAGS 	:= -g -Iinclude
-OS 		:= $(shell uname -m)
+OS_unix 		:= $(shell uname -m)
 
 
 #---------------------------------
 #OS CHECK
-
-ifeq ($(OS), arm64)
+ifeq ($(OS),Windows_NT)
+    OS := Windows
+endif
+ifeq ($(OS_unix), arm64)
 	OSFLAGS = -lglfw -L"/opt/homebrew/Cellar/glfw/3.4/lib/" -framework OpenGL
-else ifeq ($(OS), x86_64)
+else ifeq ($(OS_unix), x86_64)
 	OSFLAGS = -Iinclude -ldl -lglfw -pthread -lm
-else ifeq ($(OS), aarch64)
+else ifeq ($(OS_unix), aarch64)
 	OSFLAGS = -Iinclude -ldl -lglfw -pthread -lm
 endif
 
@@ -100,5 +102,8 @@ hardclean :
 		@echo "$(MAGENTA)Cleaned up all built files!$(RESET)"
 
 re : fclean all
+
+test: all
+		./cub3d example_map.cub
 
 .PHONY : clean fclean re hardclean
