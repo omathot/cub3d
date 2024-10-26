@@ -1,6 +1,11 @@
 # cub3d
 
-This project is a simple raycasting game developed for the 42 curriculum, compatible with Linux and MacOS.
+This project is a simple raycasting game developed in C for the 42 curriculum, compatible with Linux and MacOS.
+
+# Screenshots
+
+<img title="Screenshot" alt="Screenshot1" src="Screenshot1.png">
+<img title="Screenshot" alt="Screenshot2" src="Screenshot2.png">
 
 ## Contributors
 
