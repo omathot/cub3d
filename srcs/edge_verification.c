@@ -3,14 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   edge_verification.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
+/*   By: omathot <omathot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/18 15:19:06 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/18 15:20:24 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/04/30 11:41:04 by omathot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+int	check_1_edges(char **board, int i, int j);
+int	check_diagonals(char **board, int i, int j);
 
 int	check_updown_player(char **board, int i, int j, int mode)
 {
@@ -79,32 +82,10 @@ int	check_updown_diagonals(char **board, int i, int j, int mode)
 	return (0);
 }
 
-int	check_1_edges(char **board, int i, int j)
+int	is_cell_player(char c)
 {
-	if (board[i - 1][j] == '1')
-	{
-		if (check_updown_diagonals(board, i, j, 1) == 1)
-			return (1);
-	}
-	if (board[i + 1][j] == '1')
-	{
-		if (check_updown_diagonals(board, i, j, 2) == 1)
-			return (1);
-	}
-	if (board[i][j - 1] == '1')
-	{
-		if (board[i - 1][j - 1] != '1' && board[i - 1][j - 1] != '0')
-			return (1);
-		if (board[i + 1][j - 1] != '1' && board[i + 1][j - 1] != '0')
-			return (1);
-	}
-	if (board[i][j + 1] == '1')
-	{
-		if (board[i - 1][j + 1] != '1' && board[i - 1][j + 1] != '0')
-			return (1);
-		if (board[i + 1][j + 1] != '1' && board[i + 1][j + 1] != '0')
-			return (1);
-	}
+	if (c == 'N' || c == 'S' || c == 'W' || c == 'E')
+		return (1);
 	return (0);
 }
 

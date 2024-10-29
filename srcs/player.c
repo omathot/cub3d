@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
+/*   By: omathot <omathot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 13:14:21 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/21 19:39:15 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/05/01 14:14:33 by omathot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	print_all_walls(t_param_mlx *param_real);
 void	update_current_wall(t_point ***walls, t_map map, double x_resolution);
 void	handle_mouse(t_param_mlx *mlx);
 t_point	mk_point(double x, double y);
+void	handle_escape(t_param_mlx **param);
 int		cast_ray(char **board, t_point *player, int angle);
 void	move_forward(t_param_mlx *param, float angle_radians, float move_speed);
 void	move_backwards(t_param_mlx *param,
@@ -94,7 +95,7 @@ void	player_move(void *param)
 	move_speed = 0.03;
 	print_all_walls(param_real);
 	if (mlx_is_key_down(param_real->mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(param_real->mlx);
+		handle_escape(&param_real);
 	angle_radians = param_real->map.player.angle * M_PI / 180;
 	if (mlx_is_key_down(param_real->mlx, MLX_KEY_W))
 		handle_movement(param, angle_radians, move_speed, 1);

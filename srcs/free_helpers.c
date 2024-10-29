@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_helpers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+        */
+/*   By: omathot <omathot@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 18:05:27 by oscarmathot       #+#    #+#             */
-/*   Updated: 2024/03/21 21:54:06 by oscarmathot      ###   ########.fr       */
+/*   Updated: 2024/05/01 14:00:02 by omathot          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,29 +40,42 @@ void	free_locs(t_file_loc **locs)
 void	free_map(t_map *map)
 {
 	if (map->board)
+	{
 		free_double_char(map->board);
+		map->board = NULL;
+	}
 	if (map->content)
+	{
 		free_double_char(map->content);
-	if (map->file_data)
+		map->content = NULL;
+	}
+	if (map->file_data != NULL)
+	{
 		free_double_char(map->file_data);
-	// if (map->wall_e)
-	// 	mlx_delete_texture(map->wall_e);
-	// if (map->wall_w)
-	// 	mlx_delete_texture(map->wall_w);
-	// if (map->wall_s)
-	// 	mlx_delete_texture(map->wall_s);
-	// if (map->wall_n)
-	// 	mlx_delete_texture(map->wall_n);
+		map->file_data = NULL;
+	}
+	if (map->ceil_rgb)
+	{
+		free(map->ceil_rgb);
+		map->ceil_rgb = NULL;
+	}
+	if (map->floor_rgb)
+	{
+		free(map->floor_rgb);
+		map->floor_rgb = NULL;
+	}
 }
 
 int	else_free_locs(t_file_loc **locs)
 {
 	free_locs(locs);
+	(*locs) = NULL;
 	return (1);
 }
 
 int	else_free_reqs(t_file_reqs **reqs)
 {
 	free((*reqs));
+	(*reqs) = NULL;
 	return (1);
 }
