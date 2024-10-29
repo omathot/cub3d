@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: oscarmathot <oscarmathot@student.42.fr>    +#+  +:+       +#+         #
+#    By: sboulain <sboulain@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/12/03 17:33:31 by oscarmathot       #+#    #+#              #
-#    Updated: 2024/06/03 17:49:12 by oscarmathot      ###   ########.fr        #
+#    Updated: 2024/07/04 14:51:19 by sboulain         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -102,5 +102,8 @@ hardclean :
 		@echo "$(MAGENTA)Cleaned up all built files!$(RESET)"
 
 re : fclean all
+
+test: all
+		./cub3d example_map.cub
 
 .PHONY : clean fclean re hardclean
